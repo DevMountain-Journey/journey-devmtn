@@ -1,4 +1,4 @@
-angular.module('surveys')
+angular.module('journey')
 .controller('signupCtrl', function(authService, $scope, $state, $location, $anchorScroll) {
     
     $scope.gotoTop = function() {

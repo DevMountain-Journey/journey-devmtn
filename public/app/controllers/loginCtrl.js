@@ -1,4 +1,4 @@
-angular.module('surveys')
+angular.module('journey')
 .controller('loginCtrl', function(authService, $scope, $state, $stateParams, $location, $anchorScroll ) {
     
     console.log('$stateParams = ', $stateParams);
