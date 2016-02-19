@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "This is a disgustingly awesome web application for measuring the great days and the bad days at DevMountain.",
   "main": "server/index.js",
+  "start": "nodemon server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +12,7 @@
     "url": "git+https://github.com/DevMountain-Journey/journey-devmtn.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "",
   "bugs": {
     "url": "https://github.com/DevMountain-Journey/journey-devmtn/issues"
   },
@@ -23,5 +24,9 @@
     "express-session": "^1.13.0",
     "mongoose": "^4.4.4",
     "passport": "^0.3.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.2.0"
   }
 }
