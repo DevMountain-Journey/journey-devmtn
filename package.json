@@ -1,0 +1,27 @@
+{
+  "name": "journey-devmtn",
+  "version": "1.0.0",
+  "description": "This is a disgustingly awesome web application for measuring the great days and the bad days at DevMountain.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevMountain-Journey/journey-devmtn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevMountain-Journey/journey-devmtn/issues"
+  },
+  "homepage": "https://github.com/DevMountain-Journey/journey-devmtn#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.4",
+    "passport": "^0.3.2"
+  }
+}
