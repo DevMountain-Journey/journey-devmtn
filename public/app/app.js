@@ -4,6 +4,7 @@ angular.module('journey', [
 
 
 .run(
+
   // function($rootScope, errService){
   //     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
   //       console.error(error);

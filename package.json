@@ -2,8 +2,12 @@
   "name": "journey-devmtn",
   "version": "1.0.0",
   "description": "This is a disgustingly awesome web application for measuring the great days and the bad days at DevMountain.",
+<<<<<<< HEAD
+  "main": "index.js",
+=======
   "main": "server/index.js",
   "start": "nodemon server/index.js",
+>>>>>>> dev
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +16,13 @@
     "url": "git+https://github.com/DevMountain-Journey/journey-devmtn.git"
   },
   "author": "",
+<<<<<<< HEAD
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevMountain-Journey/journey-devmtn/issues"
+  },
+  "homepage": "https://github.com/DevMountain-Journey/journey-devmtn#readme"
+=======
   "license": "",
   "bugs": {
     "url": "https://github.com/DevMountain-Journey/journey-devmtn/issues"
@@ -29,4 +40,5 @@
     "gulp": "^3.9.1",
     "gulp-sass": "^2.2.0"
   }
+>>>>>>> dev
 }
