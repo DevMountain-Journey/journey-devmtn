@@ -2,7 +2,7 @@ var localStrategy = require('passport-local').Strategy,
     user = require('../models/usersModel.js');
 
 module.exports = function(passport) {
-    
+
     passport.serializeUser(function(user, done) {
         console.log("user = ", user);
         done(null, user.id);
@@ -15,10 +15,10 @@ module.exports = function(passport) {
             done(err, user);
         });
     });
-    
+
         
     // LOCAL AUTH
-    
+
     passport.use('local-login', new localStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'email',
@@ -55,4 +55,4 @@ module.exports = function(passport) {
     }));
 
 
-}
+};

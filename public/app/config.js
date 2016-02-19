@@ -42,12 +42,12 @@ $stateProvider
         templateUrl: './app/templates/loginTmpl.html',
         controller: 'loginCtrl',
         })
-        
+
         .state('signup', {
         url: '/signup',
         templateUrl: './app/templates/signupTmpl.html',
         controller: 'signupCtrl',
-        })
+      });
 
   $urlRouterProvider.otherwise('/');
 }]);

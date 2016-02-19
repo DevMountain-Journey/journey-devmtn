@@ -6,13 +6,12 @@ var express = require('express'),
     config = require('./config/config.js');
 
 var usersCtrl = require('./controllers/usersCtrl.js'),
-    postsCtrl = require('./controllers/postsCtrl.js')
+    postsCtrl = require('./controllers/postsCtrl.js'),
     authCtrl = require('./controllers/authCtrl.js');
 
 require('./controllers/passport')(passport);
 
-var app = express(),
-    port = config.port;
+var app = express();
 
 app.use(bodyParser.json());
 
@@ -20,16 +19,6 @@ app.use(express.static(__dirname + '/../public'));
 app.use(expressSession(config.express)); // use separate config file for secret
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-var mongoUri = config.mongoUri;
-
-mongoose.connect(mongoUri);
-
-mongoose.connection.once('open', function() {
-    console.log("Successfully connected to mongodb")
-}) 
-
 
 
 // Endpoints
@@ -54,8 +43,17 @@ app.post('/api/users/', authCtrl.requireAuth, usersCtrl.create); // Create new u
 app.delete('/api/users/:id', authCtrl.requireAuth, usersCtrl.delete); // Delete user. Users collection.
 
 
+//DB and Server Init
+var mongoUri = config.mongoUri,
+    port = (process.env.port || config.port);
 
-app.listen(port, function() {
-    console.log('Server is running on port ' + port);
-})
-
+mongoose.set('debug', true);
+mongoose.connect(mongoUri);
+mongoose.connection
+  .on('error', console.error.bind(console, 'Connection Error: '))
+  .once('open', function() {
+    console.log('Connected to MongoDB at', mongoUri.slice(mongoUri.indexOf('@')+1, mongoUri.length));
+    app.listen(port, function() {
+      console.log('Listening on port ' + port);
+    });
+  });
