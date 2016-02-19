@@ -2,7 +2,7 @@
   "name": "journey-devmtn",
   "version": "1.0.0",
   "description": "This is a disgustingly awesome web application for measuring the great days and the bad days at DevMountain.",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
