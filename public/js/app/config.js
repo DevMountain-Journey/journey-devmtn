@@ -4,12 +4,6 @@ angular.module('journey')
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
 $stateProvider
-    // .state('login', {
-    //   url: '/login',
-    //   templateUrl: ' ',
-    //   controller: 'loginCtrl',
-    // })
-
 
     .state('feed', {
       url: '/',
@@ -23,19 +17,22 @@ $stateProvider
        
      .state('posts', {
            url: '/post/:id',
-           templateUrl: './postsTmpl.html ',
-           controller: 'postCtrl',
+           templateUrl: './templates/postsTmpl.html ',
+        //    controller: 'postCtrl',
+    //    resolve: {
+    //    postPromise: ['posts', function(postService){
+    //       return postService.getAllPost(); }]
+    //    }      
        })
-       
          .state('posts.add', {
             url: '/add',
-             templateUrl: './addTmpl.html',
+             templateUrl: './templates/addTmpl.html',
             
             })
             
           .state('posts.edit', {
             url: '/edit',
-            templateUrl: './editTmpl.html ',
+            templateUrl: './templates/editTmpl.html ',
           
             })
 

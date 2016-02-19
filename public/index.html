@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="journey">
   <head>
     <meta charset="utf-8">
     <title>Journey</title>
   </head>
   <body>
-    <!-- This is just an HTML file so we can start linking in libraries, controllers, services, etc. -->
-    <ui-view></ui-view>
+    This is just an HTML file so we can start linking in libraries, controllers, services, etc.
+    
+    
+    
+    <a ui-sref="posts">Go to Posts</a>
+    
+ <div ui-view> </div>   
+    
+    
+    
+    
+    
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.16/angular-ui-router.js"></script>
+  <script src="./js/app/app.js"></script>
+  <script src="./js/app/config.js"></script>
+  
+            <!--CONTROLLERS-->
+    <script src="./js/controllers/feedCtrl.js"></script>
+     <script src="./js/controllers/loginCtrl.js"></script>
+     <script src="./js/controllers/postCtrl.js"></script>
+                   <!--SERVICES-->
+ <script src="./js/services/errService.js"></script>
+ <script src="./js/services/postService.js"></script>
   </body>
 </html>
