@@ -1,7 +1,7 @@
 angular.module('journey')
-.service('postService', 
+.service('postService',
     function($http){
-        
+
     var o = {
     posts: []
   };
@@ -12,22 +12,22 @@ angular.module('journey')
        return data;
         //   angular.copy(data, o.posts);
    });
-}
+};
            // GET ONE POST
    o.getOnePost = function(id) {
      return $http.get('/posts/' + id)
       .then(function(res) {
         return res.data;
     });
-}
+};
           // UPDATE POST
    o.updatePost = function(post){
      return $http.put('/posts/' + post._id)
       .then(function(response){
-          return response;          
-    }); 
+          return response;
+    });
 };
- 
- 
-    
-})
+
+
+
+});
