@@ -14,12 +14,17 @@
   </head>
   <body>
 
+    <div class="navbar navbar-static-top navbar-dark bg-inverse">
+      <div class="container-fluid">
+      <a href="#" class="navbar-brand"><img src="assets/img/dmlogo.png"></a>
+      <a ui-sref="posts">Go to Posts</a>
+      </div>
+    </div>
 
 
-    <a ui-sref="posts">Go to Posts</a>
 
     <div ui-view> </div>
-    
+
 
     <!-------------------------->
     <!--Scripts----------------->
@@ -35,17 +40,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
 
     <!--APP CORE-->
-    <script src="./js/app/app.js"></script>
-    <script src="./js/app/config.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/config.js"></script>
 
     <!--CONTROLLERS-->
-    <script src="./js/controllers/feedCtrl.js"></script>
-    <script src="./js/controllers/loginCtrl.js"></script>
-    <script src="./js/controllers/postCtrl.js"></script>
+    <script src="app/controllers/feedCtrl.js"></script>
+    <script src="app/controllers/loginCtrl.js"></script>
+    <script src="app/controllers/postCtrl.js"></script>
 
     <!--SERVICES-->
-    <script src="./js/services/errService.js"></script>
-    <script src="./js/services/postService.js"></script>
+    <script src="app/services/errService.js"></script>
+    <script src="app/services/postService.js"></script>
 
   </body>
 </html>
