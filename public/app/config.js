@@ -10,8 +10,8 @@ $stateProvider
       templateUrl: './app/views/feedView.html',
       controller: 'feedCtrl',
       resolve: {
-       postPromise: ['posts', function(postService){
-          return postService.getAllPost(); }]
+       postPromise: function(postService){
+          return postService.getAllPost(); }
        }
        })
 
@@ -34,18 +34,20 @@ $stateProvider
             url: '/edit',
             templateUrl: './templates/editTmpl.html ',
 
-          });
+          })
 
 
-    // .state('login', {
-    //     url: '/login',
-    //     templateUrl: '  ',
-    //     controller: 'feedCtrl',
-    //     resolve: {
-    //     userPromise: ['users', function(userService){
-    //         return userService.getCurrentUser(); }]
-    //     }
-    //     })
+    .state('login', {
+        url: '/login',
+        templateUrl: './app/templates/loginTmpl.html',
+        controller: 'loginCtrl',
+        })
+        
+        .state('signup', {
+        url: '/signup',
+        templateUrl: './app/templates/signupTmpl.html',
+        controller: 'signupCtrl',
+        })
 
   $urlRouterProvider.otherwise('/');
 }]);
