@@ -7,12 +7,12 @@ $stateProvider
 
     .state('feed', {
       url: '/',
-      templateUrl: './views/feedView.html',
+      templateUrl: './app/views/feedView.html',
       controller: 'feedCtrl',
-      resolve: {
-       postPromise: ['posts', function(postService){
-          return postService.getAllPost(); }]
-       }
+    //   resolve: {
+    //    postPromise: ['posts', function(postService){
+    //       return postService.getAllPost(); }]
+    //    }
        })
 
      .state('posts', {
