@@ -1,0 +1,14 @@
+
+.navbar {
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+
+.navbar-brand img {
+  max-width:200px;
+}
+
+.feed, .sidebar {
+  min-height: 500px;
+  margin-top: 10px
+}
