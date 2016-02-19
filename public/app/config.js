@@ -34,7 +34,7 @@ $stateProvider
             url: '/edit',
             templateUrl: './templates/editTmpl.html ',
 
-            })
+          });
 
 
     // .state('login', {
@@ -47,5 +47,5 @@ $stateProvider
     //     }
     //     })
 
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/');
 }]);
