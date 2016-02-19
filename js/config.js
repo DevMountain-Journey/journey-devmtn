@@ -4,16 +4,16 @@ angular.module('journey')
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
 $stateProvider
-    .state('login', {
-      url: '/login',
-      templateUrl: ' ',
-      controller: 'loginCtrl',
-    })
+    // .state('login', {
+    //   url: '/login',
+    //   templateUrl: ' ',
+    //   controller: 'loginCtrl',
+    // })
 
 
     .state('feed', {
       url: '/',
-      templateUrl: ' ',
+      templateUrl: './feedTmpl.html ',
       controller: 'feedCtrl',
       resolve: {
        postPromise: ['posts', function(postService){
@@ -22,33 +22,33 @@ $stateProvider
        })
        
      .state('posts', {
-           url: '/post/{id}',
-           templateUrl: '',
-           controller: 'feedCtrl',
+           url: '/post/:id',
+           templateUrl: './postsTmpl.html ',
+           controller: 'postCtrl',
        })
        
          .state('posts.add', {
-            url: '/post/{id}/add',
-            templateUrl: ' ',
-            controller: 'feedCtrl',
+            url: '/add',
+             templateUrl: './addTmpl.html',
+            
             })
             
           .state('posts.edit', {
-            url: '/post/{id}/edit',
-            templateUrl: ' ',
-            controller: 'feedCtrl',
+            url: '/edit',
+            templateUrl: './editTmpl.html ',
+          
             })
 
 
-    .state('login', {
-        url: '/login',
-        templateUrl: '  ',
-        controller: 'feedCtrl',
-        resolve: {
-        userPromise: ['users', function(userService){
-            return userService.getCurrentUser(); }]
-        }      
-        })
+    // .state('login', {
+    //     url: '/login',
+    //     templateUrl: '  ',
+    //     controller: 'feedCtrl',
+    //     resolve: {
+    //     userPromise: ['users', function(userService){
+    //         return userService.getCurrentUser(); }]
+    //     }      
+    //     })
     
   $urlRouterProvider.otherwise('/login');
 }]);

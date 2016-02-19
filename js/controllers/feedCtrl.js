@@ -1,6 +1,5 @@
 angular.module('journey')
-.controller(
- 'feedCtrl',
+.controller('feedCtrl', [
  'posts',
  'postService', 
 function($scope, posts, postService){
@@ -8,4 +7,4 @@ function($scope, posts, postService){
  $scope.posts = postService.posts  
     
     
-})
+}])
