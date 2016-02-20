@@ -12,3 +12,17 @@
   min-height: 500px;
   margin-top: 10px
 }
+
+
+/********************/
+/** LOGIN / SIGNUP **/
+/********************/
+
+.login .card-inverse {
+  background-color: #333;
+  border-color: #222;
+}
+
+.login .card-inverse .card-block .form-group label {
+  color: #909090;
+}

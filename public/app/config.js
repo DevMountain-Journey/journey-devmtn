@@ -1,53 +1,48 @@
 angular.module('journey')
-.config([
-'$stateProvider',
-'$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
-$stateProvider
+  .config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
 
-    .state('feed', {
-      url: '/',
-      templateUrl: './app/views/feedView.html',
-      controller: 'feedCtrl',
-      resolve: {
-       postPromise: function(postService){
-          return postService.getAllPost(); }
-       }
-       })
+      $stateProvider
 
-     .state('posts', {
-           url: '/post/:id',
-           templateUrl: './templates/postsTmpl.html ',
-        //    controller: 'postCtrl',
-    //    resolve: {
-    //    postPromise: ['posts', function(postService){
-    //       return postService.getAllPost(); }]
-    //    }
-       })
-         .state('posts.add', {
-            url: '/add',
-             templateUrl: './templates/addTmpl.html',
-
-            })
-
-          .state('posts.edit', {
-            url: '/edit',
-            templateUrl: './templates/editTmpl.html ',
-
-          })
-
-
-    .state('login', {
+      .state('login', {
         url: '/login',
         templateUrl: './app/templates/loginTmpl.html',
-        controller: 'loginCtrl',
-        })
+        controller: 'loginCtrl'
+      })
 
-        .state('signup', {
-        url: '/signup',
-        templateUrl: './app/templates/signupTmpl.html',
-        controller: 'signupCtrl',
+      .state('feed', {
+        url: '/',
+        templateUrl: './app/views/feedView.html',
+        controller: 'feedCtrl'
+        // resolve: {
+        //   postPromise: function(postService) {
+        //     return postService.getAllPost();
+        //   }
+        // }
+      })
+
+      .state('post', {
+        url: '/post/:id',
+        templateUrl: './templates/postsTmpl.html'
+          //  controller: 'postCtrl',
+          //  resolve: {
+          //    postPromise: ['posts', function(postService){
+          //       return postService.getAllPost(); }]
+          //  }
+      })
+
+      .state('post.add', {
+        url: '/add',
+        templateUrl: './templates/addTmpl.html'
+      })
+
+      .state('post.edit', {
+        url: '/edit',
+        templateUrl: './templates/editTmpl.html'
       });
 
-  $urlRouterProvider.otherwise('/');
-}]);
+      $urlRouterProvider.otherwise('/');
+    }
+  ]);

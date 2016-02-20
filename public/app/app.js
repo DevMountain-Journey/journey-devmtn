@@ -1,14 +1,19 @@
 angular.module('journey', [
-'ui.router'
- ])
+    'ui.router'
+  ])
 
+  .run(function($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
 
-.run(
+    $rootScope.devUser = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@localhost',
+      password: '123',
+      cohort: 'DM8',
+      startDate: '11-30-2015',
+      assignedMentor: 'Brack'
+    };
 
-  // function($rootScope, errService){
-  //     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
-  //       console.error(error);
-  //       errService.error(error);
-  //     });
-  //   }
-);
+  });
