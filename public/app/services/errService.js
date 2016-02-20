@@ -11,7 +11,7 @@ angular.module('journey')
         status = 'Unknown Status';
       }
       console.error(message, status);
-
+      // TODO: SWITCH TO VEX ALERTS / MODALS
       swal({
         title: 'ERROR!',
         text: '<p>Something went wrong...</p><br><strong>' + message + '</strong><br>Code: [ <strong>' + status + '</strong> ]',

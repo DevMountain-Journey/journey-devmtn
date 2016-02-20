@@ -6,6 +6,7 @@ angular.module('journey', [
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    //Use this fake user as the currently logged in user.
     $rootScope.devUser = {
       firstName: 'John',
       lastName: 'Doe',

@@ -4,36 +4,67 @@
 
     <div class="col-sm-8 feed">
 
-      <div class="card text-xs-center">
+      <div class="card card-inverse bg-inverse">
         <div class="card-block">
-          <h4 class="card-title">[EMOTION LEVEL]</h4>
-          <p class="card-text">Post content or excerpt.</p>
-          <a href="#" class="btn btn-primary btn-sm">#tag1</a>
-          <a href="#" class="btn btn-primary btn-sm">#tag2</a>
-          <a href="#" class="btn btn-primary btn-sm">#tag3</a>
+          <fieldset class="form-group">
+              <label for="emotionlevel">Emotion Level</label>
+              <select class="form-control" id="emotionlevel">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+              </select>
+            </fieldset>
 
-        </div>
-        <div class="card-footer text-muted">
-          By Gunnar Gabrielson on 2/19/2016 at 5:34 PM
+          <fieldset class="form-group">
+            <label for="tokenfield">What are you working on? (Tags)</label>
+            <input type="text" class="form-control" id="tags" placeholder="Tags" />
+          </fieldset>
+
+          <fieldset class="form-group">
+            <label for="thoughts">Thoughts (textarea)</label>
+            <textarea class="form-control" id="thoughts" rows="1" placeholder="Thoughts?"></textarea>
+          </fieldset>
+          <a href="#" class="btn btn-primary">Submit</a>
         </div>
       </div>
 
-      <div class="card text-xs-center">
-        <div class="card-block">
-          <h4 class="card-title">[EMOTION LEVEL]</h4>
-          <p class="card-text">Post content or excerpt.</p>
-          <a href="#" class="btn btn-primary btn-sm">#tag1</a>
-          <a href="#" class="btn btn-primary btn-sm">#tag2</a>
-          <a href="#" class="btn btn-primary btn-sm">#tag3</a>
+        <div class="card text-xs-center">
+          <div class="card-block">
+            <h4 class="card-title">[EMOTION LEVEL]</h4>
+            <p class="card-text">Post content or excerpt.</p>
+            <a href="#" class="btn btn-primary btn-sm">#tag1</a>
+            <a href="#" class="btn btn-primary btn-sm">#tag2</a>
+            <a href="#" class="btn btn-primary btn-sm">#tag3</a>
 
+          </div>
+          <div class="card-footer text-muted">
+            By Gunnar Gabrielson on 2/19/2016 at 5:34 PM
+          </div>
         </div>
-        <div class="card-footer text-muted">
-          By Gunnar Gabrielson on 2/19/2016 at 5:34 PM
-        </div>
-      </div>
+
+        <div class="card text-xs-center">
+          <div class="card-block">
+            <h4 class="card-title">[EMOTION LEVEL]</h4>
+            <p class="card-text">Post content or excerpt.</p>
+            <a href="#" class="btn btn-primary btn-sm">#tag1</a>
+            <a href="#" class="btn btn-primary btn-sm">#tag2</a>
+            <a href="#" class="btn btn-primary btn-sm">#tag3</a>
+
+          </div>
+          <div class="card-footer text-muted">
+            By Gunnar Gabrielson on 2/19/2016 at 5:34 PM
+          </div>
+      </div><!--/.feed-->
 
 
-    </div><!--/.feed-->
+    </div>
 
     <div class="col-sm-3 col-sm-offset-1 sidebar">
       <div class="sidebar-module sidebar-module-inset">Graphs and Stuff</div>

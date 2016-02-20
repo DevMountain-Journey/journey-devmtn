@@ -1,3 +1,9 @@
+
+/////////////////////////////////////////
+// ADDED A FAKE USER TO THE $ROOTSCOPE. AVAILABLE TO ALL STATES. SEE APP.JS
+/////////////////////////////////////////
+
+
 angular.module('journey')
   .config([
     '$stateProvider',
