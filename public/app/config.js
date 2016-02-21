@@ -21,12 +21,12 @@ angular.module('journey')
       .state('feed', {
         url: '/',
         templateUrl: './app/views/feedView.html',
-        controller: 'feedCtrl'
-        // resolve: {
-        //   postPromise: function(postService) {
-        //     return postService.getAllPost();
-        //   }
-        // }
+        controller: 'feedCtrl',
+        resolve: {
+           postPromise: function(postService) {
+             return postService.getAllPost();
+           }
+        }
       })
 
       .state('post', {

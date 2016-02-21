@@ -10,8 +10,11 @@
       "email": "jsmith@yahoo.com",
       "password": "123",
  }
-
-
+ {
+    "cohort": "350",
+    "startDate": "11-30-2015",
+    "assignedMentor": "Brack"
+ }
 {   
       "cohort": "450",
       "startDate": "02-01-2016",

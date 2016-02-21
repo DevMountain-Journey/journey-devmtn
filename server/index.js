@@ -30,7 +30,8 @@ app.get('/api/logout', authCtrl.logout);
 app.get('/api/current_user', authCtrl.current_user);
 
 // Posts
-/* app.get('/api/posts', authCtrl.requireAuth, postsCtrl.read); // Get posts. Accepts query parameter. Posts collection.
+
+app.get('/api/posts', authCtrl.requireAuth, postsCtrl.read); // Get posts. Accepts query parameter. Posts collection.
 app.get('/api/posts/:id', authCtrl.requireAuth, postsCtrl.readOne); // Gets individual post. Posts collection.
 app.put('/api/posts/:id', authCtrl.requireAuth, postsCtrl.update); // Update post. Posts collection.
 app.post('/api/posts/', authCtrl.requireAuth, postsCtrl.create); // Create new post. Posts collection.
@@ -40,9 +41,11 @@ app.delete('/api/posts/:id', authCtrl.requireAuth, postsCtrl.delete); // Delete 
 app.get('/api/users', authCtrl.requireAuth, usersCtrl.read); // Get users. Accepts query parameter. Users collection.
 app.put('/api/users/:id', authCtrl.requireAuth, usersCtrl.update); // Update user. Users collection.
 app.post('/api/users/', authCtrl.requireAuth, usersCtrl.create); // Create new user. Users collection.
-app.delete('/api/users/:id', authCtrl.requireAuth, usersCtrl.delete); // Delete user. Users collection. */
+app.delete('/api/users/:id', authCtrl.requireAuth, usersCtrl.delete); // Delete user. Users collection. 
 
 
+// No user authentication. For testing only.
+/*
 app.get('/api/posts', postsCtrl.read); // Get posts. Accepts query parameter. Posts collection.
 app.get('/api/posts/:id', postsCtrl.readOne); // Gets individual post. Posts collection.
 app.put('/api/posts/:id', postsCtrl.update); // Update post. Posts collection.
@@ -53,7 +56,8 @@ app.delete('/api/posts/:id', postsCtrl.delete); // Delete post. Posts collection
 app.get('/api/users', usersCtrl.read); // Get users. Accepts query parameter. Users collection.
 app.put('/api/users/:id', usersCtrl.update); // Update user. Users collection.
 app.post('/api/users/', usersCtrl.create); // Create new user. Users collection.
-app.delete('/api/users/:id', usersCtrl.delete); // Delete user. Users collection. */
+app.delete('/api/users/:id', usersCtrl.delete); // Delete user. Users collection. 
+*/
 
 //DB and Server Init
 var mongoUri = config.mongoUri,

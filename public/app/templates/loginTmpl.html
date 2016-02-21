@@ -5,7 +5,7 @@
       <div class="card card-inverse bg-inverse">
         <div class="card-block">
           <h3 class="card-title">Login</h3>
-          <form ng-submit="$state.go('feed')">
+          <form ng-submit="login()">
 
             <fieldset class="form-group">
               <label for="email">Email Address</label>
@@ -32,7 +32,7 @@
         <div class="card-block">
           <h3 class="card-title">Signup</h3>
           <p class="card-text">Don't have an account? Signup now!</p>
-          <form ng-submit="">
+          <form ng-submit="signup()">
 
             <fieldset class="form-group">
               <label for="email">First Name</label>
