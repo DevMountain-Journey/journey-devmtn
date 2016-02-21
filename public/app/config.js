@@ -23,8 +23,11 @@ angular.module('journey')
         templateUrl: './app/views/feedView.html',
         controller: 'feedCtrl',
         resolve: {
-           postPromise: function(postService) {
+           postPromise: function(postService) { // sends back posts
              return postService.getAllPost();
+           },
+           auth: function(authService) {  // sends back who's logged in
+             return authService.checkForAuth()
            }
         }
       })

@@ -10,6 +10,12 @@
       "email": "jsmith@yahoo.com",
       "password": "123",
  }
+{
+      "firstName": "Luke",
+      "lastName": "Skywalker",
+      "email": "luke@starwars.com",
+      "password": "123",
+ }
  {
     "cohort": "350",
     "startDate": "11-30-2015",

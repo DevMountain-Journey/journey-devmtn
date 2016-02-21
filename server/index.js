@@ -25,7 +25,7 @@ app.use(passport.session());
 
 // Auth
 app.post('/api/login', passport.authenticate('local-login'), authCtrl.successRespond);
-app.post('/api/signup', authCtrl.localSignup);
+app.post('/api/signup', authCtrl.localSignup, passport.authenticate('local-login'), authCtrl.successRespond);  // signup and login user
 app.get('/api/logout', authCtrl.logout);
 app.get('/api/current_user', authCtrl.current_user);
 

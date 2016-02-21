@@ -1,5 +1,5 @@
 angular.module('journey')
-  .controller('feedCtrl', [
+  .controller('feedCtrl', 
     function($scope) {
       //$scope.posts = postService.posts;
 
@@ -8,4 +8,4 @@ angular.module('journey')
       // TODO: Token field needs fine tuned setup and some additional CSS help to fix issues.
       $('#tags').tokenfield();
 
-}]);
+});

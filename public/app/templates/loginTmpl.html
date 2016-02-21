@@ -19,8 +19,6 @@
 
             <button type="submit" class="btn btn-primary">Login</button>
 
-            <p class="error_msg" ng-if="errorMsg">{{errorMsg}}</p>
-
           </form>
         </div>
       </div>
@@ -36,22 +34,22 @@
 
             <fieldset class="form-group">
               <label for="email">First Name</label>
-              <input ng-model="user.first" type="text" class="form-control" id="first-name" required>
+              <input ng-model="userSignup.firstName" type="text" class="form-control" id="first-name" required>
             </fieldset>
 
             <fieldset class="form-group">
               <label for="email">Last Name</label>
-              <input ng-model="user.last" type="text" class="form-control" id="last-name" required>
+              <input ng-model="userSignup.lastName" type="text" class="form-control" id="last-name" required>
             </fieldset>
 
             <fieldset class="form-group">
               <label for="email">Email address</label>
-              <input ng-model="user.email" type="email" class="form-control" id="email" required>
+              <input ng-model="userSignup.email" type="email" class="form-control" id="email" required>
             </fieldset>
 
             <fieldset class="form-group">
               <label for="password">Password</label>
-              <input ng-model="user.password" type="password" class="form-control" id="password" required>
+              <input ng-model="userSignup.password" type="password" class="form-control" id="password" required>
             </fieldset>
 
             <button type="submit" class="btn btn-primary-outline">Signup</button>
