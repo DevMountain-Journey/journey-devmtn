@@ -1,0 +1,18 @@
+{   
+    "title": "Awful Day",
+	"body": "Having a terrible time with Angular",
+    "private": false,
+	"positiveScale": 2,
+	"user": "56c90c70fc0b66883af78e4e",
+	"tags": "Angular",
+	"datePosted": "02-20-2016"
+},
+{   
+    "title": "Pretty Good Day",
+	"body": "My personal project is shaping up OK",
+    "private": false,
+	"positiveScale": 6,
+	"user": "56c90c70fc0b66883af78e4e",
+	"tags": "Personal Project",
+	"datePosted": "02-20-2016"
+}

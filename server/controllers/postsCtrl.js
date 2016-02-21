@@ -61,7 +61,7 @@ module.exports = {
         console.log('in postsCtrl');
         console.log('in readOne');
         console.log('req.params', req.params)
-        surveysModel
+        postsModel
         .findById(req.params.id)
         .exec(function(err, result) {
              console.log('err', err);

@@ -1,0 +1,19 @@
+{
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "johndoe@localhost",
+      "password": "123",
+ }
+ {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jsmith@yahoo.com",
+      "password": "123",
+ }
+
+
+{   
+      "cohort": "450",
+      "startDate": "02-01-2016",
+      "assignedMentor": "Erin"
+}
