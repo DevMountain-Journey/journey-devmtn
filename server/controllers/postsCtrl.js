@@ -80,7 +80,23 @@ module.exports = {
         });
     },
 
-
+    count: function(req, res) {
+        console.log('in postsCtrl');
+        console.log('in count');
+        postsModel
+        .count({})
+        .exec(function(err, result) {
+             console.log('err', err);
+             console.log('result', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.send(result);
+             }
+        });
+    },
 
     update: function(req, res) {
         console.log('in postsCtrl');
