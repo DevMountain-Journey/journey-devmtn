@@ -24,6 +24,7 @@ module.exports = {
         if (req.query.pagesize && req.query.pagenumber) {
             postsModel
             .find({})
+            .populate('user', 'firstName lastName')
             .limit(req.query.pagesize)
             .skip(req.query.pagesize * (req.query.pagenumber - 1))
             .sort({datePosted: 'desc'})
@@ -63,6 +64,7 @@ module.exports = {
         console.log('req.params', req.params)
         postsModel
         .findById(req.params.id)
+        .populate('user')
         .exec(function(err, result) {
              console.log('err', err);
              console.log('result', result);
