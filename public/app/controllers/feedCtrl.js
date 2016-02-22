@@ -1,7 +1,7 @@
 angular.module('journey')
-  .controller('feedCtrl', 
-    function($scope) {
-      //$scope.posts = postService.posts;
+  .controller('feedCtrl',
+    function($scope, errService, postPromise) {
+      $scope.posts = postPromise.data;
 
       //Token Field Setup
       //Docs here: http://sliptree.github.io/bootstrap-tokenfield/

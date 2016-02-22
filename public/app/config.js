@@ -1,9 +1,3 @@
-
-/////////////////////////////////////////
-// ADDED A FAKE USER TO THE $ROOTSCOPE. AVAILABLE TO ALL STATES. SEE APP.JS
-/////////////////////////////////////////
-
-
 angular.module('journey')
   .config([
     '$stateProvider',
@@ -20,14 +14,14 @@ angular.module('journey')
 
       .state('feed', {
         url: '/',
-        templateUrl: './app/views/feedView.html',
+        templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
            postPromise: function(postService) { // sends back posts
              return postService.getAllPost();
            },
            auth: function(authService) {  // sends back who's logged in
-             return authService.checkForAuth()
+             return authService.checkForAuth();
            }
         }
       })
