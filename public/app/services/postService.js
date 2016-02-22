@@ -4,7 +4,7 @@ angular.module('journey')
     // GET ALL POSTS
     this.getAllPost = function() {
       return $http.get('/api/posts');
-        
+
     };
 
     // GET ONE POST
@@ -17,16 +17,20 @@ angular.module('journey')
             return error;
           });
     };
-    
-    
+
+
       // CREATE POST
       this.createPost = function(post) {
-          return $http.post('/api/posts/')
+          return $http({
+            method: 'POST',
+            url:  '/api/posts/',
+            data: post
+          })
           .then(function(response){
-              return response; 
+              return response;
           });
       };
-      
+
 
     // UPDATE POST
     this.updatePost = function(post) {

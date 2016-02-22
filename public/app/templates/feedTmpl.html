@@ -4,14 +4,14 @@
 
     <div class="col-sm-8 feed">
 
-        <div class="card text-xs-center" ng-repeat="post in posts">
+        <div class="card text-xs-center" ng-repeat="post in posts track by $index">
           <div class="card-block">
             <h4 class="card-title">{{post.positiveScale}}</h4>
             <p class="card-text">{{post.body}}</p>
             <a href="#" class="btn btn-primary btn-sm" ng-repeat="tag in post.tags">{{tag}}</a>
           </div>
           <div class="card-footer text-muted">
-            By {{post.user.firstName}} {{post.user.lastName}} on {{post.datePosted | date : 'medium'}} <a href="javascript:void(0)" ng-click="">Edit</a> <a href="javascript:void(0)" ng-click="">Delete</a>
+            By {{post.user.firstName}} {{post.user.lastName}} on {{post.datePosted | date : 'medium'}} <button ng-click="deletePost(post._id,$index)">Delete</button>
           </div>
         </div>
     </div>
@@ -20,10 +20,10 @@
 
       <div class="card card-inverse bg-inverse">
         <div class="card-block">
-          <form>
+          <form ng-submit="createPost()">
           <fieldset class="form-group">
               <label for="emotionlevel">Emotion Level</label>
-              <select class="form-control" id="emotionlevel" ng-model="postContent.emotion">
+              <select class="form-control" id="emotionlevel" ng-model="postContent.positiveScale">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -38,13 +38,14 @@
             </fieldset>
 
           <fieldset class="form-group">
-            <label for="tokenfield">What are you working on?</label>
-            <input type="text" class="form-control" id="tags" placeholder="Tags" ng-model="postContent.tags"/>
+            <label for="tags">What are you working on?</label>
+            <!-- <input type="text" class="form-control" id="tags" placeholder="Tags" ng-model="postContent.tags"/> -->
+            <input ng-model="postContent.tags">
           </fieldset>
 
           <fieldset class="form-group">
             <label for="thoughts">Thoughts</label>
-            <textarea class="form-control" id="thoughts" rows="1" placeholder="Thoughts?" ng-model="postContent.thoughts"></textarea>
+            <textarea class="form-control" id="thoughts" rows="1" placeholder="Thoughts?" ng-model="postContent.body"></textarea>
           </fieldset>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
