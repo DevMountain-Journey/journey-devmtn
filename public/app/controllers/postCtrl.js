@@ -1,9 +1,9 @@
 angular.module('journey')
 .controller('postCtrl', function($scope, errService, postPromise, postService, auth){
-   
- $scope.posts = postPromise.data; 
- 
- 
+
+ $scope.posts = postPromise.data;
+
+
  $scope.createPost = function() {
     postService.createPost($scope.postContent)
      .then(function(response){
@@ -13,7 +13,7 @@ angular.module('journey')
        errService.error(err);
     });
  };
-    
+
 //  $scope.getAllPost = function() {
 //      postService.getAllPost()
 //      .then(function(response) {
@@ -22,8 +22,8 @@ angular.module('journey')
 //      }, function(err) {
 //          errService.error(err);
 //         });
-//  };   
-    
+//  };
+
  $scope.getOnePost = function() {
      postService.getOnePost()
      .then(function(response){
@@ -33,7 +33,7 @@ angular.module('journey')
          errService.error(err);
      });
  };
- 
+
   $scope.updatePost = function() {
      postService.updatePost($scope.postContent)
      .then(function(response){
@@ -42,16 +42,15 @@ angular.module('journey')
      }, function(err){
          errService.error(err);
      });
- };   
- 
- 
-   $scope.deletePost = function(id, index) {
-     postService.deletePost(id)
-     .then(function(respnose){
-         $scope.posts = $scope.posts.splice(index, 1);
-     });
- };  
-    
-    
-    
+ };
+
+
+   $scope.deletePost = function() {
+     console.log('delete triggered');
+    //  postService.deletePost(id)
+    //  .then(function(respnose){
+    //      $scope.posts = $scope.posts.splice(index, 1);
+    //  });
+ };
+
 });
