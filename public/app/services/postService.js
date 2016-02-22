@@ -3,17 +3,8 @@ angular.module('journey')
 
     // GET ALL POSTS
     this.getAllPost = function() {
-      return $http.get('/api/posts')
-        .then(
-          function(response) {
-            console.log(response);
-            return response;
-            //   angular.copy(data, o.posts);
-        })
-        .catch(function(err) {
-           console.error(err);
-           $state.go('login');
-        });
+      return $http.get('/api/posts');
+        
     };
 
     // GET ONE POST
@@ -26,6 +17,16 @@ angular.module('journey')
             return error;
           });
     };
+    
+    
+      // CREATE POST
+      this.createPost = function(post) {
+          return $http.post('/api/posts/')
+          .then(function(response){
+              return response; 
+          });
+      };
+      
 
     // UPDATE POST
     this.updatePost = function(post) {
