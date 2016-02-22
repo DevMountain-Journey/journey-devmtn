@@ -8,6 +8,20 @@
   max-width:200px;
 }
 
+.navbar .logout {
+    width: 70px;
+    color: #eee;
+    font-family: Helvetica, sans-serif;
+    font-size: 1.3em;
+    background: inherit;
+    position: absolute;
+    right: 5px; 
+}
+
+.navbar .logout:hover {
+    cursor: pointer;
+}
+
 .feed, .sidebar {
   margin-top: 10px
 }

@@ -9,15 +9,11 @@ angular.module('journey')
             console.log(response);
             return response;
             //   angular.copy(data, o.posts);
-          },
-          function(error) {
-            return error;
-          });
-      // TODO: CLEANUP
-      // ).catch(function(err) {
-      //     console.error(err);
-      //     $state.go('login');
-      //   });
+        })
+        .catch(function(err) {
+           console.error(err);
+           $state.go('login');
+        });
     };
 
     // GET ONE POST

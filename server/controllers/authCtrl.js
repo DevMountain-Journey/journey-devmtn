@@ -1,12 +1,5 @@
 var usersModel = require('./../models/usersModel.js');
 
-var checkRoles = function(user, role) {
-    for (var i = 0; i < user.roles.length; i++) {
-        if (user.roles[i] === role)
-            return true;
-    }
-    return false;
-}
 
 var setSignupDefaults = function(user) {
     user.cohort = 350;
@@ -29,7 +22,7 @@ module.exports = {
         res.json(req.user);
     },
     
-    localSignup: function(req, res) {
+    localSignup: function(req, res, next) {
         console.log('in localSignup');
         console.log('req.body = ', req.body)
         var user = setSignupDefaults(req.body);
@@ -40,7 +33,8 @@ module.exports = {
             if (err)
                 return res.status(500).send(err);
             else 
-                res.send(result);
+            //    res.send(result);
+                next();  // next() so that passport can log user in
         });
     },
     
@@ -56,39 +50,13 @@ module.exports = {
             res.status(401).send('Not logged in');
     },
     
-    current_admin_user: function(req, res) {
-        if (req.isAuthenticated()) {
-            // Check user record for admin role
-            if (checkRoles(req.user, 'admin'))
-                res.send(req.user);
-            else
-                res.status(403).send('Not authorized');
-        }
-        else {
-            res.status(401).send('Not logged in');
-        }
-    },
-    
+       
     requireAuth: function (req, res, next) {
         if (req.isAuthenticated()) {
             next();
         } else {
             return res.status(401).send('Not logged in');
         }
-    },
-
-    requireAdminAuth: function (req, res, next) {
-        if (req.isAuthenticated()) {
-             // Check user record for admin role
-            if (checkRoles(req.user, 'admin'))
-                next();
-            else
-                res.status(403).send('Not authorized');
-        }
-        else {
-            res.status(401).send('Not logged in');
-        }
-        
     }
     
 }
