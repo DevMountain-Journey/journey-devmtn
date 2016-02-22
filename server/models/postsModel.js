@@ -9,6 +9,8 @@ var postsSchema = new Schema({
 	user: {type: Schema.Types.ObjectId, ref: 'Users'},
 	tags: [{type: 'String', required: true}],
 	datePosted: {type: 'Date', required: true, default: Date.now}
+
 });
+
 
 module.exports =  mongoose.model('Posts', postsSchema);
