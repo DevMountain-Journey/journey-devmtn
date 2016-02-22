@@ -1,5 +1,5 @@
 angular.module('journey')
-  .service('authService', function($http) {
+  .service('authService', function($http, $state) {
 
     this.login = function(userData) {
       console.log('userData = ', userData);
@@ -34,6 +34,9 @@ angular.module('journey')
       .then(function(response) {
           console.log(response);
           return response;
+      }, function(err) {
+          console.error(err);
+          $state.go('login');
       })
     };
     
