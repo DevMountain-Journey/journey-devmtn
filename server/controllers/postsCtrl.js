@@ -43,6 +43,7 @@ module.exports = {
         else {
             postsModel
             .find({})
+            .populate('user', 'firstName lastName')             
             .exec(function(err, result) {
                  console.log('err', err);
                  console.log('result', result);
