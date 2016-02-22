@@ -1,11 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="journey">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Journey</title>
+
+    <!--Styles-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
   </head>
-  <body>
-    <!-- This is just an HTML file so we can start linking in libraries, controllers, services, etc. -->
-    <ui-view></ui-view>
+  <body ng-controller="mainCtrl">
+
+    <div class="navbar navbar-static-top navbar-dark bg-inverse">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand"><img src="assets/img/dmlogo.png"></a>
+        <div class="logout" ng-click="logout()">Logout</div>
+      </div>
+    </div>
+
+
+
+    <div ui-view> </div>
+
+
+    <!-------------------------->
+    <!--Scripts----------------->
+    <!-------------------------->
+
+<!--3rd Party-->
+    <!--Angular-->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.16/angular-ui-router.js"></script>
+
+    <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+    <!--Bootstrap-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
+    <!--Sweet Alert-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
+
+<!--Application Scripts-->
+    <!--APP CORE-->
+    <script src="app/app.js"></script>
+    <script src="app/config.js"></script>
+
+    <!--CONTROLLERS-->
+    <script src="app/controllers/mainCtrl.js"></script> 
+    <script src="app/controllers/feedCtrl.js"></script>
+    <script src="app/controllers/loginCtrl.js"></script>
+    <script src="app/controllers/postCtrl.js"></script>
+
+    <!--SERVICES-->
+    <script src="app/services/errService.js"></script>
+    <script src="app/services/postService.js"></script>
+    <script src="app/services/authService.js"></script>
+
+
+
   </body>
 </html>

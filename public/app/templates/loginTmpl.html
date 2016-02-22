@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-6 login">
+      <div class="card card-inverse bg-inverse">
+        <div class="card-block">
+          <h3 class="card-title">Login</h3>
+          <form ng-submit="login()">
+
+            <fieldset class="form-group">
+              <label for="email">Email Address</label>
+              <input ng-model="user.email" type="email" class="form-control" id="email">
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="password">Password</label>
+              <input ng-model="user.password" type="password" class="form-control" id="password">
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+
+          </form>
+        </div>
+      </div>
+    </div><!--/.login-->
+
+
+    <div class="col-sm-6 signup">
+      <div class="card">
+        <div class="card-block">
+          <h3 class="card-title">Signup</h3>
+          <p class="card-text">Don't have an account? Signup now!</p>
+          <form ng-submit="signup()">
+
+            <fieldset class="form-group">
+              <label for="email">First Name</label>
+              <input ng-model="userSignup.firstName" type="text" class="form-control" id="first-name" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="email">Last Name</label>
+              <input ng-model="userSignup.lastName" type="text" class="form-control" id="last-name" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="email">Email address</label>
+              <input ng-model="userSignup.email" type="email" class="form-control" id="email" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="password">Password</label>
+              <input ng-model="userSignup.password" type="password" class="form-control" id="password" required>
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary-outline">Signup</button>
+
+          </form>
+        </div>
+      </div>
+    </div><!--/.signup-->
+
+
+  </div><!--/.row-->
+</div><!--/.container-->

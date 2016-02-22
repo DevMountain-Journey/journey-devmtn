@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "This is a disgustingly awesome web application for measuring the great days and the bad days at DevMountain.",
   "main": "server/index.js",
-  "start": "nodemon server/index.js",
   "scripts": {
+    "start": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,12 +18,14 @@
   },
   "homepage": "https://github.com/DevMountain-Journey/journey-devmtn#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "mongoose": "^4.4.4",
-    "passport": "^0.3.2"
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
