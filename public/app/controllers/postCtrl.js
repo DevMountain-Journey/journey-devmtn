@@ -44,9 +44,13 @@ angular.module('journey')
      });
  };   
  
-    
-    
-    
+ 
+   $scope.deletePost = function(id, index) {
+     postService.deletePost(id)
+     .then(function(respnose){
+         $scope.posts = $scope.posts.splice(index, 1);
+     });
+ };  
     
     
     
