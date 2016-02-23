@@ -2,18 +2,13 @@ angular.module('journey')
   .service('postService', function($http, $state) {
 
     // GET ALL POSTS
-    this.getAllPost = function() {
-      return $http.get('/api/posts')
-        .then(
-          function(response) {
-            console.log(response);
-            return response;
-            //   angular.copy(data, o.posts);
-        })
-        .catch(function(err) {
-           console.error(err);
-           $state.go('login');
-        });
+    this.getAllPost = function(pageSize, pageNumber) {
+      return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber)
+      .then(function(res){
+          console.log(res);
+          return res;        
+      });
+
     };
 
     // GET ONE POST
@@ -26,6 +21,20 @@ angular.module('journey')
             return error;
           });
     };
+
+
+      // CREATE POST
+      this.createPost = function(post) {
+          return $http({
+            method: 'POST',
+            url:  '/api/posts/',
+            data: post
+          })
+          .then(function(response){
+              return response;
+          });
+      };
+
 
     // UPDATE POST
     this.updatePost = function(post) {
@@ -41,5 +50,16 @@ angular.module('journey')
     this.deletePost = function(id) {
       return $http.delete('/api/posts/' + id);
     };
+    
+    this.getCount = function() {
+        return $http.get('/api/count/posts')
+        .then(function(res){
+          console.log(res);
+          return res;        
+      });
+      
+    };
+    
+    
 
   });

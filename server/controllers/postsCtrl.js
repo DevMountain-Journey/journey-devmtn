@@ -1,29 +1,31 @@
 var postsModel = require('./../models/postsModel.js');
 
 module.exports = {
-    
+
     create: function(req, res) {
-        
+
         console.log('in postsCtrl');
         console.log('in create');
         console.log('req.body = ', req.body);
-      
-        var newPosts = new postsModel(req.body)
+
+        var newPosts = new postsModel(req.body);
         newPosts.save(function(err, result) {
             if (err)
                 return res.status(500).send(err);
-            else 
+            else
                 res.send(result);
         });
     },
-    
+
     read: function(req, res) {
         console.log('in postsCtrl');
         console.log('in read');
-        console.log('req.query', req.query)
+        console.log('req.query', req.query);
         if (req.query.pagesize && req.query.pagenumber) {
             postsModel
             .find({})
+            .populate('user', 'firstName lastName')
+            //.select('-__v -password')
             .limit(req.query.pagesize)
             .skip(req.query.pagesize * (req.query.pagenumber - 1))
             .sort({datePosted: 'desc'})
@@ -35,13 +37,14 @@ module.exports = {
                      return res.status(500).send(err);
                  }
                  else {
-                     res.send(result)
+                     res.send(result);
                  }
-            })
+            });
         }
         else {
             postsModel
             .find({})
+            .populate('user', 'firstName lastName')             
             .exec(function(err, result) {
                  console.log('err', err);
                  console.log('result', result);
@@ -50,19 +53,20 @@ module.exports = {
                      return res.status(500).send(err);
                  }
                  else {
-                     res.send(result)
+                     res.send(result);
                  }
-            })
+            });
         }
-        
+
     },
-    
+
     readOne: function(req, res) {
         console.log('in postsCtrl');
         console.log('in readOne');
-        console.log('req.params', req.params)
+        console.log('req.params', req.params);
         postsModel
         .findById(req.params.id)
+        .populate('user')
         .exec(function(err, result) {
              console.log('err', err);
              console.log('result', result);
@@ -71,17 +75,32 @@ module.exports = {
                  return res.status(500).send(err);
              }
              else {
-                 res.send(result)
+                 res.send(result);
              }
-        })
+        });
     },
-    
-    
-   
+
+    postCount: function(req, res) {
+        console.log('in postsCtrl');
+        console.log('in count');
+        postsModel
+        .count({}, function(err, result) {
+             console.log('errCount', err);
+             console.log('resultCount', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.json(result);
+             }
+        });
+    },
+
     update: function(req, res) {
         console.log('in postsCtrl');
         console.log('in update');
-        console.log('req.params = ', req.params)
+        console.log('req.params = ', req.params);
         postsModel
         .findById(req.params.id)
         .exec(function(err, result) {
@@ -96,22 +115,22 @@ module.exports = {
                       if (req.body.hasOwnProperty(p)) {
                           result[p] = req.body[p];
                       }
-                }                
+                }
                 result.save(function(er, re) {
                     if (er)
                         return res.status(500).send(er);
                     else
-                        res.send(re);  
+                        res.send(re);
                 });
-                
+
              }
         });
     },
-    
+
     delete: function(req, res) {
         console.log('in postsCtrl');
         console.log('in update');
-        console.log('req.params = ', req.params)
+        console.log('req.params = ', req.params);
         postsModel
         .findByIdAndRemove(req.params.id)
         .exec(function(err, result) {
@@ -126,6 +145,6 @@ module.exports = {
             }
         });
     }
- 
- 
-}
+
+
+};

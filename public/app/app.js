@@ -1,5 +1,6 @@
 angular.module('journey', [
-    'ui.router'
+    'ui.router',
+    'ngTagsInput'
   ])
 
   .run(function($rootScope, $state, $stateParams) {
