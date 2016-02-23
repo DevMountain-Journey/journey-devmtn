@@ -1,8 +1,11 @@
 angular.module('journey')
   .controller('feedCtrl',
 
-    function($scope, errService, postPromise, pageSize, postService) {
-
+    function($scope, errService, postPromise, pageSize, postService, postCount) {
+        
+       $scope.totalCount = postCount.data; 
+       console.log("COUNT",postCount);
+        
       $scope.posts = postPromise.data;
       //Token Field Setup
       //Docs here: http://sliptree.github.io/bootstrap-tokenfield/
@@ -64,6 +67,10 @@ angular.module('journey')
      
 $scope.nextPage = function() {
     $scope.currentPage++;
+    $scope.maxPages = $scope.pageCount / pageSize.SIZE;
+    if($scope.currentPage > $scope.maxPages){
+        $scope.currentPage = $scope.maxPages;
+    }
     postService.getAllPost(pageSize.SIZE, $scope.currentPage)
     .then(function(response){
         console.log(response);
@@ -82,6 +89,8 @@ $scope.previousPage = function() {
         $scope.posts = response.data;
     });
 };
+
+
 
 
 });

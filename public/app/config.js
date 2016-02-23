@@ -23,6 +23,9 @@ angular.module('journey' )
            postPromise: function(postService) { // sends back posts
              return postService.getAllPost(pageSize.SIZE, 1);
            },
+           postCount: function(postService) {
+               return postService.getCount();
+           },
            auth: function(authService) {  // sends back who's logged in
              return authService.checkForAuth();
            }
