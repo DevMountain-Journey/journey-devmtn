@@ -1,12 +1,12 @@
 angular.module('journey' )
-  .constant("pageSize", {POSTS: 4})
+  .constant("pageSize", {POSTS: 500})
 
   .config([
     '$stateProvider',
     '$urlRouterProvider',
     'pageSize',
     function($stateProvider, $urlRouterProvider, pageSize) {
-   
+
       $stateProvider
 
       .state('login', {

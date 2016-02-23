@@ -24,7 +24,7 @@ module.exports = {
         if (req.query.pagesize && req.query.pagenumber) {
             postsModel
             .find({})
-            .populate('user', 'firstName lastName')
+            .populate('user', 'firstName lastName email')
             //.select('-__v -password')
             .limit(req.query.pagesize)
             .skip(req.query.pagesize * (req.query.pagenumber - 1))
@@ -44,7 +44,7 @@ module.exports = {
         else {
             postsModel
             .find({})
-            .populate('user', 'firstName lastName')             
+            .populate('user', 'firstName lastName email')             
             .exec(function(err, result) {
                  console.log('err', err);
                  console.log('result', result);

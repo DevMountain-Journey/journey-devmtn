@@ -6,8 +6,6 @@ angular.module('journey')
       $scope.totalPosts = postCount.data;
       $scope.currentPage = 1;
 
-      console.log("COUNT", $scope.totalPosts);
-
       $scope.loadTags = function($query) {
         return $http.get('tags.json', {
           cache: true
@@ -19,14 +17,9 @@ angular.module('journey')
         });
       };
 
-      // $scope.sortPostByDate = function(post) {
-      //     var postDate = new Date(post.datePosted);
-      //     console.log(postDate);
-      //     return postDate;
-      // };
-
       $scope.createPost = function() {
         $scope.postContent.user = auth.data._id;
+        $scope.postContent.tags = _.map($scope.postContent.tags, 'name');
         postService.createPost($scope.postContent)
           .then(function(response) {
             $scope.postContent = {};
