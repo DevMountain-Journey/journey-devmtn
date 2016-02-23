@@ -1,0 +1,37 @@
+
+.navbar {
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+
+.navbar-brand img {
+  max-width:200px;
+}
+
+.navbar .logout {
+    width: 70px;
+    color: #eee;
+    font-family: Helvetica, sans-serif;
+    font-size: 1.3em;
+    background: inherit;
+    position: absolute;
+    right: 5px; 
+}
+
+.navbar .logout:hover {
+    cursor: pointer;
+}
+
+.feed, .sidebar {
+  margin-top: 10px
+}
+
+
+/********************/
+/** LOGIN / SIGNUP **/
+/********************/
+
+.login .card-inverse .card-block .form-group label {
+  color: #909090;
+}
+
