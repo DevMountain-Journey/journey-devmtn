@@ -1,6 +1,6 @@
 angular.module('journey')
   .controller('feedCtrl',
-    function($scope, $http, errService, postPromise, postService, auth, postCount) {
+    function($scope, $http, errService, postPromise, postService, auth, postCount, pageSize) {
 
       $scope.posts = postPromise.data;
       $scope.totalPosts = postCount.data;
@@ -27,7 +27,6 @@ angular.module('journey')
 
       $scope.createPost = function() {
         $scope.postContent.user = auth.data._id;
-        $scope.postContent.tags = ['herpderp', 'jquery', 'awesome'];
         postService.createPost($scope.postContent)
           .then(function(response) {
             $scope.postContent = {};
