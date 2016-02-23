@@ -1,9 +1,12 @@
-angular.module('journey')
+angular.module('journey' )
+  .constant("pageSize", {POSTS: 4})
+
   .config([
     '$stateProvider',
     '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
-
+    'pageSize',
+    function($stateProvider, $urlRouterProvider, pageSize) {
+   
       $stateProvider
 
       .state('login', {
@@ -18,7 +21,10 @@ angular.module('journey')
         controller: 'feedCtrl',
         resolve: {
            postPromise: function(postService) { // sends back posts
-             return postService.getAllPost();
+             return postService.getAllPost(pageSize.POSTS, 1);
+           },
+           postCount: function(postService) {
+               return postService.getCount();
            },
            auth: function(authService) {  // sends back who's logged in
              return authService.checkForAuth();

@@ -13,7 +13,9 @@
           <div class="card-footer text-muted">
             By {{post.user.firstName}} {{post.user.lastName}} on {{post.datePosted | date : 'medium'}} <button ng-click="deletePost(post._id, $index)">Delete</button>
           </div>
+            
         </div>
+     
     </div>
 
     <div class="col-sm-3 col-sm-offset-1 sidebar">
@@ -66,4 +68,8 @@
 
     </div><!--/.sidebar-->
   </div><!--/.row-->
+   <button ng-click="previousPage()"> Previous</button>
+  <button ng-click="nextPage()"> Next</button>
+   
+  
 </div><!--/.container-->

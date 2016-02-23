@@ -2,8 +2,12 @@ angular.module('journey')
   .service('postService', function($http, $state) {
 
     // GET ALL POSTS
-    this.getAllPost = function() {
-      return $http.get('/api/posts');
+    this.getAllPost = function(pageSize, pageNumber) {
+      return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber)
+      .then(function(res){
+          console.log(res);
+          return res;        
+      });
 
     };
 
@@ -46,5 +50,16 @@ angular.module('journey')
     this.deletePost = function(id) {
       return $http.delete('/api/posts/' + id);
     };
+    
+    this.getCount = function() {
+        return $http.get('/api/count/posts')
+        .then(function(res){
+          console.log(res);
+          return res;        
+      });
+      
+    };
+    
+    
 
   });

@@ -24,7 +24,7 @@ module.exports = {
         if (req.query.pagesize && req.query.pagenumber) {
             postsModel
             .find({})
-            .populate('user')
+            .populate('user', 'firstName lastName')
             //.select('-__v -password')
             .limit(req.query.pagesize)
             .skip(req.query.pagesize * (req.query.pagenumber - 1))
@@ -80,7 +80,22 @@ module.exports = {
         });
     },
 
-
+    postCount: function(req, res) {
+        console.log('in postsCtrl');
+        console.log('in count');
+        postsModel
+        .count({}, function(err, result) {
+             console.log('errCount', err);
+             console.log('resultCount', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.json(result);
+             }
+        });
+    },
 
     update: function(req, res) {
         console.log('in postsCtrl');
