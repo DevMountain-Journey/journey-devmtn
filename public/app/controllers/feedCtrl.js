@@ -1,6 +1,6 @@
 angular.module('journey')
   .controller('feedCtrl',
-    function($scope, $http, errService, postPromise, postService, auth) {
+    function($scope, $http, errService, postPromise, postService, auth, postCount) {
 
       $scope.posts = postPromise.data;
       $scope.totalPosts = postCount.data;
