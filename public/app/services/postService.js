@@ -2,8 +2,8 @@ angular.module('journey')
   .service('postService', function($http, $state) {
 
     // GET ALL POSTS
-    this.getAllPost = function(pageSize, pageNumber) {
-      return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber)
+    this.getAllPost = function(pageSize, pageNumber, filters) {
+      return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber + '&filters=' + filters)
       .then(function(res){
           console.log(res);
           return res;        

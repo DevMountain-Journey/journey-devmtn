@@ -102,6 +102,20 @@ angular.module('journey')
         }
       };
 
+     
+ $scope.filters = function(query) {
+     $scope.filters = query;
+    postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filters)
+      .then(function(response) {
+          console.log('in $scope.filters');
+          console.log(response);
+          $scope.posts = response.data;
+      },function(err) {
+            errService.error(err);
+                    
+      });
+ };
 
 
-    });
+
+});
