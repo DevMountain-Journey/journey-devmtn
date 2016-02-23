@@ -1,10 +1,10 @@
 angular.module('journey')
   .controller('feedCtrl',
 
-    function($scope, errService, postPromise, pageSize, postService, postCount) {
+    function($scope, errService, postPromise, pageSize, postService, postCount, auth) {
         
-       $scope.totalCount = postCount.data; 
-       console.log("COUNT",postCount);
+       $scope.totalPosts = postCount.data; 
+       console.log("COUNT", $scope.totalPosts);
         
       $scope.posts = postPromise.data;
       //Token Field Setup
@@ -18,7 +18,16 @@ angular.module('journey')
           postService.createPost($scope.postContent)
            .then(function(response){
                   $scope.postContent = {};
+                  console.log('In createPost')
                   console.log(response);
+                  $scope.currentPage = 1;
+                  $scope.totalPosts++;
+                  postService.getAllPost(pageSize.POSTS, $scope.currentPage)
+                  .then(function(response){
+                      console.log('in getAllPosts')
+                      console.log(response);
+                      $scope.posts = response.data;
+                  });
           },function(err) {
              errService.error(err);
           });
@@ -59,6 +68,7 @@ angular.module('journey')
            postService.deletePost(id)
            .then(function(response){
               $scope.posts.splice(index, 1);
+              $scope.totalPosts--;
            });
        };
 
@@ -67,15 +77,18 @@ angular.module('journey')
      
 $scope.nextPage = function() {
     $scope.currentPage++;
-    $scope.maxPages = $scope.pageCount / pageSize.SIZE;
+    if (pageSize.POSTS)
+        $scope.maxPages = Math.ceil($scope.totalPosts / pageSize.POSTS);
     if($scope.currentPage > $scope.maxPages){
         $scope.currentPage = $scope.maxPages;
     }
-    postService.getAllPost(pageSize.SIZE, $scope.currentPage)
-    .then(function(response){
-        console.log(response);
-        $scope.posts = response.data;
-    });
+    else {
+        postService.getAllPost(pageSize.POSTS, $scope.currentPage)
+        .then(function(response){
+            console.log(response);
+            $scope.posts = response.data;
+        });
+    }
 };
 
 $scope.previousPage = function() {
@@ -83,11 +96,13 @@ $scope.previousPage = function() {
     if ($scope.currentPage <= 0){
         $scope.currentPage = 1 ;
     }
-    postService.getAllPost(pageSize.SIZE, $scope.currentPage)
-    .then(function(response){
-        console.log(response);
-        $scope.posts = response.data;
-    });
+    else {
+        postService.getAllPost(pageSize.POSTS, $scope.currentPage)
+        .then(function(response){
+            console.log(response);
+            $scope.posts = response.data;
+        });
+    }
 };
 
 

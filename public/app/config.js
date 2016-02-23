@@ -1,5 +1,5 @@
 angular.module('journey' )
-  .constant("pageSize", {SIZE: 4})
+  .constant("pageSize", {POSTS: 4})
 
   .config([
     '$stateProvider',
@@ -21,7 +21,7 @@ angular.module('journey' )
         controller: 'feedCtrl',
         resolve: {
            postPromise: function(postService) { // sends back posts
-             return postService.getAllPost(pageSize.SIZE, 1);
+             return postService.getAllPost(pageSize.POSTS, 1);
            },
            postCount: function(postService) {
                return postService.getCount();
