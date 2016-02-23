@@ -23,7 +23,7 @@ module.exports = {
         console.log('req.query', req.query);
         if (req.query.pagesize && req.query.pagenumber) {
             postsModel
-            .find({})
+            .find(req.query.filters)
             .populate('user', 'firstName lastName')
             //.select('-__v -password')
             .limit(req.query.pagesize)
@@ -79,7 +79,7 @@ module.exports = {
              }
         });
     },
-
+    
     postCount: function(req, res) {
         console.log('in postsCtrl');
         console.log('in count');
