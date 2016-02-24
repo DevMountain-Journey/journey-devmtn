@@ -38,14 +38,10 @@ angular.module('journey' )
         }
       })
 
-      .state('post', {
+      .state('feed.post', {
         url: '/post/:id',
-        templateUrl: './templates/postsTmpl.html'
-          //  controller: 'postCtrl',
-          //  resolve: {
-          //    postPromise: ['posts', function(postService){
-          //       return postService.getAllPost(); }]
-          //  }
+        templateUrl: './app/templates/postDetailTmpl.html'
+         
       })
 
       .state('post.add', {

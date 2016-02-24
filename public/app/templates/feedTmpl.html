@@ -1,5 +1,6 @@
   <div class="row">
     <div class="col-sm-8 feed">
+
       <pre>{{fixedPosts}}</pre>
       <div class="card text-cs-center">
         <div class="card-header">
@@ -28,6 +29,7 @@
           <!--End Timeline Chunk Template-->
 
 
+
     </div>
   </div>
 </div>
@@ -39,18 +41,30 @@
           <form ng-submit="createPost()">
             <fieldset class="form-group">
               <label for="emotionlevel">Emotion Level</label>
-              <select class="form-control" id="emotionlevel" ng-model="postContent.positiveScale">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
+             
+                <div class="emotions" ng-model="postContent.positiveScale">
+                    <div ng-click = "setScale(1)" class ="emotion">
+                        <img class="emotionImg"src="./assets/img/test.jpg">1</div>
+                     <div ng-click = "setScale(2)" class ="emotion">
+                         <img  class="emotionImg"src="./assets/img/test.jpg">2</div>
+                      <div ng-click = "setScale(3)" class ="emotion">
+                          <img class="emotionImg"src="./assets/img/test.jpg">3</div>
+                       <div ng-click = "setScale(4)" class ="emotion">
+                           <img class="emotionImg"src="./assets/img/test.jpg">4</div>
+                        <div ng-click = "setScale(5)" class ="emotion">
+                             <img class="emotionImg"src="./assets/img/test.jpg">5</div>
+                         <div ng-click = "setScale(6)" class ="emotion">
+                             <img class="emotionImg"src="./assets/img/test.jpg">6</div>
+                          <div ng-click = "setScale(7)" class ="emotion"> 
+                              <img class="emotionImg"src="./assets/img/test.jpg">7</div>
+                           <div ng-click = "setScale(8)" class ="emotion">
+                                <img class="emotionImg"src="./assets/img/test.jpg">8</div>
+                            <div ng-click = "setScale(9)" class ="emotion">
+                                <img class="emotionImg"src="./assets/img/test.jpg">9</div>
+                             <div ng-click = "setScale(10)" class ="emotion">
+                                 <img class="emotionImg"src="./assets/img/test.jpg">10</div>
+                    </div>
+
             </fieldset>
 
             <fieldset class="form-group">

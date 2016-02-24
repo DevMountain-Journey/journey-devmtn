@@ -74,6 +74,7 @@ angular.module('journey')
     };
 
 
+
     $scope.deletePost = function(id, index) {
       postService.deletePost(id)
         .then(function(response) {
@@ -94,4 +95,13 @@ angular.module('journey')
 
         });
     };
+    
+    $scope.setScale = function(num) {
+        $scope.postContent.positiveScale = num; 
+    };    
+    
+    
+    
+    
+    
   });
