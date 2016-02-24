@@ -3,12 +3,28 @@ angular.module('journey')
 
     // GET ALL POSTS
     this.getAllPost = function(pageSize, pageNumber, filters) {
-      return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber + '&filters=' + filters)
-      .then(function(res){
-          console.log(res);
-          return res;        
-      });
-
+      if (filters) {
+          var urlQuery = ''
+          for (var type in filters){
+              urlQuery += '&'type +'=['+ filters[type]+']'
+          }
+          console.log(urlQuery)
+          return $http({
+              method: 'GET',
+              url: '/api/posts/filterBy?' + urlQuery
+          })
+          .then(function(res){
+              console.log(res);
+              return res;        
+          });
+      }
+      else {
+          return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber)
+          .then(function(res){
+              console.log(res);
+              return res;        
+          });
+      }
     };
 
     // GET ONE POST

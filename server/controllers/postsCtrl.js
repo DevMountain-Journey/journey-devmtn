@@ -17,29 +17,85 @@ module.exports = {
         });
     },
 
+    filter: function(req, res){
+       console.log('in postsCtrl');
+       console.log('in filter');
+       console.log('req.query before processing', req.query);
+       for (var item in req.query) {
+                req.query[item] = req.query[item].slice(1, req.query[item].length -1);
+                req.query[item] = req.query[item].split(',');
+//                if (item === 'positiveScale') {
+//                    for (var i = 0; i < req.query[item].length; i++) {
+//                        req.query[item][i] = Number(req.query[item][i]);
+//                    }
+//                }
+                req.query[item] = {$in: req.query[item]};
+        }
+        console.log('req.query after processing', req.query);
+        postsModel
+        .find(req.query)
+        .populate('user', 'firstName lastName')
+        //.select('-__v -password')
+        .sort({datePosted: 'desc'})
+        .exec(function(err, result) {
+             console.log('err', err);
+             console.log('result', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.send(result);
+             }
+        });
+    },
     read: function(req, res) {
         console.log('in postsCtrl');
         console.log('in read');
         console.log('req.query', req.query);
         if (req.query.pagesize && req.query.pagenumber) {
-            postsModel
-            .find(req.query.filters)
-            .populate('user', 'firstName lastName')
-            //.select('-__v -password')
-            .limit(req.query.pagesize)
-            .skip(req.query.pagesize * (req.query.pagenumber - 1))
-            .sort({datePosted: 'desc'})
-            .exec(function(err, result) {
-                 console.log('err', err);
-                 console.log('result', result);
-                 if (err) {
-                     console.log('in error routine');
-                     return res.status(500).send(err);
-                 }
-                 else {
-                     res.send(result);
-                 }
-            });
+            if (req.query.filterType && req.query.filterValue) {
+                var qPropType = req.query.filterType;
+                var qPropVal  = req.query.filterValue;
+                postsModel
+                .find({qPropType: qPropVal})
+                .populate('user', 'firstName lastName')
+                //.select('-__v -password')
+                .limit(req.query.pagesize)
+                .skip(req.query.pagesize * (req.query.pagenumber - 1))
+                .sort({datePosted: 'desc'})
+                .exec(function(err, result) {
+                     console.log('err', err);
+                     console.log('result', result);
+                     if (err) {
+                         console.log('in error routine');
+                         return res.status(500).send(err);
+                     }
+                     else {
+                         res.send(result);
+                     }
+                });
+            }
+            else {
+                postsModel
+                .find({})
+                .populate('user', 'firstName lastName')
+                //.select('-__v -password')
+                .limit(req.query.pagesize)
+                .skip(req.query.pagesize * (req.query.pagenumber - 1))
+                .sort({datePosted: 'desc'})
+                .exec(function(err, result) {
+                     console.log('err', err);
+                     console.log('result', result);
+                     if (err) {
+                         console.log('in error routine');
+                         return res.status(500).send(err);
+                     }
+                     else {
+                         res.send(result);
+                     }
+                });
+            }
         }
         else {
             postsModel

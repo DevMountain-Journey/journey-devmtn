@@ -103,9 +103,9 @@ angular.module('journey')
       };
 
      
- $scope.filters = function(query) {
+ $scope.filters = function(type, value) {
      $scope.filters = query;
-    postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filters)
+    postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filterType, $scope.filterValue)
       .then(function(response) {
           console.log('in $scope.filters');
           console.log(response);

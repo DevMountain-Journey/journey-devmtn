@@ -30,7 +30,7 @@ app.get('/api/logout', authCtrl.logout);
 app.get('/api/current_user', authCtrl.current_user);
 
 // Posts
-
+ app.get('/api/posts/filterBy?', postsCtrl.filter); // Get posts. Accepts query parameter. Posts collection.
  app.get('/api/posts', authCtrl.requireAuth, postsCtrl.read); // Get posts. Accepts query parameter. Posts collection.
  app.get('/api/posts/:id', authCtrl.requireAuth, postsCtrl.readOne); // Gets individual post. Posts collection.
  app.get('/api/count/posts', authCtrl.requireAuth, postsCtrl.postCount); // Gets count of all posts. Used for pagination.

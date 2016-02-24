@@ -7,7 +7,7 @@ var postsSchema = new Schema({
 	private: {type: 'Boolean', default: false},
 	positiveScale: {type: 'Number', min: 1, max: 10, required: true},
 	user: {type: Schema.Types.ObjectId, ref: 'Users'},
-	tags: [{name: {type: 'String', required: true}}],
+	tags: [{type: 'String'}],
 	datePosted: {type: 'Date', required: true, default: Date.now}
 
 });
