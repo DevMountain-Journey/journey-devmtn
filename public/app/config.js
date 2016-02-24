@@ -1,9 +1,6 @@
 angular.module('journey' )
-<<<<<<< HEAD
-  .constant("pageSize", {DAYS: 7})
-=======
+
   .constant("pageSize", {POSTS: 4, DAYS: 7})
->>>>>>> dev
 
   .config([
     '$stateProvider',
@@ -27,9 +24,9 @@ angular.module('journey' )
            postPromise: function(postService) { // sends back posts
              var today = moment(new Date());
              var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
-             var filter = {datePosted: [fromDate, today]};  
+             var filter = {datePosted: [fromDate, today]};
              console.log('in PostPromise');
-             console.log('filter = ' + filter)
+             console.log('filter = ' + filter);
              return postService.getAllPost(filter);
            },
            postCount: function(postService) {
