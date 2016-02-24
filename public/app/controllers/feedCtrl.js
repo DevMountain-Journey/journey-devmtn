@@ -103,5 +103,12 @@ angular.module('journey')
       };
 
 
+$scope.setScale = function(postContent.positiveScale) {
+    
+}
+
+
+
+
 
     });

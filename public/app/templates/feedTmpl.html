@@ -1,75 +1,72 @@
-<div class="container">
-
   <div class="row">
-
     <div class="col-sm-8 feed">
 
-        <div class="card text-xs-center" ng-repeat="post in posts track by $index">
-          <div class="card-block">
-            <h4 class="card-title">{{post.positiveScale}}</h4>
-            <p class="card-text">{{post.body}}</p>
-            <a href="#" class="btn btn-primary btn-sm" ng-repeat="tag in post.tags">{{tag.name}}</a>
-          </div>
-          <div class="card-footer text-muted">
-            By {{post.user.firstName}} {{post.user.lastName}} on {{post.datePosted | date : 'medium'}} <button ng-click="deletePost(post._id, $index)">Delete</button>
-          </div>
-            
+      <div class="card text-cs-center">
+        <div class="card-header">
+          Herp Derp :)
         </div>
-     
+        <div class="card-block">
+         <a class = "commentLink" href="/#/post/{{post._id}"> comments</a>
+         <div class="test">
+         </div>   
+        </div>
+      </div>
+
     </div>
 
-    <div class="col-sm-3 col-sm-offset-1 sidebar">
+    <div class="col-sm-4 sidebar">
 
       <div class="card card-inverse bg-inverse">
         <div class="card-block">
           <form ng-submit="createPost()">
-          <fieldset class="form-group">
+            <fieldset class="form-group">
               <label for="emotionlevel">Emotion Level</label>
-              <select class="form-control" id="emotionlevel" ng-model="postContent.positiveScale">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-              </select>
+              <!--<select name='menu' class="form-control" id="emotionlevel" ng-model="postContent.positiveScale" >
+            -->
+                <div class="emotions" ng-model="postContent.positiveScale">
+                    <div onClick= "setScale()" class ="emotion">
+                        <img class="emotionImg"src="./assets/img/test.jpg">1</div>
+                     <div class ="emotion">
+                         <img class="emotionImg"src="./assets/img/test.jpg">2</div>
+                      <div class ="emotion">
+                          <img class="emotionImg"src="./assets/img/test.jpg">3</div>
+                       <div class ="emotion">
+                           <img class="emotionImg"src="./assets/img/test.jpg">4</div>
+                        <div class ="emotion">
+                             <img class="emotionImg"src="./assets/img/test.jpg">5</div>
+                         <div class ="emotion">
+                             <img class="emotionImg"src="./assets/img/test.jpg">6</div>
+                          <div class ="emotion"> 
+                              <img class="emotionImg"src="./assets/img/test.jpg">7</div>
+                           <div class ="emotion">
+                                <img class="emotionImg"src="./assets/img/test.jpg">8</div>
+                            <div class ="emotion">
+                                <img class="emotionImg"src="./assets/img/test.jpg">9</div>
+                             <div class ="emotion">
+                                 <img class="emotionImg"src="./assets/img/test.jpg">10</div>
+                    </div>
+              <!--</select>-->
             </fieldset>
 
-          <fieldset class="form-group">
-            <label for="tags">What are you working on?</label>
-            <tags-input ng-model="postContent.tags"
-              display-property="name"
-              placeholder="What are you working on?"
-              replace-spaces-with-dashes="false",
-              maxLength="20",
-              minTags="1",
-              maxTags="5",
-              allowLeftoverText="false",
-              addOnEnter="false",
-              spellcheck="false">
-              <auto-complete source="loadTags($query)" min-length="2", maxResultsToShow="5"></auto-complete>
-            </tags-input>
-          </fieldset>
+            <fieldset class="form-group">
+              <label for="tags">What are you working on?</label>
+              <tags-input ng-model="postContent.tags" display-property="name" placeholder="What are you working on?" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                <auto-complete source="loadTags($query)" min-length="2" maxResultsToShow="5"></auto-complete>
+              </tags-input>
+            </fieldset>
 
-          <fieldset class="form-group">
-            <label for="thoughts">Thoughts</label>
-            <textarea class="form-control" id="thoughts" rows="1" placeholder="Thoughts?" ng-model="postContent.body"></textarea>
-          </fieldset>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            <fieldset class="form-group">
+              <label for="thoughts">Thoughts</label>
+              <textarea class="form-control" id="thoughts" rows="1" placeholder="Thoughts?" ng-model="postContent.body"></textarea>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
-      </div><!--/.input form-->
+      </div>
+      <!--/.input form-->
       <pre>{{postContent}}</pre>
       <pre>{{tags}}</pre>
+      <pre>{{tagsFixed}}</pre>
 
     </div><!--/.sidebar-->
   </div><!--/.row-->
-   <button ng-click="previousPage()"> Previous</button>
-  <button ng-click="nextPage()"> Next</button>
-   
-  
-</div><!--/.container-->
