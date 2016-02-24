@@ -95,4 +95,13 @@ angular.module('journey')
 
         });
     };
+    
+    $scope.setScale = function(num) {
+        $scope.postContent.positiveScale = num; 
+    };    
+    
+    
+    
+    
+    
   });

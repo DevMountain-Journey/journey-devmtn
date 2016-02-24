@@ -41,8 +41,7 @@
           <form ng-submit="createPost()">
             <fieldset class="form-group">
               <label for="emotionlevel">Emotion Level</label>
-              <!--<select class="form-control" id="emotionlevel" ng-model="postContent.positiveScale" >
-            -->
+             
                 <div class="emotions" ng-model="postContent.positiveScale">
                     <div ng-click = "setScale(1)" class ="emotion">
                         <img class="emotionImg"src="./assets/img/test.jpg">1</div>
@@ -65,7 +64,7 @@
                              <div ng-click = "setScale(10)" class ="emotion">
                                  <img class="emotionImg"src="./assets/img/test.jpg">10</div>
                     </div>
-              <!--</select>-->
+
             </fieldset>
 
             <fieldset class="form-group">
