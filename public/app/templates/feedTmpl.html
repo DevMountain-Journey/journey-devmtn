@@ -1,12 +1,29 @@
   <div class="row">
     <div class="col-sm-8 feed">
-
+      <pre>{{fixedPosts}}</pre>
       <div class="card text-cs-center">
         <div class="card-header">
-          Herp Derp :)
+          2,312 Posts
         </div>
         <div class="card-block">
           <!--Start Timeline Chunk Template-->
+          <div class="posts-timeline" ng-repeat="posts in fixedPosts | orderBy : '-date'">
+              <div class="pt-line text-right">
+                  <span class="d-block" am-time-ago="posts.date"></span>
+                  {{posts.date | date:'MM/dd/yyyy'}}
+              </div>
+
+              <div class="pt-body">
+                  <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
+                  <div class="clearfix">
+                      <div class="person" ng-repeat="post in posts.posts">
+                        <img gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
+                      </div>
+                  </div>
+
+              </div><!--/.pt-body-->
+
+          </div><!--/.posts-timeline-->
 
           <!--End Timeline Chunk Template-->
         </div>

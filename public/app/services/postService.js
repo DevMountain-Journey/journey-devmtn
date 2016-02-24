@@ -3,13 +3,12 @@ angular.module('journey')
 
     // GET ALL POSTS
     this.getAllPost = function(days, date) {
-      var fromDate = date ? fromDate = date : fromDate = Date.now();
-      return $http.get('/api/posts?days=' + days + '&fromDate=' + fromDate)
+      var fromDate = date ? date : Date.now();
+      return $http.get('/api/posts')
       .then(function(res){
           console.log(res);
           return res;
       });
-
     };
 
     // GET ONE POST

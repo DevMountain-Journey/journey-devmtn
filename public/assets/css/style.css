@@ -1,111 +1,102 @@
 .navbar {
-    border-radius: 0;
-    margin-bottom: 0;
+  border-radius: 0;
+  margin-bottom: 0;
 }
-
 .navbar-brand img {
-  max-width:200px;
+  max-width: 200px;
 }
-
 .navbar .logout {
-    width: 70px;
-    color: #eee;
-    font-family: Helvetica, sans-serif;
-    font-size: 1.3em;
-    background: inherit;
-    position: absolute;
-    right: 5px;
+  width: 70px;
+  color: #eee;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.3em;
+  background: inherit;
+  position: absolute;
+  right: 5px;
 }
-
 .navbar .logout:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-
-
-
 
 /********************/
+
+
 /** LOGIN / SIGNUP **/
+
+
 /********************/
 
 .login .card-inverse .card-block .form-group label {
   color: #909090;
 }
 
-
 /********************/
+
+
 /** POSTS TIMELINE **/
+
+
 /********************/
 
 .posts-timeline {
   position: relative;
-  padding-left: 80px;
+  padding-left: 120px;
   margin-bottom: 75px;
 }
-
 .posts-timeline .pt-line {
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
   line-height: 14px;
+  font-size: 14px;
 }
-
 .posts-timeline .pt-line:before {
-    width: 1px;
-    height: calc(100% + 63px);
-    background: #E2E2E2;
-    top: 14px;
-    right: -20px;
+  width: 1px;
+  height: calc(100% + 63px);
+  background: #E2E2E2;
+  top: 14px;
+  right: -20px;
 }
-
 .posts-timeline .pt-line:after {
-    top: 2px;
-    right: -26px;
-    width: 13px;
-    height: 13px;
-    border: 1px solid #C1C1C1;
-    border-radius: 50%;
+  top: 2px;
+  right: -26px;
+  width: 13px;
+  height: 13px;
+  border: 1px solid #C1C1C1;
+  border-radius: 50%;
 }
-
-.posts-timeline .pt-line:before,
-.posts-timeline .pt-line:after {
-    content: "";
-    position: absolute;
+.posts-timeline .pt-line:before, .posts-timeline .pt-line:after {
+  content: "";
+  position: absolute;
 }
-
 .posts-timeline .c-gray {
-    color: #9e9e9e !important;
+  color: #9e9e9e !important;
 }
-
 .posts-timeline .d-block {
-    display: block !important;
+  display: block !important;
+  width: 80px;
+  font-size: 12px;
+  margin-bottom: 5px;
 }
-
 .posts-timeline .text-right {
-    text-align: right;
+  text-align: right;
 }
-
 .posts-timeline .pt-body .pt-title {
-    font-size: 15px;
-    font-weight: 400;
-    margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 20px;
 }
-
 .posts-timeline .person {
-    float: left;
-    width: 70px;
-    height: 70px;
-    margin: 0 3px 3px 0;
+  float: left;
+  width: 70px;
+  height: 70px;
+  margin: 0 3px 3px 0;
 }
-
-.posts-timeline .person:before,
-.posts-timeline .person:after,
-.clearfix:before {
-    content: " ";
-    display: table;
+.posts-timeline .person:before, .posts-timeline .person:after, .clearfix:before {
+  content: " ";
+  display: table;
 }
-
 .posts-timeline .person:after {
-    clear: both;
+  clear: both;
 }
