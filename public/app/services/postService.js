@@ -6,7 +6,7 @@ angular.module('journey')
     // test code
       filters = {
           user: ['56cb4697eed2e7e03c406a18','56c9ed011471537425e5a3c2'],
-          positiveScale: [2, 5, 7]
+          positiveScale: [2,5,7,8,10]
       };
       if (filters) {
           var urlQuery = ''
@@ -19,6 +19,7 @@ angular.module('journey')
               url: '/api/posts/filterBy?' + urlQuery
           })
           .then(function(res){
+              console.log('in getAllPosts')
               console.log(res);
               return res;        
           });
