@@ -34,7 +34,7 @@ module.exports = {
        console.log('req.query after processing', req.query);
        postsModel
        .find(req.query)
-       .populate('user', 'firstName lastName')
+       .populate('user', 'firstName lastName email')
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {
              console.log('err', err);
@@ -55,7 +55,7 @@ module.exports = {
         console.log('req.query', req.query);
         postsModel
         .find(req.query)
-        .populate('user', 'firstName lastName')
+        .populate('user', 'firstName lastName email')
         .sort({datePosted: 'desc'})
         .exec(function(err, result) {
              console.log('err', err);
