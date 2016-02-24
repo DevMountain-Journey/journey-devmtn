@@ -21,7 +21,7 @@ angular.module('journey' )
         controller: 'feedCtrl',
         resolve: {
            postPromise: function(postService) { // sends back posts
-             return postService.getAllPost(pageSize.DAYS, 1);
+             return postService.getAllPost(pageSize.DAYS);
            },
            postCount: function(postService) {
                return postService.getCount();

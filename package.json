@@ -23,6 +23,7 @@
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
+    "moment": "^2.11.2",
     "mongoose": "^4.4.4",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0"

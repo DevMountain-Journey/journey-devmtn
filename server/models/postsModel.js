@@ -7,7 +7,7 @@ var postsSchema = new Schema({
 	positiveScale: {type: 'Number', min: 1, max: 10, required: true},
 	user: {type: Schema.Types.ObjectId, ref: 'Users'},
 	tags: [{type: 'String'}],
-	datePosted: {type: 'Date', required: true, default: Date.now}
+	datePosted: {type: 'Date', default: Date.now}
 });
 
 module.exports =  mongoose.model('Posts', postsSchema);
