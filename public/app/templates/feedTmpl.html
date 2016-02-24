@@ -44,7 +44,7 @@
              
                 <div class="emotions" ng-model="postContent.positiveScale">
                     <div ng-repeat="i in repeatEmotions() track by $index" ng-click = "setScale($index)" ng-class="{'toggled':postContent.positiveScale == $index + 1}" class ="emotion">
-                        <img class="emotionImg"src="./assets/img/test.jpg">{{i}}</div>
+                        <img class="emotionImg"src="./assets/img/test.jpg">{{$index + 1}}</div>
        
                     </div>
 
