@@ -1,4 +1,5 @@
 var postsModel = require('./../models/postsModel.js');
+var moment = require('moment');
 
 module.exports = {
 
@@ -17,48 +18,57 @@ module.exports = {
         });
     },
 
-    read: function(req, res) {
+   filter: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in read');
+       console.log('req.query before processing', req.query);
+       for (var item in req.query) {
+            req.query[item] = req.query[item].slice(1, req.query[item].length -1);
+            req.query[item] = req.query[item].split(',');
+            if (item !== 'datePosted') {
+                req.query[item] = {$in: req.query[item]};
+            }
+            else // datePosted
+                req.query[item] = {"$gte": moment(new Date(req.query[item][0])), "$lt": moment(new Date(req.query[item][1])).add(1, 'days')};
+       }
+       console.log('req.query after processing', req.query);
+       postsModel
+       .find(req.query)
+       .populate('user', 'firstName lastName')
+       .sort({datePosted: 'desc'})
+       .exec(function(err, result) {
+             console.log('err', err);
+             console.log('result', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.send(result);
+             }
+       });
+   },
+
+   read: function(req, res) {
         console.log('in postsCtrl');
         console.log('in read');
         console.log('req.query', req.query);
-        if (req.query.pagesize && req.query.pagenumber) {
-            postsModel
-            .find(req.query.filters)
-            .populate('user', 'firstName lastName')
-            //.select('-__v -password')
-            .limit(req.query.pagesize)
-            .skip(req.query.pagesize * (req.query.pagenumber - 1))
-            .sort({datePosted: 'desc'})
-            .exec(function(err, result) {
-                 console.log('err', err);
-                 console.log('result', result);
-                 if (err) {
-                     console.log('in error routine');
-                     return res.status(500).send(err);
-                 }
-                 else {
-                     res.send(result);
-                 }
-            });
-        }
-        else {
-            postsModel
-            .find({})
-            .populate('user', 'firstName lastName')             
-            .exec(function(err, result) {
-                 console.log('err', err);
-                 console.log('result', result);
-                 if (err) {
-                     console.log('in error routine');
-                     return res.status(500).send(err);
-                 }
-                 else {
-                     res.send(result);
-                 }
-            });
-        }
-
-    },
+        postsModel
+        .find(req.query)
+        .populate('user', 'firstName lastName')
+        .sort({datePosted: 'desc'})
+        .exec(function(err, result) {
+             console.log('err', err);
+             console.log('result', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.send(result);
+             }
+        });
+      },
 
     readOne: function(req, res) {
         console.log('in postsCtrl');
@@ -79,7 +89,7 @@ module.exports = {
              }
         });
     },
-    
+
     postCount: function(req, res) {
         console.log('in postsCtrl');
         console.log('in count');

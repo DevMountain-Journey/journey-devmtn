@@ -1,6 +1,8 @@
 angular.module('journey', [
     'ui.router',
-    'ngTagsInput'
+    'ngTagsInput',
+    'ui.gravatar',
+    'angularMoment'
   ])
 
   .run(function($rootScope, $state, $stateParams) {
