@@ -82,34 +82,16 @@ angular.module('journey')
         });
     };
 
-    $scope.nextPage = function() {
-      $scope.currentPage++;
-      if (pageSize.POSTS)
-        $scope.maxPages = Math.ceil($scope.totalPosts / pageSize.POSTS);
-      if ($scope.currentPage > $scope.maxPages) {
-        $scope.currentPage = $scope.maxPages;
-      } else {
-        postService.getAllPost(pageSize.POSTS, $scope.currentPage)
-          .then(function(response) {
-            console.log(response);
-            $scope.posts = response.data;
-          });
-      }
+    $scope.filters = function(type, value) {
+      $scope.filters = query;
+      postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filterType, $scope.filterValue)
+        .then(function(response) {
+          console.log('in $scope.filters');
+          console.log(response);
+          $scope.posts = response.data;
+        }, function(err) {
+          errService.error(err);
+
+        });
     };
-
-    $scope.previousPage = function() {
-      $scope.currentPage--;
-      if ($scope.currentPage <= 0) {
-        $scope.currentPage = 1;
-      } else {
-        postService.getAllPost(pageSize.POSTS, $scope.currentPage)
-          .then(function(response) {
-            console.log(response);
-            $scope.posts = response.data;
-          });
-      }
-    };
-
-
-
   });
