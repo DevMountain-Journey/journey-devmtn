@@ -2,12 +2,14 @@ angular.module('journey')
   .service('postService', function($http, $state) {
 
     // GET ALL POSTS
-    this.getAllPost = function(pageSize, pageNumber, filters) {
-    // test code
+    this.getAllPost = function(filters) {
+    /* Example filters
       filters = {
-          user: ['56cb4697eed2e7e03c406a18','56c9ed011471537425e5a3c2'],
-          positiveScale: [2,5,7,8,10]
-      };
+          tags: ['jquery', 'angular'] // any one of these tags. Always lowercase.
+          user: ['56cb4697eed2e7e03c406a18','56c9ed011471537425e5a3c2'],  // any of these users
+          positiveScale: [2,5,7,8,10], // any of these numbers
+          datePosted: ['2016-2-22', '2016-2-23']  // all dates falling on 2016-2-22 or 2016-2-23.
+      }; */
       if (filters) {
           var urlQuery = ''
           for (var type in filters){
@@ -25,7 +27,7 @@ angular.module('journey')
           });
       }
       else {
-          return $http.get('/api/posts?pagesize=' + pageSize + '&pagenumber=' + pageNumber)
+          return $http.get('/api/posts')
           .then(function(res){
               console.log(res);
               return res;        

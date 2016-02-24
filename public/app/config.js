@@ -1,5 +1,5 @@
 angular.module('journey' )
-  .constant("pageSize", {POSTS: 4})
+  .constant("pageSize", {POSTS: 4, DAYS: 7})
 
   .config([
     '$stateProvider',
@@ -21,11 +21,16 @@ angular.module('journey' )
         controller: 'feedCtrl',
         resolve: {
            postPromise: function(postService) { // sends back posts
-             return postService.getAllPost(pageSize.POSTS, 1);
+             var today = moment(new Date());
+             var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
+             var filter = {datePosted: [fromDate, today]};  
+             console.log('in PostPromise');
+             console.log('filter = ' + filter)
+             return postService.getAllPost(filter);
            },
            postCount: function(postService) {
                return postService.getCount();
-           },
+           }, 
            auth: function(authService) {  // sends back who's logged in
              return authService.checkForAuth();
            }
