@@ -6,9 +6,7 @@
           Herp Derp :)
         </div>
         <div class="card-block">
-         <a class = "commentLink" href="/#/post/{{post._id}"> comments</a>
-         <div class="test">
-         </div>   
+        
         </div>
       </div>
 
@@ -21,28 +19,28 @@
           <form ng-submit="createPost()">
             <fieldset class="form-group">
               <label for="emotionlevel">Emotion Level</label>
-              <!--<select name='menu' class="form-control" id="emotionlevel" ng-model="postContent.positiveScale" >
+              <!--<select class="form-control" id="emotionlevel" ng-model="postContent.positiveScale" >
             -->
                 <div class="emotions" ng-model="postContent.positiveScale">
-                    <div onClick= "setScale()" class ="emotion">
+                    <div ng-click = "setScale(1)" class ="emotion">
                         <img class="emotionImg"src="./assets/img/test.jpg">1</div>
-                     <div class ="emotion">
-                         <img class="emotionImg"src="./assets/img/test.jpg">2</div>
-                      <div class ="emotion">
+                     <div ng-click = "setScale(2)" class ="emotion">
+                         <img  class="emotionImg"src="./assets/img/test.jpg">2</div>
+                      <div ng-click = "setScale(3)" class ="emotion">
                           <img class="emotionImg"src="./assets/img/test.jpg">3</div>
-                       <div class ="emotion">
+                       <div ng-click = "setScale(4)" class ="emotion">
                            <img class="emotionImg"src="./assets/img/test.jpg">4</div>
-                        <div class ="emotion">
+                        <div ng-click = "setScale(5)" class ="emotion">
                              <img class="emotionImg"src="./assets/img/test.jpg">5</div>
-                         <div class ="emotion">
+                         <div ng-click = "setScale(6)" class ="emotion">
                              <img class="emotionImg"src="./assets/img/test.jpg">6</div>
-                          <div class ="emotion"> 
+                          <div ng-click = "setScale(7)" class ="emotion"> 
                               <img class="emotionImg"src="./assets/img/test.jpg">7</div>
-                           <div class ="emotion">
+                           <div ng-click = "setScale(8)" class ="emotion">
                                 <img class="emotionImg"src="./assets/img/test.jpg">8</div>
-                            <div class ="emotion">
+                            <div ng-click = "setScale(9)" class ="emotion">
                                 <img class="emotionImg"src="./assets/img/test.jpg">9</div>
-                             <div class ="emotion">
+                             <div ng-click = "setScale(10)" class ="emotion">
                                  <img class="emotionImg"src="./assets/img/test.jpg">10</div>
                     </div>
               <!--</select>-->
