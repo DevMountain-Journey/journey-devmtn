@@ -3,12 +3,17 @@ angular.module('journey')
 
     // GET ALL POSTS
     this.getAllPost = function(pageSize, pageNumber, filters) {
+    // test code
+      filters = {
+          user: ['56cb4697eed2e7e03c406a18','56c9ed011471537425e5a3c2'],
+          positiveScale: [2, 5, 7]
+      };
       if (filters) {
           var urlQuery = ''
           for (var type in filters){
-              urlQuery += '&'type +'=['+ filters[type]+']'
+              urlQuery += '&' + type + '=['+ filters[type]+']';
           }
-          console.log(urlQuery)
+          console.log('urlQuery', urlQuery);
           return $http({
               method: 'GET',
               url: '/api/posts/filterBy?' + urlQuery

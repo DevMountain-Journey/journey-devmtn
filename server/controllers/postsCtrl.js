@@ -34,6 +34,7 @@ module.exports = {
         console.log('req.query after processing', req.query);
         postsModel
         .find(req.query)
+        // .find({ user: { '$in': ['56cb4697eed2e7e03c406a18', '56c9ed011471537425e5a3c2'] } })
         .populate('user', 'firstName lastName')
         //.select('-__v -password')
         .sort({datePosted: 'desc'})
