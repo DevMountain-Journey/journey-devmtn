@@ -2,7 +2,7 @@ angular.module('journey')
 
 .controller('feedCtrl',
   function($scope, $http, errService, postPromise, postService, auth, postCount, pageSize) {
-
+      $scope.postContent = {};
     $scope.posts = postPromise.data;
     $scope.totalPosts = postCount.data;
     $scope.currentPage = 1;
@@ -97,9 +97,19 @@ angular.module('journey')
     };
     
     $scope.setScale = function(num) {
-        $scope.postContent.positiveScale = num; 
+        if ($scope.postContent.positiveScale === num + 1){
+            $scope.postContent.positiveScale = null; 
+        }
+        else {
+            $scope.postContent.positiveScale = num + 1;
+            
+        }
     };    
     
+    
+    $scope.repeatEmotions = function() {
+        return new Array(10);
+    };
     
     
     
