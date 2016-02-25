@@ -26,7 +26,7 @@ angular.module('journey' )
              var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
              var filter = {datePosted: [fromDate, today]};
              console.log('in PostPromise');
-             console.log('filter = ' + filter);
+             console.log('filter = ', filter);
              return postService.getAllPost(filter);
            },
            postCount: function(postService) {
@@ -41,7 +41,7 @@ angular.module('journey' )
       .state('feed.post', {
         url: '/post/:id',
         templateUrl: './app/templates/postDetailTmpl.html'
-         
+
       })
 
       .state('post.add', {

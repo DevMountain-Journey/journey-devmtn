@@ -7,12 +7,12 @@
         </div>
         <div class="card-block">
 
-          <div class="posts-timeline" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
+          <div class="posts-timeline" ng-repeat="all in fixedPosts track by $index | orderBy : '-date'">
               <div class="pt-line text-right">
                   <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
                   <span class="d-block">
                     <span ng-if="isToday(posts.date)">Today</span>
-                    <span ng-if="!isToday(posts.date)" am-time-ago="posts.date"></span>
+                    <span ng-if="!isToday(posts.date)">{{posts.date | amUtc | amLocal | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</span>
                   </span>
                   <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
               </div>

@@ -21,8 +21,7 @@ angular.module('journey')
               url: '/api/posts/filterBy?' + urlQuery
           })
           .then(function(res){
-              console.log('in getAllPosts');
-              console.log(res);
+              console.log('in getAllPosts -- POSTS', res);
               return res;
           });
       }
@@ -78,7 +77,6 @@ angular.module('journey')
     this.getCount = function() {
         return $http.get('/api/count/posts')
         .then(function(res){
-          console.log(res);
           return res;
       });
 

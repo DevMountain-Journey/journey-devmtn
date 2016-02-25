@@ -4,24 +4,26 @@ angular.module('journey')
   function($scope, $http, errService, postPromise, postService, auth, postCount, pageSize) {
     $scope.postContent = {};
     $scope.totalPosts = postCount.data;
-    $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
 
-    (function() {
+    function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
+      $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
+
       //Take the resolve post data and use lodash to group by and convert dates to local time (from UTC).
-      var groupedPosts = _.groupBy(postPromise.data, function(post) {
+      var groupedPosts = _.groupBy(data, function(post) {
         post.datePosted = moment(post.datePosted).local().format("YYYY-MM-DDTHH:mm:ss");
         return post.datePosted.substring(0, 10);
       });
-
-      //Restructure the posts object to create an array of objects with the format we need in order to loop over the array with ng-repeat.
       for (var date in groupedPosts) {
         $scope.fixedPosts.push({
           date: date,
           posts: groupedPosts[date]
         });
       }
-    })();
+    }//end function formatPosts
 
+    formatPosts(postPromise.data);
+
+    //TODO: Move the get request to the service.
     $scope.loadTags = function($query) {
       return $http.get('tags.json', {
         cache: true
@@ -41,15 +43,17 @@ angular.module('journey')
           if (response.status === 200) {
             $scope.postContent = {};
             $scope.totalPosts++;
-            var newPost = response.data;
-            newPost.user = {
-              _id: auth.data._id,
-              firstName: auth.data.firstName,
-              lastName: auth.data.lastName,
-              email: auth.data.email
-            };
-            //TODO: Below doesnt work always because if there are no posts for that day then it adds it to the previous day (whatever is on top of the array).
-            $scope.fixedPosts[0].posts.unshift(newPost);
+            var post = response.data;
+            var postDate = moment(post.datePosted).local().format('YYYY-MM-DD');
+            var today = moment().local().format('YYYY-MM-DD');
+            if(postDate == today){ //If the postdate is the same as today
+              $scope.fixedPosts[0].posts.unshift(post); //then just unshift (push to top) the post to the top of the first item in the fixedPost array
+            } else {
+              $scope.fixedPosts.unshift({ //Otherwise unshift a new item into fixedPosts with todays date and an array with the new post in it.
+                date: today,
+                posts: [post]
+              });
+            }
           } else {
             errService.error(response);
           }
@@ -110,7 +114,6 @@ angular.module('journey')
       }
     };
 
-
     $scope.repeatEmotions = function() {
       return new Array(10);
     };
@@ -118,8 +121,5 @@ angular.module('journey')
     $scope.isToday = function(date) {
       return moment(moment(date).format('YYYY-MM-DD')).isSame(moment().local().format('YYYY-MM-DD'));
     };
-
-
-
 
   });

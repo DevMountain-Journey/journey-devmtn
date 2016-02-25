@@ -4,17 +4,12 @@ var moment = require('moment');
 module.exports = {
 
     create: function(req, res) {
-
-        console.log('in postsCtrl');
-        console.log('in create');
-        console.log('req.body = ', req.body);
-
-        var newPosts = new postsModel(req.body);
-        newPosts.save(function(err, result) {
-            if (err)
-                return res.status(500).send(err);
-            else
-                res.send(result);
+        var newPost = new postsModel(req.body);
+        newPost.save(function(err) {
+            postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
+              if(err) return res.status(500).send(err);
+              res.send(post);
+            });
         });
     },
 
