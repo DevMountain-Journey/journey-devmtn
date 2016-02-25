@@ -1,11 +1,12 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postPromise, postService, auth, postCount, pageSize) {
-      $scope.postContent = {};
+  function($scope, $http, errService, postPromise, postService, auth, pageSize) {
+    $scope.postContent = {};
     $scope.posts = postPromise.data;
-    $scope.totalPosts = postCount.data;
+    // $scope.totalPosts = postCount.data;
     $scope.currentPage = 1;
+    $scope.query = {};
 
     var groupedPosts = _.groupBy($scope.posts, function(post) {
       return post.datePosted.substring(0, 10);
@@ -36,14 +37,16 @@ angular.module('journey')
       $scope.postContent.user = auth.data._id;
       $scope.postContent.tags = _.map($scope.postContent.tags, 'name');
       postService.createPost($scope.postContent)
-        .then(function(response) {
+      .then(function(response) {
           $scope.postContent = {};
           console.log('In createPost');
           console.log(response);
           $scope.currentPage = 1;
           $scope.totalPosts++;
-          postService.getAllPost(pageSize.POSTS, $scope.currentPage)
-            .then(function(response) {
+          var filter = postService.pageOneDateFilter();
+          console.log('filter = ' + filter);
+          postService.getAllPost(filter)
+          .then(function(response) {
               console.log('in getAllPosts');
               console.log(response);
               $scope.posts = response.data;
@@ -83,7 +86,7 @@ angular.module('journey')
         });
     };
 
-    $scope.filters = function(type, value) {
+    /* $scope.filters = function(type, value) {
       $scope.filters = query;
       postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filterType, $scope.filterValue)
         .then(function(response) {
@@ -94,7 +97,7 @@ angular.module('journey')
           errService.error(err);
 
         });
-    };
+    }; */
     
     $scope.setScale = function(num) {
         if ($scope.postContent.positiveScale === num + 1){
@@ -111,7 +114,16 @@ angular.module('journey')
         return new Array(10);
     };
     
-    
+    $scope.createQuery = function() {
+        var filters = {};
+        for (var p in $scope.query) {
+            filters[p] = $scope.query[p];
+            filters[p].split(',');
+        }
+        console.log('in createQuery')
+        console.log('filters = ', filters);
+        
+    };
     
     
   });

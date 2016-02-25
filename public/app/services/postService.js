@@ -1,5 +1,5 @@
 angular.module('journey')
-  .service('postService', function($http, $state) {
+  .service('postService', function($http, pageSize) {
 
     // GET ALL POSTS
     this.getAllPost = function(filters) {
@@ -20,30 +20,15 @@ angular.module('journey')
               method: 'GET',
               url: '/api/posts/filterBy?' + urlQuery
           })
-          .then(function(res){
-              console.log('in getAllPosts');
-              console.log(res);
-              return res;
-          });
       }
       else {
           return $http.get('/api/posts')
-          .then(function(res){
-              console.log(res);
-              return res;
-          });
       }
     };
 
     // GET ONE POST
     this.getOnePost = function(id) {
       return $http.get('/api/posts/' + id)
-        .then(function(response) {
-            return response.data;
-          },
-          function(error) {
-            return error;
-          });
     };
 
 
@@ -54,21 +39,12 @@ angular.module('journey')
             url:  '/api/posts/',
             data: post
           })
-          .then(function(response){
-              return response;
-          });
       };
 
 
     // UPDATE POST
     this.updatePost = function(post) {
       return $http.put('/api/posts/' + post._id)
-        .then(function(response) {
-            return response;
-          },
-          function(error) {
-            return error;
-          });
     };
 
     this.deletePost = function(id) {
@@ -77,13 +53,12 @@ angular.module('journey')
 
     this.getCount = function() {
         return $http.get('/api/count/posts')
-        .then(function(res){
-          console.log(res);
-          return res;
-      });
-
     };
 
-
+    this.pageOneDateFilter = function() {
+        var today = new Date();
+        var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
+        return {datePosted: [fromDate, today]};
+    }
 
   });

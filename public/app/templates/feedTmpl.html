@@ -65,10 +65,26 @@
           </form>
         </div>
       </div>
-      <!--/.input form-->
-      <pre>{{postContent}}</pre>
+     
+      <!--<pre>{{postContent}}</pre>
       <pre>{{tags}}</pre>
-      <pre>{{tagsFixed}}</pre>
+      <pre>{{tagsFixed}}</pre>-->
+        
+      
+        <div class="card card-inverse bg-inverse">
+            <div class="card-block">
+                <h3>Search</h3>
+                <form ng-submit="createQuery()">
+                    <fieldset class="form-group">
+                        <label for="searchTags">Tags</label>
+                        <input id="searchTags" class="form-control" ng-model="query.tags" display-property="name" placeholder="Tags (comma separated)">
+                        </input>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
 
     </div><!--/.sidebar-->
   </div><!--/.row-->
