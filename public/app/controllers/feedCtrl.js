@@ -48,6 +48,8 @@ angular.module('journey')
             };
             //TODO: Below doesnt work always because if there are no posts for that day then it adds it to the previous day (whatever is on top of the array).
             $scope.fixedPosts[0].posts.unshift(newPost);
+          } else {
+            errService.error(response);
           }
           // postService.getAllPost(pageSize.POSTS, $scope.currentPage)
           //   .then(function(response) {
