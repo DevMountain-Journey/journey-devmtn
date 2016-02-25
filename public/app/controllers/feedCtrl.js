@@ -1,24 +1,42 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postPromise, postService, auth, pageSize) {
+  function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
     $scope.postContent = {};
+    console.log('in feedCtrl');
+    console.log('postPromise = ', postPromise);
     $scope.posts = postPromise.data;
     // $scope.totalPosts = postCount.data;
     $scope.currentPage = 1;
     $scope.query = {};
+    
+    $scope.gotoTop = function() {
+        // set the location.hash to the id of
+        // the element you wish to scroll to.
+        $location.hash('top');  // top of body
 
-    var groupedPosts = _.groupBy($scope.posts, function(post) {
-      return post.datePosted.substring(0, 10);
-    });
+        // call $anchorScroll()
+        $anchorScroll();
+    };
+       
+    
+    $scope.loadPage = function() {
 
-    $scope.fixedPosts = [];
+        var groupedPosts = _.groupBy($scope.posts, function(post) {
+          return post.datePosted.substring(0, 10);
+        });
 
-    for (var date in groupedPosts) {
-      var obj = {};
-      obj.date = date;
-      obj.posts = groupedPosts[date];
-      $scope.fixedPosts.push(obj);
+        $scope.fixedPosts = [];
+
+        for (var date in groupedPosts) {
+          var obj = {};
+          obj.date = date;
+          obj.posts = groupedPosts[date];
+          $scope.fixedPosts.push(obj);
+        }
+        
+        $scope.gotoTop();
+        
     }
 
 
@@ -45,11 +63,12 @@ angular.module('journey')
           $scope.totalPosts++;
           var filter = postService.pageOneDateFilter();
           console.log('filter = ' + filter);
-          postService.getAllPost(filter)
+          postService.getAllPosts(filter)
           .then(function(response) {
               console.log('in getAllPosts');
               console.log(response);
               $scope.posts = response.data;
+              $scope.loadPage();
             });
         }, function(err) {
           errService.error(err);
@@ -86,18 +105,6 @@ angular.module('journey')
         });
     };
 
-    /* $scope.filters = function(type, value) {
-      $scope.filters = query;
-      postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filterType, $scope.filterValue)
-        .then(function(response) {
-          console.log('in $scope.filters');
-          console.log(response);
-          $scope.posts = response.data;
-        }, function(err) {
-          errService.error(err);
-
-        });
-    }; */
     
     $scope.setScale = function(num) {
         if ($scope.postContent.positiveScale === num + 1){
@@ -115,15 +122,61 @@ angular.module('journey')
     };
     
     $scope.createQuery = function() {
+          
         var filters = {};
-        for (var p in $scope.query) {
-            filters[p] = $scope.query[p];
-            filters[p].split(',');
+                   
+        if ($scope.query.name) {
+            filters.user = [];
+            userService.getSearchUsers($scope.query.name)
+            .then(function(response) {
+                console.log('getSearchUsers response = ', response);
+                filters.user = response.data;
+                completeQuery();
+            }, function(err) {
+                console.error(err);
+            })
+        } 
+        else {
+            completeQuery();
         }
-        console.log('in createQuery')
-        console.log('filters = ', filters);
+        
+      
+            
+        function completeQuery() {
+            
+            if ($scope.query.tag) {
+                filters.tags = [];
+                filters.tags[0] = $scope.query.tag;
+            }
+           
+            if ($scope.query.lowEmotion && $scope.query.highEmotion) {
+                if ($scope.query.lowEmotion <= $scope.query.highEmotion) {
+                    filters.positiveScale = [];
+                    for (var i = $scope.query.lowEmotion; i <= $scope.query.highEmotion; i++) {
+                                filters.positiveScale.push(i);
+                    }
+                }
+                else {
+                     var err = {data: 'Low Emotion Level cannot be greater than High Emotion Level'}
+                     errService.error(err);
+                }
+            }
+            console.log('in createQuery before calling getAllPosts')
+            console.log('filters = ', filters);
+
+            postService.getAllPosts(filters)
+            .then(function(response) {
+                console.log('getAllPosts response = ', response);
+                $scope.posts = response.data;
+                $scope.loadPage();
+            }, function(err) {
+                errService.error(err);
+            })
+            
+        }
         
     };
     
+    $scope.loadPage();
     
   });

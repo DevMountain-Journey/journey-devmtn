@@ -24,10 +24,12 @@ angular.module('journey' )
             postPromise: function(postService, errService) { // sends back posts
                 var filter = postService.pageOneDateFilter();
                 console.log('in PostPromise');
-                console.log('filter = ' + filter);
-                return postService.getAllPost(filter)
+                console.log('filter = ', filter);
+                return postService.getAllPosts(filter)
                 .then(function( response ) {
-                    return response.data;
+                    console.log('in PostPromise response');
+                    console.log('response = ', response);
+                    return response;
                 }, function(err) {
                     console.error(err);
                 });

@@ -126,4 +126,13 @@
 .posts-timeline .person:after {
   clear: both;
 }
->>>>>>> dev
+
+#searchTagName {
+    margin-bottom: 30px;
+}
+
+#searchLowEmotion, #searchHighEmotion {
+    width: 70px;
+    margin-bottom: 20px;
+}
+

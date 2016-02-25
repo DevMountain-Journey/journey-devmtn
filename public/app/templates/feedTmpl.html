@@ -76,8 +76,17 @@
                 <h3>Search</h3>
                 <form ng-submit="createQuery()">
                     <fieldset class="form-group">
-                        <label for="searchTags">Tags</label>
-                        <input id="searchTags" class="form-control" ng-model="query.tags" display-property="name" placeholder="Tags (comma separated)">
+                        <label for="searchTagName">Person's Name</label>
+                        <input id="searchTagName" class="form-control" ng-model="query.name" type="text">
+                        </input>
+                        <label for="searchTagName">What They're Working On</label>
+                        <input id="searchTagName" class="form-control" ng-model="query.tag" type="text">
+                        </input>
+                        <label for="searchLowEmotion">Low Emotion Level</label>
+                        <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
+                        </input>
+                        <label for="searchHighEmotion">High Emotion Level</label>
+                        <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
                         </input>
                     </fieldset>
 

@@ -2,7 +2,7 @@ angular.module('journey')
   .service('postService', function($http, pageSize) {
 
     // GET ALL POSTS
-    this.getAllPost = function(filters) {
+    this.getAllPosts = function(filters) {
     /* Example filters
       filters = {
           tags: ['jquery', 'angular'] // any one of these tags. Always lowercase.
