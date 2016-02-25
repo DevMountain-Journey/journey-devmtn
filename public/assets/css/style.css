@@ -1,36 +1,48 @@
 .navbar {
   border-radius: 0;
   margin-bottom: 0;
+  position: relative;
+  z-index: 100;
+  background: #111111;
+  border-bottom:1px solid #000;
 }
 .navbar-brand img {
   max-width: 200px;
 }
 .navbar .logout {
-  width: 70px;
-  color: #eee;
-  font-family: Helvetica, sans-serif;
-  font-size: 1.3em;
-  background: inherit;
+  color: #EAEAEA;
   position: absolute;
-  right: 5px;
+  right: 20px;
+  top:20px;
 }
 .navbar .logout:hover {
   cursor: pointer;
 }
 
+.sidebar {
+  height: 100%;
+  width:350px;
+  background: #191919;
+  /*background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/crissXcross.png') repeat;*/
+  position: fixed;
+  right: 0;
+  color: #AFAFAF;
+  box-shadow: 0 0  10px #000;
+}
+
+.sidebar .scroll-body{
+  padding:20px;
+}
+
 /********************/
-
-
 /** LOGIN / SIGNUP **/
-
-
 /********************/
 
 .login .card-inverse .card-block .form-group label {
   color: #909090;
 }
 
-  
+
   /** Emotion Bar **/
  .emotions {
      height:40px;
@@ -38,32 +50,32 @@
      background-color:#373a3c;
      display:flex;
      justify-content: space-between;
-     text-align: center;   
+     text-align: center;
      margin-bottom:3%;
- } 
- 
+ }
+
  .emotion{
      width:9.5%;
      height:100%;
-     background-color:black;         
+     background-color:black;
  }
- 
+
  .emotionImg {
      height:100%;
      width:95%;
  }
- 
+
 .toggled {
     border: 1px solid red;
 }
+
 /********************/
-
-
 /** POSTS TIMELINE **/
-
-
 /********************/
-
+.feed{
+  width:calc(100vw - 350px);
+  float: left;
+}
 .posts-timeline {
   position: relative;
   padding-left: 120px;
@@ -126,4 +138,3 @@
 .posts-timeline .person:after {
   clear: both;
 }
->>>>>>> dev

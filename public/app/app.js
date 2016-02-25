@@ -2,7 +2,8 @@ angular.module('journey', [
     'ui.router',
     'ngTagsInput',
     'ui.gravatar',
-    'angularMoment'
+    'angularMoment',
+    'ui.slimscroll'
   ])
 
   .run(function($rootScope, $state, $stateParams) {

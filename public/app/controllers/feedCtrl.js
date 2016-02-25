@@ -2,10 +2,9 @@ angular.module('journey')
 
 .controller('feedCtrl',
   function($scope, $http, errService, postPromise, postService, auth, postCount, pageSize) {
-      $scope.postContent = {};
+    $scope.postContent = {};
     $scope.posts = postPromise.data;
     $scope.totalPosts = postCount.data;
-    $scope.currentPage = 1;
 
     var groupedPosts = _.groupBy($scope.posts, function(post) {
       return post.datePosted.substring(0, 10);
@@ -37,17 +36,25 @@ angular.module('journey')
       $scope.postContent.tags = _.map($scope.postContent.tags, 'name');
       postService.createPost($scope.postContent)
         .then(function(response) {
-          $scope.postContent = {};
-          console.log('In createPost');
-          console.log(response);
-          $scope.currentPage = 1;
-          $scope.totalPosts++;
-          postService.getAllPost(pageSize.POSTS, $scope.currentPage)
-            .then(function(response) {
-              console.log('in getAllPosts');
-              console.log(response);
-              $scope.posts = response.data;
-            });
+          if(response.status === 200){
+            $scope.postContent = {};
+            $scope.totalPosts++;
+            var newPost = response.data;
+            newPost.user = {
+              _id : auth.data._id,
+              firstName : auth.data.firstName,
+              lastName : auth.data.lastName,
+              email : auth.data.email
+            };
+            //TODO: Below doesnt work always because if there are no posts for that day then it adds it to the previous day (whatever is on top of the array).
+            $scope.fixedPosts[0].posts.unshift(newPost);
+          }
+          // postService.getAllPost(pageSize.POSTS, $scope.currentPage)
+          //   .then(function(response) {
+          //     console.log('in getAllPosts');
+          //     console.log(response);
+          //     $scope.posts = response.data;
+          //   });
         }, function(err) {
           errService.error(err);
         });
@@ -95,23 +102,23 @@ angular.module('journey')
 
         });
     };
-    
+
     $scope.setScale = function(num) {
         if ($scope.postContent.positiveScale === num + 1){
-            $scope.postContent.positiveScale = null; 
+            $scope.postContent.positiveScale = null;
         }
         else {
             $scope.postContent.positiveScale = num + 1;
-            
+
         }
-    };    
-    
-    
+    };
+
+
     $scope.repeatEmotions = function() {
         return new Array(10);
     };
-    
-    
-    
-    
+
+
+
+
   });
