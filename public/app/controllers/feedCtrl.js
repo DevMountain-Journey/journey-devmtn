@@ -1,9 +1,10 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postPromise, postService, auth, postCount, pageSize) {
+  function($scope, $http, errService, postCount, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
     $scope.postContent = {};
     $scope.totalPosts = postCount.data;
+    $scope.query = {};
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
@@ -19,9 +20,16 @@ angular.module('journey')
           posts: groupedPosts[date]
         });
       }
+      // $scope.gotoTop();
     }//end function formatPosts
 
-    formatPosts(postPromise.data);
+    // $scope.gotoTop = function() {
+    //     // set the location.hash to the id of
+    //     // the element you wish to scroll to.
+    //     $location.hash('top');  // top of body
+    //     // call $anchorScroll()
+    //     $anchorScroll();
+    // };
 
     //TODO: Move the get request to the service.
     $scope.loadTags = function($query) {
@@ -46,6 +54,7 @@ angular.module('journey')
             var post = response.data;
             var postDate = moment(post.datePosted).local().format('YYYY-MM-DD');
             var today = moment().local().format('YYYY-MM-DD');
+            // FIXME: This IF statement logic is retarded and doesn't work. fix it.
             if(postDate == today){ //If the postdate is the same as today
               $scope.fixedPosts[0].posts.unshift(post); //then just unshift (push to top) the post to the top of the first item in the fixedPost array
             } else {
@@ -92,19 +101,6 @@ angular.module('journey')
         });
     };
 
-    $scope.filters = function(type, value) {
-      $scope.filters = query;
-      postService.getAllPost(pageSize.POSTS, $scope.currentPage, $scope.filterType, $scope.filterValue)
-        .then(function(response) {
-          console.log('in $scope.filters');
-          console.log(response);
-          $scope.posts = response.data;
-        }, function(err) {
-          errService.error(err);
-
-        });
-    };
-
     $scope.setScale = function(num) {
       if ($scope.postContent.positiveScale === num + 1) {
         $scope.postContent.positiveScale = null;
@@ -121,5 +117,63 @@ angular.module('journey')
     $scope.isToday = function(date) {
       return moment(moment(date).format('YYYY-MM-DD')).isSame(moment().local().format('YYYY-MM-DD'));
     };
+
+    $scope.createQuery = function() {
+
+        var filters = {};
+
+        if ($scope.query.name) {
+            filters.user = [];
+            userService.getSearchUsers($scope.query.name)
+            .then(function(response) {
+                console.log('getSearchUsers response = ', response);
+                filters.user = response.data;
+                completeQuery();
+            }, function(err) {
+                console.error(err);
+            });
+        }
+        else {
+            completeQuery();
+        }
+
+
+
+        function completeQuery() {
+
+            if ($scope.query.tag) {
+                filters.tags = [];
+                filters.tags[0] = $scope.query.tag;
+            }
+
+            if ($scope.query.lowEmotion && $scope.query.highEmotion) {
+                if ($scope.query.lowEmotion <= $scope.query.highEmotion) {
+                    filters.positiveScale = [];
+                    for (var i = $scope.query.lowEmotion; i <= $scope.query.highEmotion; i++) {
+                                filters.positiveScale.push(i);
+                    }
+                }
+                else {
+                     var err = {data: 'Low Emotion Level cannot be greater than High Emotion Level'};
+                     errService.error(err);
+                }
+            }
+            console.log('in createQuery before calling getAllPosts');
+            console.log('filters = ', filters);
+
+            postService.getAllPosts(filters)
+            .then(function(response) {
+                console.log('getAllPosts response = ', response);
+                formatPosts(response.data);
+            }, function(err) {
+                errService.error(err);
+            });
+
+        }
+
+    };
+
+    //Init - Format the postPromise on the route.
+    formatPosts(postPromise.data);
 
   });

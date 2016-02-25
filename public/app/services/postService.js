@@ -1,8 +1,8 @@
 angular.module('journey')
-  .service('postService', function($http, $state) {
+  .service('postService', function($http, pageSize) {
 
     // GET ALL POSTS
-    this.getAllPost = function(filters) {
+    this.getAllPosts = function(filters) {
     /* Example filters
       filters = {
           tags: ['jquery', 'angular'] // any one of these tags. Always lowercase.
@@ -19,30 +19,16 @@ angular.module('journey')
           return $http({
               method: 'GET',
               url: '/api/posts/filterBy?' + urlQuery
-          })
-          .then(function(res){
-              console.log('in getAllPosts -- POSTS', res);
-              return res;
           });
       }
       else {
-          return $http.get('/api/posts')
-          .then(function(res){
-              console.log(res);
-              return res;
-          });
+          return $http.get('/api/posts');
       }
     };
 
     // GET ONE POST
     this.getOnePost = function(id) {
-      return $http.get('/api/posts/' + id)
-        .then(function(response) {
-            return response.data;
-          },
-          function(error) {
-            return error;
-          });
+      return $http.get('/api/posts/' + id);
     };
 
 
@@ -52,22 +38,13 @@ angular.module('journey')
             method: 'POST',
             url:  '/api/posts/',
             data: post
-          })
-          .then(function(response){
-              return response;
           });
       };
 
 
     // UPDATE POST
     this.updatePost = function(post) {
-      return $http.put('/api/posts/' + post._id)
-        .then(function(response) {
-            return response;
-          },
-          function(error) {
-            return error;
-          });
+      return $http.put('/api/posts/' + post._id);
     };
 
     this.deletePost = function(id) {
@@ -75,13 +52,14 @@ angular.module('journey')
     };
 
     this.getCount = function() {
-        return $http.get('/api/count/posts')
-        .then(function(res){
-          return res;
-      });
+        return $http.get('/api/count/posts');
 
     };
 
-
+    this.pageOneDateFilter = function() {
+        var today = new Date();
+        var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
+        return {datePosted: [fromDate, today]};
+    };
 
   });

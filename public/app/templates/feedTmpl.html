@@ -7,7 +7,7 @@
         </div>
         <div class="card-block">
 
-          <div class="posts-timeline" ng-repeat="all in fixedPosts track by $index | orderBy : '-date'">
+          <div class="posts-timeline" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
               <div class="pt-line text-right">
                   <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
                   <span class="d-block">
@@ -27,9 +27,10 @@
 
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline-->
-          <pre>{{fixedPosts}}</pre>
+
     </div>
   </div>
+  <pre>{{fixedPosts}}</pre>
 </div>
 
     <div class="sidebar">
@@ -65,8 +66,31 @@
             </fieldset>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
+
           <pre>{{postContent}}</pre>
       <!--/.input form-->
+
+      <hr>
+              <h3>Search</h3>
+              <form ng-submit="createQuery()">
+                  <fieldset class="form-group">
+                      <label for="searchTagName">Person's Name</label>
+                      <input id="searchTagName" class="form-control" ng-model="query.name" type="text">
+                      </input>
+                      <label for="searchTagName">What They're Working On</label>
+                      <input id="searchTagName" class="form-control" ng-model="query.tag" type="text">
+                      </input>
+                      <label for="searchLowEmotion">Low Emotion Level</label>
+                      <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
+                      </input>
+                      <label for="searchHighEmotion">High Emotion Level</label>
+                      <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
+                      </input>
+                  </fieldset>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
 
 
       </div><!--/slimscroll-->

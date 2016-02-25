@@ -1,6 +1,6 @@
 angular.module('journey' )
 
-  .constant("pageSize", {POSTS: 4, DAYS: 7})
+  .constant("pageSize", {DAYS: 7})
 
   .config([
     '$stateProvider',
@@ -21,23 +21,39 @@ angular.module('journey' )
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
-           postPromise: function(postService) { // sends back posts
-             var today = moment(new Date());
-             var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
-             var filter = {datePosted: [fromDate, today]};
-             console.log('in PostPromise');
-             console.log('filter = ', filter);
-             return postService.getAllPost(filter);
+            postPromise: function(postService, errService) { // sends back posts
+                var filter = postService.pageOneDateFilter();
+                console.log('in PostPromise');
+                console.log('filter = ', filter);
+                return postService.getAllPosts(filter)
+                .then(function( response ) {
+                    console.log('in PostPromise response');
+                    console.log('response = ', response);
+                    return response;
+                }, function(err) {
+                    console.error(err);
+                });
+            },
+            postCount: function(postService) {
+               return postService.getCount()
+               .then(function( response ) {
+                  return response.data;
+                }, function(err) {
+                  errService.error(err);
+              });
            },
-           postCount: function(postService) {
-               return postService.getCount();
-           },
-           auth: function(authService) {  // sends back who's logged in
-             return authService.checkForAuth();
-           }
-        }
+            auth: function(authService, $state) {  // sends back who's logged in
+                return authService.checkForAuth()
+                .then(function(response) {
+                    console.log('checkForAuth', response);
+                    return response;
+                }, function(err) {
+                    console.error('checkForAuth', err);
+                    $state.go('login');
+                });
+            }
+         }
       })
-
       .state('feed.post', {
         url: '/post/:id',
         templateUrl: './app/templates/postDetailTmpl.html'

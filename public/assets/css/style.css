@@ -139,3 +139,12 @@ ut:hover {
 .posts-timeline .person:after {
   clear: both;
 }
+
+#searchTagName {
+    margin-bottom: 30px;
+}
+
+#searchLowEmotion, #searchHighEmotion {
+    width: 70px;
+    margin-bottom: 20px;
+}
