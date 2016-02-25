@@ -15,7 +15,8 @@
   right: 20px;
   top:20px;
 }
-.navbar .logout:hover {
+.navbar .logod-block
+ut:hover {
   cursor: pointer;
 }
 
@@ -115,7 +116,7 @@
   display: block !important;
   width: 80px;
   font-size: 12px;
-  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .posts-timeline .text-right {
   text-align: right;
