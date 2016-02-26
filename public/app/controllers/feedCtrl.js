@@ -5,7 +5,9 @@ angular.module('journey')
     $scope.postContent = {};
     $scope.totalPosts = postCount.data;
     $scope.query = {};
-
+    $scope.processingQuery = false;
+    $scope.queryErrorMsg = '';
+    
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
 
@@ -117,11 +119,17 @@ angular.module('journey')
     $scope.isToday = function(date) {
       return moment(moment(date).format('YYYY-MM-DD')).isSame(moment().local().format('YYYY-MM-DD'));
     };
+    
+    $scope.clearQuery = function() {
+        $scope.query = {};
+        $('#daterange span').html('') // clear out contents */
+    }
 
     $scope.createQuery = function() {
-
+        
+        $scope.queryErrorMsg = '';
         var filters = {};
-
+        $scope.processingQuery = true;
         if ($scope.query.name) {
             userService.getSearchUsers($scope.query.name)
             .then(function(response) {
@@ -145,7 +153,7 @@ angular.module('journey')
 
             if ($scope.query.tag) {
                 filters.tags = [];
-                filters.tags[0] = $scope.query.tag;
+                filters.tags[0] = $scope.query.tag.toLowerCase();
             }
 
             if ($scope.query.lowEmotion && $scope.query.highEmotion) {
@@ -160,13 +168,29 @@ angular.module('journey')
                      errService.error(err);
                 }
             }
+            
+            console.log('query.dateRange = ', $scope.query.dateRange);
+            
+            if ($scope.query.dateRange) {
+               filters.datePosted = [];
+               for (var i = 0; i < $scope.query.dateRange.length; i++) {
+                    filters.datePosted.push($scope.query.dateRange[i]);
+               }
+            }
+                       
             console.log('in createQuery before calling getAllPosts');
             console.log('filters = ', filters);
-
+            if (jQuery.isEmptyObject(filters)) {
+                $scope.queryErrorMsg = 'Please enter search criteria';
+                $scope.processingQuery = false;
+                return;
+            }
+                
             postService.getAllPosts(filters)
             .then(function(response) {
                 console.log('getAllPosts response = ', response);
                 formatPosts(response.data);
+                $scope.processingQuery = false;
             }, function(err) {
                 errService.error(err);
             });
@@ -174,6 +198,43 @@ angular.module('journey')
         }
 
     };
+    
+    $(document).ready(function() {
+        
+        function cb(start, end) {
+            $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $scope.query.dateRange = [];
+            $scope.query.dateRange[0] = start;
+            $scope.query.dateRange[1] = end;
+        }
+        // cb(moment().subtract(6, 'days'), moment());
+        
+        $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+            $('#daterange span').html('');
+            delete $scope.query.dateRange;
+        });
+        
+        $('#daterange').daterangepicker({
+            startDate: moment().subtract(2, 'days'),
+            endDate: moment().subtract(2, 'days'),
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            },
+            ranges: {
+               'Today': [moment(), moment()],
+               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+               'This Month': [moment().startOf('month'), moment().endOf('month')],
+               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+    }); 
+    
+    
+
 
     //Init - Format the postPromise on the route.
     formatPosts(postPromise.data);
