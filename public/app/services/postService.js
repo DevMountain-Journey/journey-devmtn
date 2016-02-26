@@ -15,7 +15,7 @@ angular.module('journey')
           for (var type in filters){
               urlQuery += '&' + type + '=['+ filters[type]+']';
           }
-          console.log('urlQuery', urlQuery);
+          console.log('urlQuery = ', urlQuery);
           return $http({
               method: 'GET',
               url: '/api/posts/filterBy?' + urlQuery

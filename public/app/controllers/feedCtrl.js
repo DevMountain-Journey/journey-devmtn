@@ -123,11 +123,13 @@ angular.module('journey')
         var filters = {};
 
         if ($scope.query.name) {
-            filters.user = [];
             userService.getSearchUsers($scope.query.name)
             .then(function(response) {
                 console.log('getSearchUsers response = ', response);
-                filters.user = response.data;
+                if (response.data.length)
+                    filters.user = response.data;
+                else // No users fit criteria
+                    filters.user = ['999999999999999999999999']; // Create empty search
                 completeQuery();
             }, function(err) {
                 console.error(err);

@@ -31,13 +31,6 @@ angular.module('journey')
         method: 'GET',
         url: '/api/current_user'
       })
-      .then(function(response) {
-          console.log('Current User: ', response.data);
-          return response;
-      }, function(err) {
-          console.error(err);
-          $state.go('login');
-      });
     };
 
 

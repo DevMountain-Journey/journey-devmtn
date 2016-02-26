@@ -35,7 +35,7 @@
 
     <div class="sidebar">
       <div class="scroll-body" slimscroll="{
-        height: 'auto',
+        height: '500px',
         color: 'white',
         alwaysVisible: false,
         railVisible: true,
@@ -86,9 +86,12 @@
                       <label for="searchHighEmotion">High Emotion Level</label>
                       <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
                       </input>
-                  </fieldset>
+      
+                </fieldset>
+    
+                <button type="submit" class="btn btn-primary">Submit</button>
 
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  
               </form>
 
 

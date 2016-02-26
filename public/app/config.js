@@ -30,18 +30,14 @@ angular.module('journey' )
                     console.log('in PostPromise response');
                     console.log('response = ', response);
                     return response;
-                }, function(err) {
-                    console.error(err);
                 });
             },
-            postCount: function(postService) {
+            postCount: function(postService, errService) {
                return postService.getCount()
                .then(function( response ) {
                   return response.data;
-                }, function(err) {
-                  errService.error(err);
-              });
-           },
+                });
+            },
             auth: function(authService, $state) {  // sends back who's logged in
                 return authService.checkForAuth()
                 .then(function(response) {
