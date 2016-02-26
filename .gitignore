@@ -1,3 +1,5 @@
 node_modules/
 public/assets/libs/
 server/config/
+.vs_code/
+ignored/

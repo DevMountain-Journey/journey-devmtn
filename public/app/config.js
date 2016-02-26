@@ -1,12 +1,13 @@
 angular.module('journey' )
-  .constant("pageSize", {POSTS: 4})
+
+  .constant("pageSize", {DAYS: 7})
 
   .config([
     '$stateProvider',
     '$urlRouterProvider',
     'pageSize',
     function($stateProvider, $urlRouterProvider, pageSize) {
-   
+
       $stateProvider
 
       .state('login', {
@@ -20,26 +21,39 @@ angular.module('journey' )
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
-           postPromise: function(postService) { // sends back posts
-             return postService.getAllPost(pageSize.POSTS, 1);
-           },
-           postCount: function(postService) {
-               return postService.getCount();
-           },
-           auth: function(authService) {  // sends back who's logged in
-             return authService.checkForAuth();
-           }
-        }
+            postPromise: function(postService, errService) { // sends back posts
+                var filter = postService.pageOneDateFilter();
+                console.log('in PostPromise');
+                console.log('filter = ', filter);
+                return postService.getAllPosts(filter)
+                .then(function( response ) {
+                    console.log('in PostPromise response');
+                    console.log('response = ', response);
+                    return response;
+                });
+            },
+            postCount: function(postService, errService) {
+               return postService.getCount()
+               .then(function( response ) {
+                  return response.data;
+                });
+            },
+            auth: function(authService, $state) {  // sends back who's logged in
+                return authService.checkForAuth()
+                .then(function(response) {
+                    console.log('checkForAuth', response);
+                    return response;
+                }, function(err) {
+                    console.error('checkForAuth', err);
+                    $state.go('login');
+                });
+            }
+         }
       })
-
-      .state('post', {
+      .state('feed.post', {
         url: '/post/:id',
-        templateUrl: './templates/postsTmpl.html'
-          //  controller: 'postCtrl',
-          //  resolve: {
-          //    postPromise: ['posts', function(postService){
-          //       return postService.getAllPost(); }]
-          //  }
+        templateUrl: './app/templates/postDetailTmpl.html'
+
       })
 
       .state('post.add', {
