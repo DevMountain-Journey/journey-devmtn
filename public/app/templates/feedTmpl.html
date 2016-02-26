@@ -87,15 +87,24 @@
                       <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
                       </input>
       
+                      <label for="daterange">Date Range</label>
+                      <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <div class="glyphicon glyphicon-calendar fa fa-calendar"></div>&nbsp;
+                            <span></span>
+                      </div>
+      
+                          
                 </fieldset>
     
                 <button type="submit" class="btn btn-primary">Submit</button>
-
-                  
+            
               </form>
-
-
-
+              <!--<br>
+              <button ng-click="clearQuery()" class="btn btn-primary">Clear</button>-->
+              <br>
+              <div id="processing_query" ng-show="processingQuery">Processing</div>
+              <br>
+              <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
       </div><!--/slimscroll-->
     </div><!--/.sidebar-->
   </div><!--/.row-->

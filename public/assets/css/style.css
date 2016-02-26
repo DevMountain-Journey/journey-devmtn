@@ -148,3 +148,16 @@ ut:hover {
     width: 70px;
     margin-bottom: 20px;
 }
+
+#daterange span {
+    color: #000;
+}
+
+#processing_query {
+    font-weight: bold;
+}
+
+#query_error_msg{
+    color: red;
+    font-weight: bold;
+}

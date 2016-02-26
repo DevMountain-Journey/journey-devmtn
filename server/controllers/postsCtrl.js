@@ -24,7 +24,7 @@ module.exports = {
                 req.query[item] = {$in: req.query[item]};
             }
             else // datePosted
-                req.query[item] = {"$gte": moment(new Date(req.query[item][0])), "$lt": moment(new Date(req.query[item][1])).add(1, 'days')};
+                req.query[item] = {"$gte": moment(new Date(req.query[item][0])), "$lt": moment(new Date(req.query[item][1]))};
        }
        console.log('req.query after processing', req.query);
        postsModel
