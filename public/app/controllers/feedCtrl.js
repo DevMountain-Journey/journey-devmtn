@@ -34,15 +34,23 @@ angular.module('journey')
     // };
 
     //TODO: Move the get request to the service.
+//    $scope.loadTags = function($query) {
+//      return $http.get('tags.json', {
+//        cache: true
+//      }).then(function(response) {
+//        var data = response.data;
+//        return data.filter(function(tag) {
+//          return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+//        });
+//      });
+//    };
+    
     $scope.loadTags = function($query) {
-      return $http.get('tags.json', {
-        cache: true
-      }).then(function(response) {
-        var data = response.data;
-        return data.filter(function(tag) {
-          return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+        postService.autoCompleteQuery('tags', $query.toLowerCase())
+        .then(function(response) {
+            var data = response.data;
+            return data;
         });
-      });
     };
 
     $scope.createPost = function() {

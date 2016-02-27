@@ -43,6 +43,32 @@ module.exports = {
              }
        });
    },
+    
+   autocomplete: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in read');
+       console.log('req.query before processing', req.query);
+       var fieldname = req.query.fieldname;
+       var ac_regex = req.query.ac_query;
+       req.query = {};
+       req.query[fieldname] = '/' + ac_regex + '/';       
+       console.log('req.query after processing', req.query);
+       postsModel
+       .find(req.query)
+       .populate('user', 'firstName lastName email')
+       .sort({datePosted: 'desc'})
+       .exec(function(err, result) {
+             console.log('err', err);
+             console.log('result', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.send(result);
+             }
+       });
+   },
 
    read: function(req, res) {
         console.log('in postsCtrl');
