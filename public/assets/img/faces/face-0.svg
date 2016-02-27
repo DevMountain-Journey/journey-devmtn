@@ -1,0 +1,14 @@
+<svg id="f2a29c9c-fbd3-4dab-b825-edda1de34172" data-name="Faces" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>face</title>
+  <g>
+    <path d="M100,195.36c-52,0-94.22-42.78-94.22-95.36S48,4.64,100,4.64,194.22,47.42,194.22,100,152,195.36,100,195.36Z" style="fill: #fff; fill-opacity: 0.5;" />
+    <path d="M100,8.28c49.95,0,90.58,41.14,90.58,91.72S149.95,191.72,100,191.72,9.42,150.57,9.42,100,50.05,8.28,100,8.28M100,1C46,1,2.14,45.32,2.14,100S46,199,100,199s97.86-44.32,97.86-99S154,1,100,1h0Z"/>
+  </g>
+  <line x1="47.78" y1="62.75" x2="75.78" y2="90.74" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 9.10344824194908px"/>
+  <line x1="47.78" y1="90.74" x2="75.78" y2="62.75" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 9.10344824194908px"/>
+  <line x1="123.34" y1="62.75" x2="151.33" y2="90.74" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 9.10344824194908px"/>
+  <line x1="123.34" y1="90.74" x2="151.33" y2="62.75" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 9.10344824194908px"/>
+  <line x1="41.71" y1="131.63" x2="158.69" y2="131.63" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 8px"/>
+  <path d="M100.66,131.63S95.12,160,122.2,160s22.61-28.37,22.61-28.37H100.66Z" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 7px"/>
+  <line x1="122.64" y1="133.08" x2="122.64" y2="148.25" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 7px"/>
+</svg>

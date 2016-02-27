@@ -1,12 +1,14 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postCount, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
+  function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
     $scope.postContent = {};
-    $scope.totalPosts = postCount.data;
+    $scope.totalPosts = 0;
     $scope.query = {};
+    $scope.today = new Date();
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
+      $scope.totalPosts = data.length;
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
 
       //Take the resolve post data and use lodash to group by and convert dates to local time (from UTC).
@@ -20,16 +22,7 @@ angular.module('journey')
           posts: groupedPosts[date]
         });
       }
-      // $scope.gotoTop();
     }//end function formatPosts
-
-    // $scope.gotoTop = function() {
-    //     // set the location.hash to the id of
-    //     // the element you wish to scroll to.
-    //     $location.hash('top');  // top of body
-    //     // call $anchorScroll()
-    //     $anchorScroll();
-    // };
 
     //TODO: Move the get request to the service.
     $scope.loadTags = function($query) {
@@ -53,13 +46,11 @@ angular.module('journey')
             $scope.totalPosts++;
             var post = response.data;
             var postDate = moment(post.datePosted).local().format('YYYY-MM-DD');
-            var today = moment().local().format('YYYY-MM-DD');
-            // FIXME: This IF statement logic is retarded and doesn't work. fix it.
-            if(postDate == today){ //If the postdate is the same as today
+            if(postDate === $scope.fixedPosts[0].date){ //If the postdate is the same as the first date in the fixedPosts array.
               $scope.fixedPosts[0].posts.unshift(post); //then just unshift (push to top) the post to the top of the first item in the fixedPost array
             } else {
               $scope.fixedPosts.unshift({ //Otherwise unshift a new item into fixedPosts with todays date and an array with the new post in it.
-                date: today,
+                date: postDate,
                 posts: [post]
               });
             }
