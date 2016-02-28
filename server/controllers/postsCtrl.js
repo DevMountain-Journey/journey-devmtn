@@ -49,12 +49,22 @@ module.exports = {
        console.log('in read');
        console.log('req.query before processing', req.query);
        var fieldname = req.query.fieldname;
-       var ac_regex = req.query.ac_query;
+       var ac_regex = '/' + req.query.ac_query + '/';
        req.query = {};
-       req.query[fieldname] = '/' + ac_regex + '/';       
+      /* switch (fieldname) {
+           case 'tags':
+               req.query[fieldname] = {$in: req.query[item]};
+               break
+           case 'firstName':
+               req.query[fieldname] = 
+               
+       } */
+    
+       /*req.query[fieldname] = {$regex: ac_regex}; */
+       req.query[fieldname] = 'jquery';
        console.log('req.query after processing', req.query);
        postsModel
-       .find(req.query)
+       .find(req.query, fieldname)
        .populate('user', 'firstName lastName email')
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {

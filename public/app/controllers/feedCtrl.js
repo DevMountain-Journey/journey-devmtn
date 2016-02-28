@@ -45,13 +45,21 @@ angular.module('journey')
 //      });
 //    };
     
-    $scope.loadTags = function($query) {
-        postService.autoCompleteQuery('tags', $query.toLowerCase())
-        .then(function(response) {
-            var data = response.data;
-            return data;
-        });
-    };
+//    $scope.loadTags = function($query) {
+//        return postService.autoCompleteQuery('tags', $query.toLowerCase())
+//        .then(function(response) {
+//            console.log('in loadTags');
+//            console.log('response.data = ', response.data);
+//            var data = response.data;
+//            var tags = [];
+//            for (var i = 0; i < response.data.length; i++) {
+//                for (var j = 0; j < response.data[i].tags.length, j++) {
+//                    tags.push(response.data[i].tags[j]);
+//                }
+//            }
+//            return tags;
+//        });
+//    };
 
     $scope.createPost = function() {
       $scope.postContent.user = auth.data._id;
