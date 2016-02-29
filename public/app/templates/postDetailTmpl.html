@@ -12,13 +12,7 @@
                  {{postData.body}}
               </div>
 
-              <div class="pt-body">
-                  <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
-                  <div class="clearfix">
-                      <div class="person" ng-repeat="post in posts.posts">
-                        <img gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
-                      </div>
-                  </div>
+            
 
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline-->
@@ -37,10 +31,7 @@
         railOpacity: '0.7'
       }">
 
-          <form ng-submit="createPost()">
-           
-              <label for="emotionlevel">Author</label>
-
+         
                 <div class="author">
                    <img gravatar-src="post.user.email" gravatar-size="75" gravatar-default="mm">
                    <br></br>
@@ -49,8 +40,6 @@
                    <br></br>
                    {{postData.user.email}}<p>
                     </div>
-
-         
 
               <div id="chart" 
                 <bars data-ac-chart="'bar'" 
