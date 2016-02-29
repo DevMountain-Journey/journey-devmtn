@@ -265,6 +265,7 @@ angular.module('journey')
             locale: {
                 cancelLabel: 'Clear'
             },
+            drops: 'up',
             ranges: {
                'Today': [moment(), moment()],
                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
