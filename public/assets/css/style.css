@@ -163,7 +163,6 @@ div[ui-view]{
   background: -webkit-linear-gradient(top,  #151515 0%,#222222 100%);
   background: linear-gradient(to bottom,  #151515 0%,#222222 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#222222',GradientType=0 ); */
-
   position: fixed;
   right: 0;
   color: #AFAFAF;
@@ -259,11 +258,27 @@ div[ui-view]{
 }
 
 /*Filtering*/
-#searchTagName {
+#searchFirstName, #searchLastName, #searchTags {
     margin-bottom: 30px;
 }
 
 #searchLowEmotion, #searchHighEmotion {
     width: 70px;
     margin-bottom: 20px;
+}
+
+#daterange {
+    margin-bottom: 20px;
+}
+#daterange span {
+    color: #000;
+}
+
+#processing_query {
+    font-weight: bold;
+}
+
+#query_error_msg{
+    color: red;
+    font-weight: bold;
 }

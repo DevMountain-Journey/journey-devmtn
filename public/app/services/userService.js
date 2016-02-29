@@ -2,83 +2,65 @@ angular.module('journey')
   .service('userService', function($http, $q) {
 
     // GET USERS
-    this.getSearchUsers = function(inputName) {
+    this.getSearchUsers = function(firstName, lastName) {
         
            var defer = $q.defer();
            var users = [];
            var resp = {};
-           var actualResponses = 0;
+           var userQuery = '';
          // Name may be space separated
-           var name = inputName.split(' ');
+         //  var name = inputName.split(' ');
         
         // Need to first translate to ID by doing user lookup.
      
-            if (name.length === 1) {
-        // If just one name entered, need to check if it matches a firstName or lastName in user record.
-                expectedResponses = 2;
-                
-                var userQuery = 'firstName=' + name[0].toLowerCase();
-                console.log('userQuery = ', userQuery);
-                $http({
-                    method: 'GET',
-                    url: '/api/users?' + userQuery
-                })
-                .then(function(response) {
-                    console.log('firstName response = ', response);
-                    addUserIds(response.data);
-                    actualResponses++;
-                    checkIfAllDataDone();
-                });
-                
-                var userQuery = 'lastName=' + name[0].toLowerCase();
-                console.log('userQuery = ', userQuery);
-                $http({
-                    method: 'GET',
-                    url: '/api/users?' + userQuery
-                })
-                .then(function(response) {
-                    console.log('lastName response = ', response);
-                    addUserIds(response.data);
-                    actualResponses++;
-                    checkIfAllDataDone();
-                });
-                
+            if (firstName && firstName.length) { // at least one first name entered
+                userQuery += 'firstName=[';
+                for (var i = 0; i < firstName.length; i++) {
+                    if (i === 0)
+                        userQuery += firstName[i].name.toLowerCase();
+                    else
+                        userQuery += ',' + firstName[i].name.toLowerCase();
+                }
+                userQuery += ']';
             }
-            else  { // first and last name
-            // If two or more names, need to check if first 2 names match 'firstName lastName' in user record.
-                expectedResponses = 1;
-        
-                var userQuery = 'firstName=' + name[0].toLowerCase() + '&lastName=' + name[1].toLowerCase();
-                console.log('userQuery = ', userQuery);
-                $http({
-                    method: 'GET',
-                    url: '/api/users?' + userQuery
-                })
-                .then(function(response) {
-                    console.log('firstName & lastName response = ', response);
-                    addUserIds(response.data);
-                    actualResponses++;
-                    checkIfAllDataDone();
-                });
-        
+            if (lastName && lastName.length) { // at least one last name enterred
+                userQuery += '&lastName=[';
+                for (var i = 0; i < lastName.length; i++) {
+                    if (i === 0)
+                        userQuery += lastName[i].name.toLowerCase();
+                    else
+                        userQuery += ',' + lastName[i].name.toLowerCase();
+                }
+                userQuery += ']'
             }
-                     
+            console.log('userQuery = ', userQuery);
+            $http({
+                method: 'GET',
+                url: '/api/users/filterBy?' + userQuery
+            })
+            .then(function(response) {
+                console.log('response = ', response);
+                addUserIds(response.data);
+                resp.data = users;
+                defer.resolve(resp);
+            });
+                
             function addUserIds(usrs) {
                 for (var i = 0; i < usrs.length; i++) {
                     users.push(usrs[i]._id);
                 }
             }
 
-            function checkIfAllDataDone() {
-                if (expectedResponses === actualResponses) {
-                    resp.data = users;
-                    defer.resolve(resp);
-                }
-            }
-        
             return defer.promise;
 
-    }
+    };
+    
+    this.autoCompleteQuery = function(fieldName, query) {
+        return $http({
+              method: 'GET',
+              url: '/api/users/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
+          });
+    };
                 
  
   });

@@ -15,7 +15,7 @@ module.exports = {
 
    filter: function(req, res) {
        console.log('in postsCtrl');
-       console.log('in read');
+       console.log('in filter');
        console.log('req.query before processing', req.query);
        for (var item in req.query) {
             req.query[item] = req.query[item].slice(1, req.query[item].length -1);
@@ -24,12 +24,39 @@ module.exports = {
                 req.query[item] = {$in: req.query[item]};
             }
             else // datePosted
-                req.query[item] = {"$gte": moment(new Date(req.query[item][0])), "$lt": moment(new Date(req.query[item][1])).add(1, 'days')};
+                req.query[item] = {"$gte": moment(new Date(req.query[item][0])), "$lt": moment(new Date(req.query[item][1]))};
        }
        console.log('req.query after processing', req.query);
        postsModel
        .find(req.query)
        .populate('user', 'firstName lastName email')
+       .sort({datePosted: 'desc'})
+       .exec(function(err, result) {
+             console.log('err', err);
+             console.log('result', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.send(result);
+             }
+       });
+   },
+    
+   autocomplete: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in autocomplete');
+       console.log('req.query before processing', req.query);
+       var fieldname = req.query.fieldname;
+       var ac_regex = new RegExp(req.query.ac_query);
+       req.query = {};
+       req.query[fieldname] = {$regex: ac_regex}; 
+       // req.query[fieldname] = {$regex: /jq/}; 
+       /* req.query[fieldname] = 'jquery'; */
+       console.log('req.query after processing', req.query);
+       postsModel
+       .find(req.query, fieldname)
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {
              console.log('err', err);
