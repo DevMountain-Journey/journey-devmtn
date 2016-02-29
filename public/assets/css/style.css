@@ -121,37 +121,65 @@ div[ui-view]{
   top:0;
   left: 0;
   z-index:10;
+  transition: all 250ms ease;
 }
 
-.posts-timeline .person .emotionOverlay .emotionFace{
+.posts-timeline .person .emotionOverlay .eo-inner{
+  color: #222222;
+}
+
+.posts-timeline .person .emotionOverlay .eo-inner .eo-post{
   position: absolute;
-  bottom: -7px;
-  left: 34.5%;
-  height: 30%;
-  display:none;
+  right: 4px;
+  font-size: .7em;
+  top: 1px;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-comments{
+  position: absolute;
+  font-size: .6em;
+  left: 3px;
+  top: 1px;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-time{
+  position: absolute;
+  bottom: 0;
+  font-size: .7em;
+  text-align: center;
+  width: 100%;
 }
 
-.posts-timeline .person .emotionOverlay .eo-number{
-  font-size: 1.5em;
+.posts-timeline .person .emotionOverlay .eo-inner .eo-face{
+  height: 52%;
+  position: absolute;
+  top: 15px;
+  left: 17px;
+  opacity: 1;
+}
+
+.posts-timeline .person .emotionOverlay .eo-inner .eo-number{
+  font-size: 1em;
   color: rgba(0,0,0,0.5);
   font-weight: bold;
   line-height: 1em;
   position: absolute;
-  bottom: 0;
+  bottom: 3px;
   left: 5px;
-  display:none;
+  opacity: 1;
 }
 
-.posts-timeline .person .emotionOverlay.eo-1  { background: rgba(136, 111, 111, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-2  { background: rgba(181, 79, 79, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-3  { background: rgba(209, 124, 122, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-4  { background: rgba(209, 161, 158, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-5  { background: rgba(209, 191, 165, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-6  { background: rgba(209, 208, 163, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-7  { background: rgba(185, 209, 164, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-8  { background: rgba(172, 209, 159, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-9  { background: rgba(137, 167, 127, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-10 { background: rgba(114, 138, 105, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-1  { background: rgb(153, 43, 43); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-2  { background: rgb(181, 79, 79); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-3  { background: rgb(209, 124, 122); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-4  { background: rgb(209, 161, 158); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-5  { background: rgb(209, 191, 165); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-6  { background: rgb(209, 208, 163); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-7  { background: rgb(185, 209, 164); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-8  { background: rgb(172, 209, 159); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-9  { background: rgb(137, 167, 127); opacity: 1; }
+.posts-timeline .person .emotionOverlay.eo-10 { background: rgb(114, 138, 105); opacity: 1; }
+
+.posts-timeline .person .emotionOverlay:hover { opacity: 0.8; }
+.posts-timeline .person .emotionOverlay:hover .eo-inner { opacity: 1; }
 
 /********************/
 /** SIDEBAR        **/
@@ -206,14 +234,18 @@ div[ui-view]{
   cursor: pointer;
 }
 .emotions .emotionWrapper .emotionSvg:hover,
-.emotions .emotionWrapper .emotionSvg.toggled {
-  transform: scale(2,2);
+.emotions .emotionWrapper.toggled .emotionSvg {
+  transform: scale(1.5,1.5);
 }
 .emotions .emotionWrapper .emotionSvg:hover svg g path:first-child {
-  fill: #ddd468!important;
+  /*fill: #ddd468!important;*/
 }
-.emotions .emotionWrapper .emotionSvg.toggled svg g path:first-child {
+.emotions .emotionWrapper.toggled .emotionSvg svg g path:first-child {
    -webkit-animation: colorPulse 8s infinite alternate;
+}
+
+.emotions .emotionWrapper.toggled {
+  color: yellow;
 }
 
 .scalewrap{
