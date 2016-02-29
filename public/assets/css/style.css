@@ -140,7 +140,7 @@ ut:hover {
   clear: both;
 }
 
-#searchTagName {
+#searchFirstName, #searchLastName, #searchTags {
     margin-bottom: 30px;
 }
 
@@ -149,6 +149,9 @@ ut:hover {
     margin-bottom: 20px;
 }
 
+#daterange {
+    margin-bottom: 20px;
+}
 #daterange span {
     color: #000;
 }

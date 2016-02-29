@@ -15,7 +15,7 @@ module.exports = {
 
    filter: function(req, res) {
        console.log('in postsCtrl');
-       console.log('in read');
+       console.log('in filter');
        console.log('req.query before processing', req.query);
        for (var item in req.query) {
             req.query[item] = req.query[item].slice(1, req.query[item].length -1);
@@ -46,26 +46,17 @@ module.exports = {
     
    autocomplete: function(req, res) {
        console.log('in postsCtrl');
-       console.log('in read');
+       console.log('in autocomplete');
        console.log('req.query before processing', req.query);
        var fieldname = req.query.fieldname;
-       var ac_regex = '/' + req.query.ac_query + '/';
+       var ac_regex = new RegExp(req.query.ac_query);
        req.query = {};
-      /* switch (fieldname) {
-           case 'tags':
-               req.query[fieldname] = {$in: req.query[item]};
-               break
-           case 'firstName':
-               req.query[fieldname] = 
-               
-       } */
-    
-       /*req.query[fieldname] = {$regex: ac_regex}; */
-       req.query[fieldname] = 'jquery';
+       req.query[fieldname] = {$regex: ac_regex}; 
+       // req.query[fieldname] = {$regex: /jq/}; 
+       /* req.query[fieldname] = 'jquery'; */
        console.log('req.query after processing', req.query);
        postsModel
        .find(req.query, fieldname)
-       .populate('user', 'firstName lastName email')
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {
              console.log('err', err);

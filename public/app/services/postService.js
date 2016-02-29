@@ -67,6 +67,6 @@ angular.module('journey')
               method: 'GET',
               url: '/api/posts/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
           });
-    }
+    };
 
   });

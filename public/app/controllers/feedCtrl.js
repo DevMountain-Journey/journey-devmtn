@@ -45,21 +45,54 @@ angular.module('journey')
 //      });
 //    };
     
-//    $scope.loadTags = function($query) {
-//        return postService.autoCompleteQuery('tags', $query.toLowerCase())
-//        .then(function(response) {
-//            console.log('in loadTags');
-//            console.log('response.data = ', response.data);
-//            var data = response.data;
-//            var tags = [];
-//            for (var i = 0; i < response.data.length; i++) {
-//                for (var j = 0; j < response.data[i].tags.length, j++) {
-//                    tags.push(response.data[i].tags[j]);
-//                }
-//            }
-//            return tags;
-//        });
-//    };
+    $scope.loadAutoCompleteTags = function(fieldname, $query) {
+        if (fieldname === 'tags') {
+            return postService.autoCompleteQuery(fieldname, $query.toLowerCase())
+            .then(function(response) {
+                console.log('in loadTags');
+                console.log('response.data = ', response.data);
+                var autoCompleteTags = [];
+                for (var i = 0; i < response.data.length; i++) {
+                    for (var j = 0; j < response.data[i].tags.length; j++) {                autoCompleteTags.push(response.data[i].tags[j]);
+                    }
+                }
+
+                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
+                autoCompleteTags = removeDuplicates(autoCompleteTags);
+                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
+                return autoCompleteTags.filter(function(item) {
+                     return item.indexOf($query.toLowerCase()) !== -1;
+                });
+            });
+        }
+        else { // first or last name
+            return userService.autoCompleteQuery(fieldname, $query.toLowerCase())
+            .then(function(response) {
+                console.log('in loadTags');
+                console.log('response.data = ', response.data);
+                var autoCompleteTags = [];
+                for (var i = 0; i < response.data.length; i++) {
+                    autoCompleteTags.push(response.data[i][fieldname]);
+                }
+             
+                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
+                autoCompleteTags = removeDuplicates(autoCompleteTags);
+                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
+                return autoCompleteTags.filter(function(item) {
+                     return item.indexOf($query.toLowerCase()) !== -1;
+                });
+            });
+        }
+    
+        function removeDuplicates(arr) {
+            var uniqueArr = [];
+            $.each(arr, function(i, el){
+                if($.inArray(el, uniqueArr) === -1)                                      uniqueArr.push(el);
+            });
+            return uniqueArr;    
+        }
+
+    };
 
     $scope.createPost = function() {
       $scope.postContent.user = auth.data._id;
@@ -146,8 +179,8 @@ angular.module('journey')
         $scope.queryErrorMsg = '';
         var filters = {};
         $scope.processingQuery = true;
-        if ($scope.query.name) {
-            userService.getSearchUsers($scope.query.name)
+        if ($scope.query.firstName || $scope.query.lastName) {
+            userService.getSearchUsers($scope.query.firstName, $scope.query.lastName)
             .then(function(response) {
                 console.log('getSearchUsers response = ', response);
                 if (response.data.length)
@@ -167,9 +200,11 @@ angular.module('journey')
 
         function completeQuery() {
 
-            if ($scope.query.tag) {
+            if ($scope.query.tags) {
                 filters.tags = [];
-                filters.tags[0] = $scope.query.tag.toLowerCase();
+                for (var i = 0; i < $scope.query.tags.length; i++) {
+                    filters.tags[i] = $scope.query.tags[i].name.toLowerCase();
+                }
             }
 
             if ($scope.query.lowEmotion && $scope.query.highEmotion) {
