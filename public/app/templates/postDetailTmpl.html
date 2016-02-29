@@ -31,11 +31,6 @@
         railVisible: true,
         railOpacity: '0.7'
       }">
-
-          <form ng-submit="createPost()">
-            <fieldset class="form-group">
-              <label for="emotionlevel"></label>
-
                 <div class="author">
                      <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
                      <p class='authorInfo'>
@@ -48,7 +43,7 @@
                      Mentor: {{postData.user.assignedMentor}}
                      <br>
                     Days: {{postData.user.startDate | date:'MM/dd h:mma'}}</p>
-                     
+                </div>
                      <div> 
                        <button class ="followBtn">Follow </button>  
                        </div>
@@ -74,19 +69,17 @@
                         <div class="recentPosts"> </div>
                         <div class="recentPosts"> </div>
                     </div>  
-               <div class="lineChart">  
-                <nvd3 options="options" data="data" class="lineChart"></nvd3>
-                 </div>
-                    </div>
+                    
+                      <div class="lineChart">  
+                        <nvd3 options="options" data="data" class="lineChart"></nvd3>
+                          </div>
+   
                  
-            </fieldset>
-
-           
-          </form>
+          
 
       <!--/.input form-->
-
-      </div>
+       
+    
       </div><!--/slimscroll-->
     </div><!--/.sidebar-->
   </div><!--/.row-->

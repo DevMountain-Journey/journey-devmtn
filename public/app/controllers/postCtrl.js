@@ -39,7 +39,7 @@ postService.getOnePost($stateParams.id)
                     tickPadding:20,
                 },
                 callback: function(chart){
-                    console.log("!!! lineChart callback !!!");
+                    console.log("Chart Should be working");
                 }
             },
             title: {
@@ -64,7 +64,7 @@ postService.getOnePost($stateParams.id)
                     classed: 'dashed',
                     color: '#25aae1' ,  
                     area:false,
-                    fill: 'none',
+                   
                 },
             ];
         
