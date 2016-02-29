@@ -27,8 +27,13 @@
                   <div class="clearfix">
                       <div class="person" ng-repeat="post in posts.posts">
                         <div class="emotionOverlay eo-{{post.positiveScale}}">
-                          <div class="eo-number">{{post.positiveScale}}</div>
-                          <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="emotionFace">
+                          <div class="eo-inner">
+                            <!-- <div class="eo-number">{{post.positiveScale}}</div> -->
+                            <div class="eo-comments"> 3 <i class="fa fa-comment"></i></div>
+                            <div class="eo-post"><i class="fa fa-external-link"></i></div>
+                            <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
+                            <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="eo-face">
+                          </div>
                         </div>
                         <img class="gravatar" gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
                         <a ui-sref="post({id:post._id})"> post</a>
@@ -57,10 +62,10 @@
               <label for="emotionlevel">How are you feeling?</label>
 
                 <div class="emotions">
-                    <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index">
+                    <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}"
+>
                         <ng-include
                           ng-click="setScale($index)"
-                          ng-class="{'toggled':postContent.positiveScale == $index + 1}"
                           class="emotionSvg"
                           src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
                         {{$index + 1}}
@@ -115,6 +120,25 @@
                         </tags-input>
                   </fieldset>
                   <fieldset class="form-group">
+                      <label for="emotionlevel">How They're Feeling</label>
+
+                      <div class="emotions">
+                          <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}">
+                              <ng-include
+                                ng-click="setScaleQuery($index)"
+                                class="emotionSvg"
+                                src="'assets/img/faces/face-'+$index+'.svg'">
+                              </ng-include>
+                              {{$index + 1}}
+                          </div>
+                          <div class="scalewrap">
+                              <span class="negative">NEGATIVE</span><span class="positive">POSITIVE</span>
+                          </div>
+                      </div>
+                  </fieldset>
+
+<!--
+                  <fieldset class="form-group">
 
                       <label for="searchLowEmotion">Low Emotion Level</label>
                       <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
@@ -124,6 +148,7 @@
                       </input>
 
                   </fieldset>
+-->
                   <fieldset class="form-group">
                       <label for="daterange">Date Range</label>
                       <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">

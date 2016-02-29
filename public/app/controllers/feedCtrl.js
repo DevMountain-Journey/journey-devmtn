@@ -5,6 +5,7 @@ angular.module('journey')
     $scope.postContent = {};
     $scope.totalPosts = 0;
     $scope.query = {};
+    $scope.query.positiveScale = [];
     $scope.today = new Date();
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
@@ -51,9 +52,7 @@ angular.module('journey')
                     }
                 }
 
-                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
                 autoCompleteTags = removeDuplicates(autoCompleteTags);
-                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
                 return autoCompleteTags.filter(function(item) {
                      return item.indexOf($query.toLowerCase()) !== -1;
                 });
@@ -69,9 +68,7 @@ angular.module('journey')
                     autoCompleteTags.push(response.data[i][fieldname]);
                 }
 
-                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
                 autoCompleteTags = removeDuplicates(autoCompleteTags);
-                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
                 return autoCompleteTags.filter(function(item) {
                      return item.indexOf($query.toLowerCase()) !== -1;
                 });
@@ -153,7 +150,19 @@ angular.module('journey')
 
       }
     };
-
+    
+    $scope.setScaleQuery = function(num) {
+        var alreadySelected = false;
+        for (var i = 0; i < $scope.query.positiveScale.length; i++) {
+            if ($scope.query.positiveScale[i] === num + 1)  { // if already selected
+                $scope.query.positiveScale.splice(i, 1);  // remove from array
+                alreadySelected = true;
+            }
+        }
+        if (!alreadySelected)
+            $scope.query.positiveScale.push(num + 1);
+    };
+    
     $scope.repeatEmotions = function() {
       return new Array(10);
     };
@@ -172,7 +181,7 @@ angular.module('journey')
         $scope.queryErrorMsg = '';
         var filters = {};
         $scope.processingQuery = true;
-        if ($scope.query.firstName || $scope.query.lastName) {
+        if (($scope.query.firstName && $scope.query.firstName.length) || ($scope.query.lastName && $scope.query.lastName.length)) {
             userService.getSearchUsers($scope.query.firstName, $scope.query.lastName)
             .then(function(response) {
                 console.log('getSearchUsers response = ', response);
@@ -193,14 +202,14 @@ angular.module('journey')
 
         function completeQuery() {
 
-            if ($scope.query.tags) {
+            if ($scope.query.tags && $scope.query.tags.length) {
                 filters.tags = [];
                 for (var i = 0; i < $scope.query.tags.length; i++) {
                     filters.tags[i] = $scope.query.tags[i].name.toLowerCase();
                 }
             }
 
-            if ($scope.query.lowEmotion && $scope.query.highEmotion) {
+            /* if ($scope.query.lowEmotion && $scope.query.highEmotion) {
                 if ($scope.query.lowEmotion <= $scope.query.highEmotion) {
                     filters.positiveScale = [];
                     for (var x = $scope.query.lowEmotion; x <= $scope.query.highEmotion; x++) {
@@ -211,8 +220,15 @@ angular.module('journey')
                      var err = {data: 'Low Emotion Level cannot be greater than High Emotion Level'};
                      errService.error(err);
                 }
+            } */
+            
+            if ($scope.query.positiveScale && $scope.query.positiveScale.length) {
+                 filters.positiveScale = [];
+                 for (var i = 0; i < $scope.query.positiveScale.length; i++) {
+                     filters.positiveScale.push($scope.query.positiveScale[i]);
+                 }
             }
-
+            
             console.log('query.dateRange = ', $scope.query.dateRange);
 
             if ($scope.query.dateRange) {
