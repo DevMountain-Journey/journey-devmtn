@@ -1,20 +1,97 @@
-  <div class="row">
-    <div class="col-sm-8 feed">
-
+<div class="container-fluid">
+  <div class="row" ui-view>
+    <div class="feed">
       <div class="card text-cs-center">
         <div class="card-header">
-          Herp Derp :)
+          Thought
         </div>
         <div class="card-block">
-            <h1>HELLO MOTO </h1>
-        </div>
-      </div>
+
+          <div class="posts-timeline" >
+              <div>
+                {{postData.body}}
+                  <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
+              </div>
+
+              <div class="pt-body">
+                  <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
+                  <div class="clearfix">
+                   
+                  </div>
+
+              </div><!--/.pt-body-->
+          </div><!--/.posts-timeline-->
 
     </div>
+  </div>
+ 
+</div>
 
-    <div class="col-sm-4 sidebar">
+    <div class="sidebar">
+      <div class="scroll-body" slimscroll="{
+        height: '500px',
+        color: 'white',
+        alwaysVisible: false,
+        railVisible: true,
+        railOpacity: '0.7'
+      }">
 
-   
+          <form ng-submit="createPost()">
+            <fieldset class="form-group">
+              <label for="emotionlevel">{{postData.user.firstName}}
+                   {{postData.user.lastName}}</label>
 
+                <div class="author">
+                     <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="80" gravatar-default="mm">
+                   <br>
+                   <p class='authorInfo'>
+                  {{postData.user.email}}</p>
+                 
+              <canvas class="chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"></canvas>
+
+            </fieldset>
+
+           
+          </form>
+
+      <!--/.input form-->
+
+      <hr>
+              <h3>Search</h3>
+              <form ng-submit="createQuery()">
+                  <fieldset class="form-group">
+                      <label for="searchTagName">Person's Name</label>
+                      <input id="searchTagName" class="form-control" ng-model="query.name" type="text">
+                      </input>
+                      <label for="searchTagName">What They're Working On</label>
+                      <input id="searchTagName" class="form-control" ng-model="query.tag" type="text">
+                      </input>
+                      <label for="searchLowEmotion">Low Emotion Level</label>
+                      <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
+                      </input>
+                      <label for="searchHighEmotion">High Emotion Level</label>
+                      <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
+                      </input>
+      
+                      <label for="daterange">Date Range</label>
+                      <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <div class="glyphicon glyphicon-calendar fa fa-calendar"></div>&nbsp;
+                            <span></span>
+                      </div>
+      
+                          
+                </fieldset>
+    
+                <button type="submit" class="btn btn-primary">Submit</button>
+            
+              </form>
+              <!--<br>
+              <button ng-click="clearQuery()" class="btn btn-primary">Clear</button>-->
+              <br>
+              <div id="processing_query" ng-show="processingQuery">Processing</div>
+              <br>
+              <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
+      </div><!--/slimscroll-->
     </div><!--/.sidebar-->
   </div><!--/.row-->
+</div><!--/.container-fluid-->

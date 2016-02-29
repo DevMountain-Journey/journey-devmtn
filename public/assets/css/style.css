@@ -284,3 +284,13 @@ div[ui-view]{
     color: red;
     font-weight: bold;
 }
+
+
+/********************/
+/** Individual Post **/
+/********************/
+
+
+.authorInfo {
+    margin-left:2%0;
+}

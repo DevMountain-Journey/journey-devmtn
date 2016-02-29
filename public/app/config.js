@@ -44,20 +44,10 @@ angular.module('journey' )
             }
          }
       })
-      .state('feed.post', {
+      .state('post', {
         url: '/post/:id',
+        controller: 'postCtrl',
         templateUrl: './app/templates/postDetailTmpl.html'
-
-      })
-
-      .state('post.add', {
-        url: '/add',
-        templateUrl: './templates/addTmpl.html'
-      })
-
-      .state('post.edit', {
-        url: '/edit',
-        templateUrl: './templates/editTmpl.html'
       });
 
       $urlRouterProvider.otherwise('/');
