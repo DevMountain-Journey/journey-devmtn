@@ -58,6 +58,7 @@ div[ui-view]{
   position: relative;
   padding-left: 120px;
   margin-bottom: 75px;
+  margin-top:20px;
 }
 .posts-timeline .pt-line {
   position: absolute;
@@ -109,9 +110,19 @@ div[ui-view]{
   height: 70px;
   margin: 0 8px 15px 0;
   position: relative;
+  transition: transform 300ms ease;
+  transition: width: 300ms ease;
+}
+.posts-timeline .person:hover{
+  transform: scale(1.5,1.5);
+  z-index:100;
+  width: 150px;
+  box-shadow: 0 0 2px rgba(0,0,0,.5);
+
 }
 
 .posts-timeline .person .gravatar {
+
 }
 
 .posts-timeline .person .emotionOverlay{
@@ -125,60 +136,92 @@ div[ui-view]{
 }
 
 .posts-timeline .person .emotionOverlay .eo-inner{
-  color: #222222;
+  color: #EAEAEA;
+  opacity: 0;
+  background: #222;
+  width: 100%;
+  height: 100%;
 }
 
-.posts-timeline .person .emotionOverlay .eo-inner .eo-post{
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar{
   position: absolute;
-  right: 4px;
-  font-size: .7em;
-  top: 1px;
+  width: 100%;
+  height: 14px;
+  bottom:0;
 }
-.posts-timeline .person .emotionOverlay .eo-inner .eo-comments{
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar .eo-comments{
   position: absolute;
   font-size: .6em;
   left: 3px;
-  top: 1px;
+  bottom: 0;
 }
-.posts-timeline .person .emotionOverlay .eo-inner .eo-time{
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar .eo-time{
   position: absolute;
   bottom: 0;
-  font-size: .7em;
+  font-size: .6em;
   text-align: center;
   width: 100%;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar .eo-post{
+  position: absolute;
+  right: 4px;
+  font-size: .6em;
+  bottom: 0;
 }
 
 .posts-timeline .person .emotionOverlay .eo-inner .eo-face{
   height: 52%;
   position: absolute;
-  top: 15px;
-  left: 17px;
-  opacity: 1;
-}
-
-.posts-timeline .person .emotionOverlay .eo-inner .eo-number{
-  font-size: 1em;
-  color: rgba(0,0,0,0.5);
-  font-weight: bold;
-  line-height: 1em;
-  position: absolute;
-  bottom: 3px;
+  top: 10px;
   left: 5px;
   opacity: 1;
 }
 
-.posts-timeline .person .emotionOverlay.eo-1  { background: rgb(153, 43, 43); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-2  { background: rgb(181, 79, 79); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-3  { background: rgb(209, 124, 122); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-4  { background: rgb(209, 161, 158); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-5  { background: rgb(209, 191, 165); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-6  { background: rgb(209, 208, 163); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-7  { background: rgb(185, 209, 164); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-8  { background: rgb(172, 209, 159); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-9  { background: rgb(137, 167, 127); opacity: 1; }
-.posts-timeline .person .emotionOverlay.eo-10 { background: rgb(114, 138, 105); opacity: 1; }
+.posts-timeline .person .emotionOverlay .eo-inner .eo-tags{
+  position: absolute;
+  top: 5px;
+  left: 0;
+  padding-left: 44px;
+  font-size: .6em;
+  height: 65%;
+  width: 100%;
+  color: #888;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-tags span{
+  display: block;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-tags span:before{
+  content: "# ";
+  color: #555;
+}
 
-.posts-timeline .person .emotionOverlay:hover { opacity: 0.8; }
+.posts-timeline .person .emotionOverlay .eo-inner .eo-number{
+  font-size: 2.5em;
+  color: rgba(0,0,0,0.3);
+  font-weight: bold;
+  line-height: 1em;
+  position: absolute;
+  top: 1px;
+  right: 5px;
+}
+
+.eo-1  { background: rgba(153, 43, 43, 0.4); }
+.eo-2  { background: rgba(181, 79, 79, 0.4); }
+.eo-3  { background: rgba(209, 124, 122, 0.4); }
+.eo-4  { background: rgba(209, 161, 158, 0.4); }
+.eo-5  { background: rgba(209, 191, 165, 0.4); }
+.eo-6  { background: rgba(209, 208, 163, 0.4); }
+.eo-7  { background: rgba(185, 209, 164, 0.4); }
+.eo-8  { background: rgba(172, 209, 159, 0.4); }
+.eo-9  { background: rgba(137, 167, 127, 0.4); }
+.eo-10 { background: rgba(114, 138, 105, 0.4); }
+
+.posts-timeline .person .emotionOverlay:hover,
 .posts-timeline .person .emotionOverlay:hover .eo-inner { opacity: 1; }
 
 /********************/
