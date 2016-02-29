@@ -5,6 +5,7 @@ angular.module('journey')
     $scope.postContent = {};
     $scope.totalPosts = 0;
     $scope.query = {};
+    $scope.query.positiveScale = [];
     $scope.today = new Date();
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
@@ -151,7 +152,19 @@ angular.module('journey')
 
       }
     };
-
+    
+    $scope.setScaleQuery = function(num) {
+        var alreadySelected = false;
+        for (var i = 0; i < $scope.query.positiveScale.length; i++) {
+            if ($scope.query.positiveScale[i] === num + 1)  { // if already selected
+                $scope.query.positiveScale.splice(i, 1);  // remove from array
+                alreadySelected = true;
+            }
+        }
+        if (!alreadySelected)
+            $scope.query.positiveScale.push(num + 1);
+    };
+    
     $scope.repeatEmotions = function() {
       return new Array(10);
     };
@@ -198,7 +211,7 @@ angular.module('journey')
                 }
             }
 
-            if ($scope.query.lowEmotion && $scope.query.highEmotion) {
+            /* if ($scope.query.lowEmotion && $scope.query.highEmotion) {
                 if ($scope.query.lowEmotion <= $scope.query.highEmotion) {
                     filters.positiveScale = [];
                     for (var x = $scope.query.lowEmotion; x <= $scope.query.highEmotion; x++) {
@@ -209,8 +222,15 @@ angular.module('journey')
                      var err = {data: 'Low Emotion Level cannot be greater than High Emotion Level'};
                      errService.error(err);
                 }
+            } */
+            
+            if ($scope.query.positiveEmotion && $scope.query.positiveEmotion.length) {
+                 filters.positiveScale = [];
+                 for (var i = 0; i < $scope.query.positiveEmotion.length; i++) {
+                     filters.positiveScale.push($scope.query.positiveScale[i]);
+                 }
             }
-
+            
             console.log('query.dateRange = ', $scope.query.dateRange);
 
             if ($scope.query.dateRange) {

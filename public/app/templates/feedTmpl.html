@@ -115,6 +115,26 @@
                         </tags-input>
                   </fieldset>
                   <fieldset class="form-group">
+                      <label for="emotionlevel">How They're Feeling</label>
+
+                      <div class="emotions">
+                          <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index">
+                              <ng-include
+                                ng-click="setScaleQuery($index)"
+                                ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}"
+                                class="emotionSvg"
+                                src="'assets/img/faces/face-'+$index+'.svg'">
+                              </ng-include>
+                              {{$index + 1}}
+                          </div>
+                          <div class="scalewrap">
+                              <span class="negative">NEGATIVE</span><span class="positive">POSITIVE</span>
+                          </div>
+                      </div>
+                  </fieldset>
+
+<!--
+                  <fieldset class="form-group">
 
                       <label for="searchLowEmotion">Low Emotion Level</label>
                       <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
@@ -124,6 +144,7 @@
                       </input>
 
                   </fieldset>
+-->
                   <fieldset class="form-group">
                       <label for="daterange">Date Range</label>
                       <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
