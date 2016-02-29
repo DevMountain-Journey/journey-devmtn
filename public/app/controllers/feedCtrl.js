@@ -69,9 +69,7 @@ angular.module('journey')
                     autoCompleteTags.push(response.data[i][fieldname]);
                 }
 
-                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
                 autoCompleteTags = removeDuplicates(autoCompleteTags);
-                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
                 return autoCompleteTags.filter(function(item) {
                      return item.indexOf($query.toLowerCase()) !== -1;
                 });
@@ -172,7 +170,7 @@ angular.module('journey')
         $scope.queryErrorMsg = '';
         var filters = {};
         $scope.processingQuery = true;
-        if ($scope.query.firstName || $scope.query.lastName) {
+        if (($scope.query.firstName && $scope.query.firstName.length) || ($scope.query.lastName && $scope.query.lastName.length)) {
             userService.getSearchUsers($scope.query.firstName, $scope.query.lastName)
             .then(function(response) {
                 console.log('getSearchUsers response = ', response);
@@ -193,7 +191,7 @@ angular.module('journey')
 
         function completeQuery() {
 
-            if ($scope.query.tags) {
+            if ($scope.query.tags && $scope.query.tags.length) {
                 filters.tags = [];
                 for (var i = 0; i < $scope.query.tags.length; i++) {
                     filters.tags[i] = $scope.query.tags[i].name.toLowerCase();
