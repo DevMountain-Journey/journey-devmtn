@@ -52,9 +52,7 @@ angular.module('journey')
                     }
                 }
 
-                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
                 autoCompleteTags = removeDuplicates(autoCompleteTags);
-                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
                 return autoCompleteTags.filter(function(item) {
                      return item.indexOf($query.toLowerCase()) !== -1;
                 });
@@ -224,9 +222,9 @@ angular.module('journey')
                 }
             } */
             
-            if ($scope.query.positiveEmotion && $scope.query.positiveEmotion.length) {
+            if ($scope.query.positiveScale && $scope.query.positiveScale.length) {
                  filters.positiveScale = [];
-                 for (var i = 0; i < $scope.query.positiveEmotion.length; i++) {
+                 for (var i = 0; i < $scope.query.positiveScale.length; i++) {
                      filters.positiveScale.push($scope.query.positiveScale[i]);
                  }
             }

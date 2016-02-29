@@ -123,10 +123,9 @@
                       <label for="emotionlevel">How They're Feeling</label>
 
                       <div class="emotions">
-                          <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index">
+                          <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}">
                               <ng-include
                                 ng-click="setScaleQuery($index)"
-                                ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}"
                                 class="emotionSvg"
                                 src="'assets/img/faces/face-'+$index+'.svg'">
                               </ng-include>
