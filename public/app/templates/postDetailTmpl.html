@@ -1,20 +1,94 @@
+<div class="container-fluid">
   <div class="row">
-    <div class="col-sm-8 feed">
-
+    <div class="feed">
       <div class="card text-cs-center">
         <div class="card-header">
-          Herp Derp :)
+          Thought
         </div>
         <div class="card-block">
-            <h1>HELLO MOTO </h1>
-        </div>
-      </div>
+
+          <div class="posts-timeline">
+              <div>
+                 {{postData.body}}
+              </div>
+
+              <div class="pt-body">
+                  <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
+                  <div class="clearfix">
+                      <div class="person" ng-repeat="post in posts.posts">
+                        <img gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
+                      </div>
+                  </div>
+
+              </div><!--/.pt-body-->
+          </div><!--/.posts-timeline-->
 
     </div>
+  </div>
+ 
+</div>
 
-    <div class="col-sm-4 sidebar">
+    <div class="sidebar">
+      <div class="scroll-body" slimscroll="{
+        height: '500px',
+        color: 'white',
+        alwaysVisible: false,
+        railVisible: true,
+        railOpacity: '0.7'
+      }">
 
-   
+          <form ng-submit="createPost()">
+            <fieldset class="form-group">
+              <label for="emotionlevel">Author</label>
 
+                <div class="author">
+                   <img gravatar-src="post.user.email" gravatar-size="75" gravatar-default="mm">
+                   <br></br>
+                   <p class='authorInfo'>{{postData.user.firstName}}
+                   {{postData.user.lastName}}
+                   <br></br>
+                   {{postData.user.email}}<p>
+                    </div>
+
+            </fieldset>
+
+              <div id="chart" 
+                <bars data-ac-chart="'bar'" 
+                data-ac-data="data" 
+                data-ac-config="config" 
+                class="chart">
+                </div>
+                
+            
+      <!--/.input form-->
+  
+      <hr>
+              <h3>Search</h3>
+              <form ng-submit="createQuery()">
+                  <fieldset class="form-group">
+                      <label for="searchTagName">Person's Name</label>
+                      <input id="searchTagName" class="form-control" ng-model="query.name" type="text">
+                      </input>
+                      <label for="searchTagName">What They're Working On</label>
+                      <input id="searchTagName" class="form-control" ng-model="query.tag" type="text">
+                      </input>
+                      <label for="searchLowEmotion">Low Emotion Level</label>
+                      <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
+                      </input>
+                      <label for="searchHighEmotion">High Emotion Level</label>
+                      <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
+                      </input>
+      
+                </fieldset>
+    
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                  
+              </form>
+
+
+
+      </div><!--/slimscroll-->
     </div><!--/.sidebar-->
   </div><!--/.row-->
+</div><!--/.container-fluid-->
