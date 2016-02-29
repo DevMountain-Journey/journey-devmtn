@@ -276,9 +276,10 @@ angular.module('journey')
             }
         }, cb);
 
+        //Init Tooltips
+        $('[data-toggle="tooltip"]').tooltip('show');
+
     });
-
-
 
 
     //Init - Format the postPromise on the route.

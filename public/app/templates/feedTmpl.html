@@ -28,22 +28,29 @@
                       <div class="person" ng-repeat="post in posts.posts">
                         <div class="emotionOverlay eo-{{post.positiveScale}}">
                           <div class="eo-inner">
-                            <!-- <div class="eo-number">{{post.positiveScale}}</div> -->
-                            <div class="eo-comments"> 3 <i class="fa fa-comment"></i></div>
-                            <div class="eo-post"><i class="fa fa-external-link"></i></div>
-                            <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
+                            <div class="eo-bottom-bar eo-{{post.positiveScale}}">
+                              <div class="eo-comments"> 3 <i class="fa fa-comment"></i></div>
+                              <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
+                              <div class="eo-post" ui-sref="post({id:post._id})"><i class="fa fa-external-link"></i></div>
+                            </div>
+                            <div class="eo-number">{{post.positiveScale}}</div>
+                            <div class="eo-tags"><div  class="scroll-body" slimscroll="{
+                              height: 'auto',
+                              color: '#777',
+                              railOpacity: '0.7',
+                              size: '3px'
+                            }"><span ng-repeat="tag in post.tags">{{tag}}</span></div></div>
                             <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="eo-face">
                           </div>
                         </div>
                         <img class="gravatar" gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
-
                       </div>
                   </div>
 
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline-->
-          <pre>{{fixedPosts}}</pre>
-          <pre>{{posts}}</pre>
+          <!-- <pre>{{fixedPosts}}</pre>
+          <pre>{{posts}}</pre> -->
     </div>
   </div>
 </div>
