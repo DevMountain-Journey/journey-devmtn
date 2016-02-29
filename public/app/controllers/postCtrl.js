@@ -3,9 +3,10 @@ angular.module('journey')
    console.log($stateParams, "STATEPARAMS");
 
  
- $scope.postData = postService.getOnePost($stateParams.id)
+postService.getOnePost($stateParams.id)
 .then(function(response) {
-            $scope.postData = response.data;   
+            $scope.postData = response.data; 
+            console.log($scope.postData, "checking");  
  $scope.options = {
            chart: {
                 type: 'lineChart',
@@ -73,7 +74,7 @@ angular.module('journey')
           function(error) {
             return error;
           });
-   console.log($scope.postData, "postData"); 
+
        
        
          

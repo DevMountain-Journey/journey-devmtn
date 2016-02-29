@@ -431,3 +431,10 @@ div[ui-view]{
 .dashed {
     stroke-dasharray: 5,5;
 }
+
+.tags {
+    display: inline-block;
+    background-color:blue;
+    margin-right:5px;
+    color:white;
+}
