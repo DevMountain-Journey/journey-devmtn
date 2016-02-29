@@ -1,63 +1,83 @@
 <div class="container-fluid">
   <div class="row">
     <div class="feed">
+
       <div class="card text-cs-center">
         <div class="card-header">
-          {{totalPosts}} Posts
+          Displaying <strong>{{totalPosts}}</strong> Posts
         </div>
-        <div class="card-block">
+        <div class="card-block" style="height:calc(100vh - 114px);">
+          <div class="scroll-body" slimscroll="{
+            height: 'auto',
+            color: '#333',
+            railVisible: true,
+            railOpacity: '0.7'
+          }">
 
           <div class="posts-timeline" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
               <div class="pt-line text-right">
                   <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
                   <span class="d-block">
                     <span ng-if="isToday(posts.date)">Today</span>
-                    <span ng-if="!isToday(posts.date)">{{posts.date | amUtc | amLocal | amDateFormat:'MM.DD.YYYY HH:mm:ss'}}</span>
+                    <span ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}} days ago</span>
                   </span>
-                  <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
               </div>
 
               <div class="pt-body">
-                  <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
                   <div class="clearfix">
                       <div class="person" ng-repeat="post in posts.posts">
-                        <img gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
+                        <div class="emotionOverlay eo-{{post.positiveScale}}">
+                          <div class="eo-number">{{post.positiveScale}}</div>
+                          <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="emotionFace">
+                        </div>
+                        <img class="gravatar" gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
+
                       </div>
                   </div>
 
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline-->
-
+          <pre>{{fixedPosts}}</pre>
+          <pre>{{posts}}</pre>
     </div>
   </div>
-  <pre>{{fixedPosts}}</pre>
+</div>
 </div>
 
     <div class="sidebar">
       <div class="scroll-body" slimscroll="{
-        height: '500px',
-        color: 'white',
-        alwaysVisible: false,
+        height: 'auto',
+        color: '#CCC',
         railVisible: true,
         railOpacity: '0.7'
       }">
 
           <form ng-submit="createPost()">
             <fieldset class="form-group">
-              <label for="emotionlevel">Emotion Level</label>
+              <label for="emotionlevel">How are you feeling?</label>
 
-                <div class="emotions" ng-model="postContent.positiveScale">
-                    <div ng-repeat="i in repeatEmotions() track by $index" ng-click = "setScale($index)" ng-class="{'toggled':postContent.positiveScale == $index + 1}" class ="emotion">
-                        <img class="emotionImg"src="./assets/img/test.jpg">{{$index + 1}}</div>
+                <div class="emotions">
+                    <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index">
+                        <ng-include
+                          ng-click="setScale($index)"
+                          ng-class="{'toggled':postContent.positiveScale == $index + 1}"
+                          class="emotionSvg"
+                          src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
+                        {{$index + 1}}
                     </div>
+                    <div class="scalewrap">
+                      <span class="negative">NEGATIVE</span><span class="positive">POSITIVE</span>
+                    </div>
+                </div>
 
             </fieldset>
 
             <fieldset class="form-group">
-              <label for="tags">What are you working on?</label>
-              <tags-input ng-model="postContent.tags" display-property="name" placeholder="What are you working on?" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
-                <auto-complete source="loadTags($query)" min-length="2" maxResultsToShow="5"></auto-complete>
-              </tags-input>
+                <label for="tags">What are you working on?</label>
+                <tags-input ng-model="postContent.tags" display-property="name" placeholder="What are you working on?" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                    <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5">
+                    </auto-complete>
+                </tags-input>
             </fieldset>
 
             <fieldset class="form-group">
@@ -74,28 +94,53 @@
               <h3>Search</h3>
               <form ng-submit="createQuery()">
                   <fieldset class="form-group">
-                      <label for="searchTagName">Person's Name</label>
-                      <input id="searchTagName" class="form-control" ng-model="query.name" type="text">
-                      </input>
-                      <label for="searchTagName">What They're Working On</label>
-                      <input id="searchTagName" class="form-control" ng-model="query.tag" type="text">
-                      </input>
+                      <label for="searchFirstName">Person's First Name</label>
+                      <tags-input id="searchFirstName" ng-model="query.firstName" display-property="name" placeholder="First Name" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                            <auto-complete source="loadAutoCompleteTags('firstName', $query)" min-length="2" maxResultsToShow="5">
+                            </auto-complete>
+                      </tags-input>
+                  </fieldset>
+                  <fieldset class="form-group">
+                      <label for="searchLastName">Person's Last Name</label>
+                      <tags-input id="searchLastName" ng-model="query.lastName" display-property="name" placeholder="Last Name" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                            <auto-complete source="loadAutoCompleteTags('lastName', $query)" min-length="2" maxResultsToShow="5">
+                            </auto-complete>
+                      </tags-input>
+                  </fieldset>
+                  <fieldset class="form-group">
+                      <label for="searchTags">What They're Working On</label>
+                      <tags-input id="searchTags" ng-model="query.tags" display-property="name" placeholder="What They're Working On" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                            <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5">
+                            </auto-complete>
+                        </tags-input>
+                  </fieldset>
+                  <fieldset class="form-group">
+
                       <label for="searchLowEmotion">Low Emotion Level</label>
                       <input id="searchLowEmotion" class="form-control" ng-model="query.lowEmotion" type="number" min="1" max="10">
                       </input>
                       <label for="searchHighEmotion">High Emotion Level</label>
                       <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
                       </input>
-      
+
+                  </fieldset>
+                  <fieldset class="form-group">
+                      <label for="daterange">Date Range</label>
+                      <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <div class="glyphicon glyphicon-calendar fa fa-calendar"></div>&nbsp;
+                            <span></span>
+                      </div>
                 </fieldset>
-    
+
                 <button type="submit" class="btn btn-primary">Submit</button>
 
-                  
               </form>
-
-
-
+              <!--<br>
+              <button ng-click="clearQuery()" class="btn btn-primary">Clear</button>-->
+              <br>
+              <div id="processing_query" ng-show="processingQuery">Processing</div>
+              <br>
+              <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
       </div><!--/slimscroll-->
     </div><!--/.sidebar-->
   </div><!--/.row-->
