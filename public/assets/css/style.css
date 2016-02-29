@@ -107,28 +107,48 @@ div[ui-view]{
   float: left;
   width: 70px;
   height: 70px;
-  margin: 0 3px 3px 0;
+  margin: 0 8px 15px 0;
   position: relative;
 }
 
-.posts-timeline .person img {
-  position: absolute;
-  top:0;
-  left: 0;
-  z-index: 0;
+.posts-timeline .person .gravatar {
 }
-.emotionOverlay{
+
+.posts-timeline .person .emotionOverlay{
   position: absolute;
   height:100%;
   width: 100%;
-  background: rgba(255, 0, 0, 0.3);
   top:0;
   left: 0;
   z-index:10;
 }
 
-.emotionOverlay .faceColor {
-  fill: #fff;
+.posts-timeline .person .emotionOverlay .emotionFace{
+  position: absolute;
+  bottom: -7px;
+  left: 34.5%;
+  height: 30%;
+}
+
+.posts-timeline .person .emotionOverlay.eo-1  { background: rgba(136, 111, 111, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-2  { background: rgba(181, 79, 79, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-3  { background: rgba(209, 124, 122, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-4  { background: rgba(209, 161, 158, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-5  { background: rgba(209, 191, 165, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-6  { background: rgba(209, 208, 163, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-7  { background: rgba(185, 209, 164, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-8  { background: rgba(172, 209, 159, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-9  { background: rgba(137, 167, 127, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-10 { background: rgba(114, 138, 105, 0.5); }
+
+.posts-timeline .person .emotionOverlay .eo-number{
+  font-size: 1.5em;
+  color: rgba(0,0,0,0.5);
+  font-weight: bold;
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  left: 5px;
 }
 
 /********************/
@@ -178,8 +198,8 @@ div[ui-view]{
 }
 
 .emotions .emotionWrapper .emotionSvg svg g path:first-child {
-  fill: #EEEEEE!important;
-  fill-opacity: 0.9!important;
+  /*fill: #EEEEEE!important;
+  fill-opacity: 0.9!important;*/
 }
 .emotions .emotionWrapper .emotionSvg:hover {
   cursor: pointer;
