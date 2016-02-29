@@ -1,36 +1,37 @@
 angular.module('journey')
-.controller('postCtrl', function($stateParams, $scope, postService, auth) {
+.controller('postCtrl', function($stateParams, $scope, postService, auth, $interval) {
    console.log($stateParams, "STATEPARAMS");
 
  
  $scope.postData = postService.getOnePost($stateParams.id)
 .then(function(response) {
             $scope.postData = response.data;   
-            $scope.config = {
-    title: 'Average Emotion',
-    tooltips: true,
-    labels: true,
-    responsive:true,
-    // legend: {
-    //   display: false,
-    //   //could be 'left, right'
-    //   position: 'right',
-    // },       
-  };
+  function ChartJSBarController($interval) {
+        var vm = this;
+        vm.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+        vm.series = ['Series A', 'Series B'];
 
-$scope.data = {
+        /////////
 
-  series: [$scope.postData.user.firstName, 'Average'],
-  data: [{
-      x: $scope.postData.user.lastName,
-      y: [$scope.postData.positiveScale],
-      tooltip: $scope.postData.user.firstName
-        }, {
-      x: "average",
-      y: [3],
-      tooltip: "Average"
-    }],
-  };    
+        function randomData() {
+            vm.data = [];
+            for(var series = 0; series < vm.series.length; series++) {
+                var row = [];
+                for(var label = 0; label < vm.labels.length; label++) {
+                    row.push(Math.floor((Math.random() * 100) + 1));
+                }
+                vm.data.push(row);
+            }
+        }
+
+        // init
+
+        randomData();
+
+        // Simulate async data update
+        $interval(randomData, 5000);
+    }
+    
            
           },
           function(error) {

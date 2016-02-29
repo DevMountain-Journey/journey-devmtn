@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="row" ui-view>
     <div class="feed">
       <div class="card text-cs-center">
         <div class="card-header">
@@ -7,10 +7,19 @@
         </div>
         <div class="card-block">
 
-          <div class="posts-timeline">
+          <div class="posts-timeline" >
               <div>
-                 {{postData.body}}
+                {{postData.body}}
+                  <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
               </div>
+
+              <div class="pt-body">
+                  <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
+                  <div class="clearfix">
+                   
+                  </div>
+
+              </div><!--/.pt-body-->
           </div><!--/.posts-timeline-->
 
     </div>
@@ -28,30 +37,25 @@
       }">
 
           <form ng-submit="createPost()">
-           
-              <label for="emotionlevel">Author</label>
+            <fieldset class="form-group">
+              <label for="emotionlevel">{{postData.user.firstName}}
+                   {{postData.user.lastName}}</label>
 
                 <div class="author">
-                   <img gravatar-src="post.user.email" gravatar-size="75" gravatar-default="mm">
-                   <br></br>
-                   <p class='authorInfo'>{{postData.user.firstName}}
-                   {{postData.user.lastName}}
-                   <br></br>
-                   {{postData.user.email}}</p>
-                    </div>
+                     <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="80" gravatar-default="mm">
+                   <br>
+                   <p class='authorInfo'>
+                  {{postData.user.email}}</p>
+                 
+              <canvas class="chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"></canvas>
 
-         
+            </fieldset>
 
-              <div id="chart" 
-                <bars data-ac-chart="'bar'" 
-                data-ac-data="data" 
-                data-ac-config="config" 
-                class="chart">
-                </div>
-                
-            
+           
+          </form>
+
       <!--/.input form-->
-  
+
       <hr>
               <h3>Search</h3>
               <form ng-submit="createQuery()">
@@ -69,16 +73,48 @@
                       <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
                       </input>
       
+                      <label for="daterange">Date Range</label>
+                      <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                            <div class="glyphicon glyphicon-calendar fa fa-calendar"></div>&nbsp;
+                            <span></span>
+                      </div>
+      
+                          
                 </fieldset>
     
                 <button type="submit" class="btn btn-primary">Submit</button>
-
-                  
+            
               </form>
-
-
-
+              <!--<br>
+              <button ng-click="clearQuery()" class="btn btn-primary">Clear</button>-->
+              <br>
+              <div id="processing_query" ng-show="processingQuery">Processing</div>
+              <br>
+              <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
       </div><!--/slimscroll-->
     </div><!--/.sidebar-->
   </div><!--/.row-->
 </div><!--/.container-fluid-->
+
+
+
+
+
+
+        <!--<div class="author">
+                   <img gravatar-src="post.user.email" gravatar-size="75" gravatar-default="mm">
+                   <br></br>
+                   <p class='authorInfo'>{{postData.user.firstName}}
+                   {{postData.user.lastName}}
+                   <br></br>
+                   {{postData.user.email}}</p>
+                    </div>
+
+         
+
+              <div id="chart" 
+                <bars data-ac-chart="'bar'" 
+                data-ac-data="data" 
+                data-ac-config="config" 
+                class="chart">
+                </div>-->
