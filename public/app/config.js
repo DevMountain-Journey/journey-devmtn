@@ -32,12 +32,6 @@ angular.module('journey' )
                     return response;
                 });
             },
-            postCount: function(postService, errService) {
-               return postService.getCount()
-               .then(function( response ) {
-                  return response.data;
-                });
-            },
             auth: function(authService, $state) {  // sends back who's logged in
                 return authService.checkForAuth()
                 .then(function(response) {

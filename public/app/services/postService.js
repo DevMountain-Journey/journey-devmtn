@@ -61,5 +61,12 @@ angular.module('journey')
         var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
         return {datePosted: [fromDate, today]};
     };
+    
+    this.autoCompleteQuery = function(fieldName, query) {
+        return $http({
+              method: 'GET',
+              url: '/api/posts/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
+          });
+    };
 
   });

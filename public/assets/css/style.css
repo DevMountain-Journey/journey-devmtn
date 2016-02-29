@@ -1,3 +1,18 @@
+@-webkit-keyframes colorPulse{
+  0% {fill: #45CEEF;}
+  25% {fill: #FFF5A5;}
+  50% {fill: #70de9c;}
+  75% {fill: #ad51d2;}
+  100% {fill: #d57878;}
+}
+
+body {
+  overflow: hidden;
+}
+
+div[ui-view]{
+  padding-top: 65px;
+}
 .navbar {
   border-radius: 0;
   margin-bottom: 0;
@@ -5,6 +20,9 @@
   z-index: 100;
   background: #111111;
   border-bottom:1px solid #000;
+  height: 65px;
+  position:fixed;
+  width: 100vw;
 }
 .navbar-brand img {
   max-width: 200px;
@@ -15,24 +33,8 @@
   right: 20px;
   top:20px;
 }
-.navbar .logod-block
-ut:hover {
+.navbar .logout:hover{
   cursor: pointer;
-}
-
-.sidebar {
-  height: 100%;
-  width:350px;
-  background: #191919;
-  /*background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/crissXcross.png') repeat;*/
-  position: fixed;
-  right: 0;
-  color: #AFAFAF;
-  box-shadow: 0 0  10px #000;
-}
-
-.sidebar .scroll-body{
-  padding:20px;
 }
 
 /********************/
@@ -44,37 +46,12 @@ ut:hover {
 }
 
 
-  /** Emotion Bar **/
- .emotions {
-     height:40px;
-     width:100%;
-     background-color:#373a3c;
-     display:flex;
-     justify-content: space-between;
-     text-align: center;
-     margin-bottom:3%;
- }
-
- .emotion{
-     width:9.5%;
-     height:100%;
-     background-color:black;
- }
-
- .emotionImg {
-     height:100%;
-     width:95%;
- }
-
-.toggled {
-    border: 1px solid red;
-}
-
 /********************/
 /** POSTS TIMELINE **/
 /********************/
 .feed{
-  width:calc(100vw - 350px);
+  width:calc(100vw - 400px);
+  height:calc(100vh - 65px);
   float: left;
 }
 .posts-timeline {
@@ -130,17 +107,158 @@ ut:hover {
   float: left;
   width: 70px;
   height: 70px;
-  margin: 0 3px 3px 0;
-}
-.posts-timeline .person:before, .posts-timeline .person:after, .clearfix:before {
-  content: " ";
-  display: table;
-}
-.posts-timeline .person:after {
-  clear: both;
+  margin: 0 8px 15px 0;
+  position: relative;
 }
 
-#searchTagName {
+.posts-timeline .person .gravatar {
+}
+
+.posts-timeline .person .emotionOverlay{
+  position: absolute;
+  height:100%;
+  width: 100%;
+  top:0;
+  left: 0;
+  z-index:10;
+}
+
+.posts-timeline .person .emotionOverlay .emotionFace{
+  position: absolute;
+  bottom: -7px;
+  left: 34.5%;
+  height: 30%;
+}
+
+.posts-timeline .person .emotionOverlay.eo-1  { background: rgba(136, 111, 111, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-2  { background: rgba(181, 79, 79, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-3  { background: rgba(209, 124, 122, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-4  { background: rgba(209, 161, 158, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-5  { background: rgba(209, 191, 165, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-6  { background: rgba(209, 208, 163, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-7  { background: rgba(185, 209, 164, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-8  { background: rgba(172, 209, 159, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-9  { background: rgba(137, 167, 127, 0.5); }
+.posts-timeline .person .emotionOverlay.eo-10 { background: rgba(114, 138, 105, 0.5); }
+
+.posts-timeline .person .emotionOverlay .eo-number{
+  font-size: 1.5em;
+  color: rgba(0,0,0,0.5);
+  font-weight: bold;
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+}
+
+/********************/
+/** SIDEBAR        **/
+/********************/
+
+.sidebar {
+  height: calc(100vh - 65px);
+  width:400px;
+  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
+  /*background: -moz-linear-gradient(top,  #151515 0%, #222222 100%);
+  background: -webkit-linear-gradient(top,  #151515 0%,#222222 100%);
+  background: linear-gradient(to bottom,  #151515 0%,#222222 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#222222',GradientType=0 ); */
+  position: fixed;
+  right: 0;
+  color: #AFAFAF;
+  box-shadow: 0 0  10px #000;
+}
+
+.sidebar .scroll-body{
+  padding:20px;
+}
+
+/** Emotion Bar **/
+.emotions {
+   display:flex;
+   flex-flow: row wrap;
+   justify-content: space-between;
+   text-align: center;
+   width:100%;
+   margin-bottom:15px;
+}
+
+.emotions .emotionWrapper {
+ width: 9%;
+ color: #555;
+ font-size: .7em;
+ margin-bottom: 5px;
+}
+
+.emotions .emotionWrapper .emotionSvg {
+ display: block;
+ transition: all 200ms cubic-bezier(.87,-.41,.19,1.44);
+ margin-bottom: 5px;
+}
+
+.emotions .emotionWrapper .emotionSvg svg g path:first-child {
+  /*fill: #EEEEEE!important;
+  fill-opacity: 0.9!important;*/
+}
+.emotions .emotionWrapper .emotionSvg:hover {
+  cursor: pointer;
+}
+.emotions .emotionWrapper .emotionSvg:hover,
+.emotions .emotionWrapper .emotionSvg.toggled {
+  transform: scale(2,2);
+}
+.emotions .emotionWrapper .emotionSvg:hover svg g path:first-child {
+  fill: #ddd468!important;
+}
+.emotions .emotionWrapper .emotionSvg.toggled svg g path:first-child {
+   -webkit-animation: colorPulse 8s infinite alternate;
+}
+
+.scalewrap{
+  width:100%;
+  padding: 0;
+  position: relative;
+  border-top: 2px solid #444;
+  font-size: 10px;
+  color: #444;
+}
+
+.scalewrap:before{
+  content: "➤";
+  position: absolute;
+  top: -16px;
+  left: -5px;
+  z-index: 10;
+  font-size: 20px;
+  transform: rotate(180deg);
+}
+
+.scalewrap:after{
+  content: "➤";
+  position: absolute;
+  top: -16px;
+  right: -5px;
+  z-index: 10;
+  font-size: 20px;
+}
+
+.scalewrap .negative, .positive{
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+}
+.scalewrap .negative {
+  text-align: left;
+  padding-left: 25px;
+}
+.scalewrap .positive{
+  text-align: right;
+  padding-right: 25px;
+}
+
+/*Filtering*/
+#searchFirstName, #searchLastName, #searchTags {
     margin-bottom: 30px;
 }
 
@@ -149,6 +267,9 @@ ut:hover {
     margin-bottom: 20px;
 }
 
+#daterange {
+    margin-bottom: 20px;
+}
 #daterange span {
     color: #000;
 }
