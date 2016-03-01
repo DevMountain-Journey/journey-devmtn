@@ -4,7 +4,7 @@ angular.module('journey', [
     'ui.gravatar',
     'angularMoment',
     'ui.slimscroll',
-    'nvd3'
+    'nvd3',
     'angular-loading-bar',
     'ngAnimate'
   ])
