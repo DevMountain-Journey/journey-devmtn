@@ -51,6 +51,7 @@ app.delete('/api/users/:id', authCtrl.requireAuth, usersCtrl.delete); // Delete 
 
 // Comments
 app.get('/api/comments', authCtrl.requireAuth, commentsCtrl.read); // Get comments. Accepts query parameter. Comments collection.
+app.get('/api/count/comments', authCtrl.requireAuth, commentsCtrl.commentCount); // Gets comment count. Accepts query parameter.
 app.put('/api/comments/:id', authCtrl.requireAuth, commentsCtrl.update); // Update comment. Comments collection.
 app.post('/api/comments/', authCtrl.requireAuth, commentsCtrl.create); // Create new comments. Comments collection.
 app.delete('/api/comments/:id', authCtrl.requireAuth, commentsCtrl.delete); // Delete comment. Comments collection.

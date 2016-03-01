@@ -35,6 +35,24 @@ module.exports = {
              }
         });
     },
+    
+    commentCount: function(req, res) {
+        console.log('in commentsCtrl');
+        console.log('in count');
+        console.log('req.query = ', req.query);
+        commentsModel
+        .count(req.query, function(err, result) {
+             console.log('errCount', err);
+             console.log('resultCount', result);
+             if (err) {
+                 console.log('in error routine');
+                 return res.status(500).send(err);
+             }
+             else {
+                 res.json(result);
+             }
+        });
+    },
 
     update: function(req, res) {
         console.log('in commentsCtrl');
