@@ -3,7 +3,9 @@ angular.module('journey', [
     'ngTagsInput',
     'ui.gravatar',
     'angularMoment',
-    'ui.slimscroll'
+    'ui.slimscroll',
+    'angular-loading-bar',
+    'ngAnimate'
   ])
 
   .run(function($rootScope, $state, $stateParams) {
