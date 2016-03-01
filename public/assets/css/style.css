@@ -425,14 +425,12 @@ div[ui-view]{
 
 .authorImg {
     float:left;
-    margin-bottom:5%;
+    
+    padding-right: 5px;
+    padding-top: 5px;
 }
 
-.authorInfo {
 
- margin-left: 20%;
-  
-}
 
 .followBtn {
     margin-right:55%;
@@ -487,23 +485,37 @@ div[ui-view]{
 
 }
 
-.lineChart {
-  background-color:white;
-}
-
-.chart .y {
-    color:white;
-}
-
-.dashed {
-    stroke-dasharray: 5,5;
-}
-
 .tags {
     display: inline-block;
     background-color:blue;
     margin-right:5px;
     color:white;
+}
+
+.comment{
+    width:100%;
+    background: #f5f5f5;
+    margin-top:5px;
+    border: 1px solid #e6e6e6;
+    padding-left:5px;
+}
+.authorInfo {
+  padding-left:10px;
+  margin-top: -3%; 
+  padding-right: 1px;
+}
+
+.commentUser {
+    padding-top:5px;
+    padding-left: 5px;
+}
+.addcomment {
+  margin-top:5%;
+
+}
+
+.commentArea {
+    max-height: 70px;
 }
 
 /***********************/

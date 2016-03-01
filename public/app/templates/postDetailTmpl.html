@@ -5,6 +5,14 @@
         <div class="card-header">
           Thought
         </div>
+        <div class="card-block" style="height:calc(100vh - 114px);">
+          <div class="scroll-body" slimscroll="{
+            height: 'auto',
+            color: '#333',
+            railVisible: true,
+            railOpacity: '0.7',
+            railColor: '#DDDDDD'
+          }">
         <div class="card-block">
           <div class="posts-timeline" >
                 <p class='datePosted'> Date Posted: {{postData.datePosted | date:'MM/dd h:mma'}} </p>
@@ -17,26 +25,43 @@
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline--> 
           
-          <div>
-                Comments: {{comment}}
-            
-           <div class="addcomment">
-    <form class='submitForm' ng-submit="addComment()">
-    <h1 class="createComment">Create Comment</h1>
+          
+      <div class="card-header">
+          Comments
+        </div>  
+          
+      <div class="comment" ng-repeat = "comment in comments">
+          <img class="authorImg" gravatar-src="comment.user.email" gravatar-size="30" gravatar-default="mm">
+           <p class="commentUser"> 
+               {{comment.user.firstName}} 
+               {{comment.user.lastName}} 
+               
+               Date Posted:  {{comment.datePosted | date:'MM/dd h:mma'}}
+                </p> <br>
+             <p class='authorInfo'>    
+                 Comments:
+                {{comment.body}}
+        </p>
+      </div>
+     
+    <div class="addcomment">
+    <form ng-submit="addComment()">
+        <h6 class="createComment">Create Comment</h6>
 
-    <div class="form-group">
-      <textarea type="text"
-      class="form-control"
-      placeholder="Comment (max 250 characters)"
-      ng-model="body" maxlength="250"></textarea>
-    </div>
-    <button class="commentBtn"  type="submit">Post</button>
-  </form>
-  </div>     
-         </div><!-- COMMENTS-->
+            
+              <textarea type="text"
+                class="form-control commentArea"
+                placeholder="Add Comment"
+                ng-model="commentBody" maxlength="250" required></textarea>
+                <button type="submit">Add Comment</button>
+            </form>
+            </div>  
+               
+         
     </div>
   </div>
- 
+        </div><!---SLIM SCROLL-->
+        </div>
 </div>
 
     <div class="sidebar">

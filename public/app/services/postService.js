@@ -84,8 +84,24 @@ angular.module('journey')
         return $http({
               method: 'GET',
               url: '/api/posts/getAvg?' + query
-          })
+          });
     };
-        
-
+    
+    this.getComments = function(id) {
+      return $http ({
+          method:'GET',
+          url: '/api/comments?postParent=' + id
+      });
+    };
+  
+   this.postComments = function(post) {
+      return $http ({
+          method:'POST',
+          url: '/api/comments/',
+          data: post
+      });
+    };
+  
+  
+  
   });
