@@ -1,12 +1,64 @@
 angular.module('journey')
-.controller('postCtrl', function($stateParams, $scope, postService, auth, $interval) {
+.controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData) {
    console.log($stateParams, "STATEPARAMS");
 
- 
-postService.getOnePost($stateParams.id)
-.then(function(response) {
-            $scope.postData = response.data; 
-            console.log($scope.postData, "checking");  
+ $scope.postData = postData.data;
+ console.log($scope.postData, "POSTDATA");
+
+console.log(auth, "AUTH");
+
+
+// $scope.daysInProgram = moment($scope.postData.user.startDate).fromNow();
+var a = moment(new Date());
+var b = moment($scope.postData.user.startDate);
+$scope.daysInProgram = a.diff(b, 'days');
+console.log($scope.daysInProgram, "days in program");
+
+            // USER AVERAGE
+postService.averageQuery('user', $scope.postData.user._id)
+    .then(function(response) {
+      console.log('checkuserAverage', response);
+           $scope.userAverage = Math.round(response.data[0].avg);
+           console.log($scope.userAverage, "userAverage");
+            $scope.userCount = response.data[0].count;
+                }, function(err) {
+                   console.error('checkForUserAverage', err);       
+  });
+                // COHORT AVERAGE
+ postService.averageQuery('cohort', $scope.postData.user.cohort)
+    .then(function(response) {
+      console.log('checkcohortAverage', response);
+           $scope.cohortAverage = Math.round(response.data[0].avg);
+           console.log($scope.cohortAverage, "cohortAverage");
+            $scope.cohortCount = response.data[0].count;
+                }, function(err) {
+                   console.error('checkForCohortAverage', err);       
+  });
+  
+postService.averageQuery('userPerWeek', $scope.postData.user._id)
+    .then(function(response) {
+      console.log('checkuserLastWeek', response);
+           $scope.userAverageLastWeek = Math.round(response.data[0].avg);
+           console.log($scope.userAverageWeekly, "userAverageWeekly");
+            $scope.userCountLastWeek = response.data[0].count;
+                }, function(err) {
+                   console.error('checkForUserAverageWeekly', err);       
+  });
+  
+  
+  
+postService.averageQuery('cohortPerWeek', $scope.postData.user.cohort)
+    .then(function(response) {
+      console.log('checkCohortAverageWeekly', response);
+           $scope.cohortLastWeek= Math.round(response.data[0].avg);
+           console.log($scope.userAverage, "cohortlastWeek");
+            $scope.cohortLastWeekCount = response.data[0].count;
+                }, function(err) {
+                   console.error('checkForcohortLastWeek', err);       
+  });    
+  
+  
+          
  $scope.options = {
            chart: {
                 type: 'lineChart',
@@ -70,13 +122,6 @@ postService.getOnePost($stateParams.id)
         
         console.log($scope.data);
            
-          },
-          function(error) {
-            return error;
-          });
-
        
-       
-         
     
 });

@@ -68,5 +68,24 @@ angular.module('journey')
               url: '/api/posts/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
           });
     };
+    
+     this.averageQuery = function(type, num) {
+         var query = '';
+         switch(type){
+             case 'user':
+             case 'userPerWeek':
+                query = 'type=' + type + '&user=' + num;
+                break;
+             case 'cohort':
+             case 'cohortPerWeek':
+                query = 'type=' + type + '&cohort=' + num;
+                break;   
+          }       
+        return $http({
+              method: 'GET',
+              url: '/api/posts/getAvg?' + query
+          })
+    };
+        
 
   });

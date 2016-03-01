@@ -16,8 +16,12 @@
                   </div>
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline--> 
-                Comments:
-        
+          
+          <div ng-repeat="comment in comments">
+                Comments: {{comment}}
+            
+           <div>      
+         </div><!-- COMMENTS-->
     </div>
   </div>
  
@@ -25,7 +29,7 @@
 
     <div class="sidebar">
       <div class="scroll-body" slimscroll="{
-        height: '500px',
+        height: '700px',
         color: 'white',
         alwaysVisible: false,
         railVisible: true,
@@ -42,24 +46,44 @@
                      <br>
                      Mentor: {{postData.user.assignedMentor}}
                      <br>
-                    Days: {{postData.user.startDate | date:'MM/dd h:mma'}}</p>
+                    Days in Program: {{daysInProgram}}</p>
                 </div>
                      <div> 
                        <button class ="followBtn">Follow </button>  
                        </div>
                        
                      <div class="emotionalLevels"> 
-                      <p>Average
-                         Emotional 
-                         Level: {{postData.positiveScale}}
-                      </p>
+                      <p class='AEL'>Avg Emotion: <br><img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face postFace">
+                      {{userAverage}}
+                      <br>
+                      Total Posts: {{userCount}}
+                         </p>
+                             <p>
+                        Avg Cohort: <br>
+                        <img ng-src="assets/img/faces/face-{{cohortAverage}}.svg" class="eo-face postFace">
+                        {{cohortAverage}}
+                        <br>
+                        Total Posts: {{cohortCount}} </p>
+                        
+                           <p class='AEL'> Last Week: <br>
+                        <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face postFace">
+                        {{userAverageLastWeek}}
+                        <br>
+            
+                            Total Posts: {{userCountLastWeek}}
+                        </p>
+                         <p> Cohort Last Week: <br>
+                        <img ng-src="assets/img/faces/face-{{cohortLastWeek}}.svg" class="eo-face postFace">
+                        {{cohortLastWeek}}
+                        <br>
+            
+                            Total Posts: {{cohortLastWeekCount}}
+                        </p>
+                      <br> </br>
                                
                      </div>    
                         
-                     <div class="emotionalLevels"> 
-                      <p>Weekly <br>
-                       Average: {{postData.positiveScale}} </p>
-                     </div>    
+                   
                  
                     <div class="lastPosts"> 
                       <p> Recent Posts</p>  
@@ -69,10 +93,10 @@
                         <div class="recentPosts"> </div>
                         <div class="recentPosts"> </div>
                     </div>  
-                    
-                      <div class="lineChart">  
+                   
+                      <!--<div class="lineChart">  
                         <nvd3 options="options" data="data" class="lineChart"></nvd3>
-                          </div>
+                          </div>-->
    
                  
           
