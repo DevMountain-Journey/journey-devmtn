@@ -6,6 +6,7 @@ module.exports = {
     create: function(req, res) {
         var newPost = new postsModel(req.body);
         newPost.save(function(err) {
+          if(err) return res.status(500).send(err);
             postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
               if(err) return res.status(500).send(err);
               res.send(post);
@@ -43,7 +44,7 @@ module.exports = {
              }
        });
    },
-    
+
    autocomplete: function(req, res) {
        console.log('in postsCtrl');
        console.log('in autocomplete');
@@ -51,8 +52,8 @@ module.exports = {
        var fieldname = req.query.fieldname;
        var ac_regex = new RegExp(req.query.ac_query);
        req.query = {};
-       req.query[fieldname] = {$regex: ac_regex}; 
-       // req.query[fieldname] = {$regex: /jq/}; 
+       req.query[fieldname] = {$regex: ac_regex};
+       // req.query[fieldname] = {$regex: /jq/};
        /* req.query[fieldname] = 'jquery'; */
        console.log('req.query after processing', req.query);
        postsModel

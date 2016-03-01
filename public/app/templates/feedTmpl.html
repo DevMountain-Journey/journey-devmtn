@@ -12,7 +12,7 @@
           <strong>{{totalPosts}}</strong>
           Posts
         </div>
-        <div class="card-block" style="height:calc(100vh - 114px);">
+        <div class="card-block">
           <div class="scroll-body" slimscroll="{
             height: 'auto',
             color: '#333',
@@ -20,7 +20,6 @@
             railOpacity: '0.7',
             railColor: '#DDDDDD'
           }">
-
             <div class="posts-timeline animate" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
               <div class="pt-line text-right">
                 <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
@@ -102,7 +101,7 @@
 
           <fieldset class="form-group">
             <label for="tags">What are you working on?</label>
-            <tags-input ng-model="postContent.tags" display-property="name" placeholder="What are you working on?" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+            <tags-input ng-model="postContent.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
               <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
             </tags-input>
           </fieldset>
@@ -114,11 +113,11 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <pre>{{postContent}}</pre>
         <!--/.input form-->
 
         <hr>
-        <h3>Search</h3>
+
+        <h4>Filter</h4>
         <form ng-submit="createQuery()">
           <fieldset class="form-group">
             <label for="searchFirstName">Person's First Name</label>

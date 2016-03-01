@@ -83,7 +83,6 @@ angular.module('journey')
             });
             return uniqueArr;
         }
-
     };
 
     $scope.createPost = function() {
