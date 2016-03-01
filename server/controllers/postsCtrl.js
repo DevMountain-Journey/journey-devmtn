@@ -1,4 +1,5 @@
 var postsModel = require('./../models/postsModel.js');
+var usersModel = require('./../models/usersModel.js');
 var moment = require('moment');
 var mongoose = require('mongoose');
 
@@ -85,10 +86,10 @@ module.exports = {
        var avgType = req.query.type;
        var userId = req.query.user;
        var cohort = req.query.cohort;
-       var users = {};
+       var users = [];
        if ((avgType === 'cohort' || avgType === 'cohortPerWeek') && cohort) {
            usersModel
-           .find({cohort: cohort})
+           .find({cohort: cohort}, '_id')
            .exec(function(err, result) {
                 console.log('err', err);
                 console.log('result', result);
@@ -97,7 +98,9 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 else {
-                    users = result;
+                    for (var i = 0; i < result.length; i++) {
+                        users.push(result[i]._doc._id);
+                    }
                     completeProcess();
                 }
            });
@@ -111,17 +114,16 @@ module.exports = {
            var matchCriteria = {};
            switch(avgType) {
                case 'user' :
-                   matchCriteria = {user: mongoose.Types.ObjectId(userId)};
+                   matchCriteria = {user: mongoose.Types.ObjectId(userId)}; // cast to object because aggregate feature will not automatically do the casting for a ref.
                    break;
                case 'cohort' :
                    matchCriteria = {user: {$in: users}};
                    break;
                case 'userPerWeek' :
-                   matchCriteria = // {user: mongoose.Types.ObjectId(userId), datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};
-                       {datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
+                   matchCriteria = {user: mongoose.Types.ObjectId(userId), datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
                     break;
                case 'cohortPerWeek' :
-                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};  
+                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};  
                     break;
            }
           
