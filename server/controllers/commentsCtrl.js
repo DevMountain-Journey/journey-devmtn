@@ -23,6 +23,7 @@ module.exports = {
         console.log('req.query', req.query);
         commentsModel
         .find(req.query)
+        .populate('user', 'firstName lastName email')
         .exec(function(err, result) {
              console.log('err', err);
              console.log('result', result);
