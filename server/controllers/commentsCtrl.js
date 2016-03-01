@@ -24,6 +24,7 @@ module.exports = {
         commentsModel
         .find(req.query)
         .populate('user', 'firstName lastName email')
+        .sort({datePosted: 'desc'})
         .exec(function(err, result) {
              console.log('err', err);
              console.log('result', result);
