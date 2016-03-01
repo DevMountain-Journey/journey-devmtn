@@ -9,7 +9,8 @@ var usersSchema = new Schema({
 	password: {type: 'String', required: true},
 	cohort: {type: 'Number', required: true},
 	startDate: {type: 'Date', required: true},
-	assignedMentor: {type: 'String', required: true, lowercase: true}
+	assignedMentor: {type: 'String', required: true, lowercase: true},
+    usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}]
 });
 
 // Methods
