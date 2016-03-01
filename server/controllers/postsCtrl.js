@@ -6,10 +6,16 @@ module.exports = {
     create: function(req, res) {
         var newPost = new postsModel(req.body);
         newPost.save(function(err) {
-            postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
-              if(err) return res.status(500).send(err);
-              res.send(post);
-            });
+            if (err) 
+                return res.status(500).send(err);
+            else {
+                postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
+                    if (err)
+                        return res.status(500).send(err);
+                    else
+                        res.send(post);
+                });
+            }
         });
     },
 
@@ -70,6 +76,74 @@ module.exports = {
              }
        });
    },
+    
+   findAvg: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in findAvg');
+       console.log('req.query ', req.query);
+       var avgType = req.query.type;
+       var userId = req.query.user;
+       var cohort = req.query.cohort;
+       var users = {};
+       if ((avgType === 'cohort' || avgType === 'cohortPerWeek') && cohort) {
+           usersModel
+           .find({cohort: cohort})
+           .exec(function(err, result) {
+                console.log('err', err);
+                console.log('result', result);
+                if (err) {
+                    console.log('in error routine');
+                    return res.status(500).send(err);
+                }
+                else {
+                    users = result;
+                    completeProcess();
+                }
+           });
+       }
+       else 
+           completeProcess();
+   
+   
+       function completeProcess() {
+           
+           var matchCriteria = {};
+           switch(avgType) {
+               case 'user' :
+                   matchCriteria = {user: userId};
+                   break;
+               case 'cohort' :
+                   matchCriteria = {user: {$in: users}};
+                   break;
+               case 'userPerWeek' :
+                   matchCriteria = {user: userId, datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};
+                    break;
+               case 'cohortPerWeek' :
+                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};  
+                    break;
+           }
+
+           postsModel
+           .aggregate([
+               {$match: matchCriteria},
+               {$group: {_id: null, avg: {$avg: "$positiveScale"}}}
+               ])
+           .exec(function(err, result) {
+                 console.log('err', err);
+                 console.log('result', result);
+                 if (err) {
+                     console.log('in error routine');
+                     return res.status(500).send(err);
+                 }
+                 else {
+                     res.send(result);
+                 }
+           });
+               
+       }
+       
+   },
+    
 
    read: function(req, res) {
         console.log('in postsCtrl');

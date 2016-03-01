@@ -150,7 +150,7 @@ angular.module('journey')
 
       }
     };
-    
+
     $scope.setScaleQuery = function(num) {
         var alreadySelected = false;
         for (var i = 0; i < $scope.query.positiveScale.length; i++) {
@@ -162,7 +162,7 @@ angular.module('journey')
         if (!alreadySelected)
             $scope.query.positiveScale.push(num + 1);
     };
-    
+
     $scope.repeatEmotions = function() {
       return new Array(10);
     };
@@ -173,6 +173,7 @@ angular.module('journey')
 
     $scope.clearQuery = function() {
         $scope.query = {};
+        $scope.query.positiveScale = [];
         $('#daterange span').html(''); // clear out contents */
     };
 
@@ -221,14 +222,14 @@ angular.module('journey')
                      errService.error(err);
                 }
             } */
-            
+
             if ($scope.query.positiveScale && $scope.query.positiveScale.length) {
                  filters.positiveScale = [];
-                 for (var i = 0; i < $scope.query.positiveScale.length; i++) {
-                     filters.positiveScale.push($scope.query.positiveScale[i]);
+                 for (var x = 0; x < $scope.query.positiveScale.length; x++) {
+                     filters.positiveScale.push($scope.query.positiveScale[x]);
                  }
             }
-            
+
             console.log('query.dateRange = ', $scope.query.dateRange);
 
             if ($scope.query.dateRange) {
@@ -241,9 +242,8 @@ angular.module('journey')
             console.log('in createQuery before calling getAllPosts');
             console.log('filters = ', filters);
             if (jQuery.isEmptyObject(filters)) {
-                $scope.queryErrorMsg = 'Please enter search criteria';
-                $scope.processingQuery = false;
-                return;
+              $scope.processingQuery = true;
+              filters = postService.pageOneDateFilter();
             }
 
             postService.getAllPosts(filters)

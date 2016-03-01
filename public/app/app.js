@@ -5,6 +5,8 @@ angular.module('journey', [
     'angularMoment',
     'ui.slimscroll',
     'nvd3'
+    'angular-loading-bar',
+    'ngAnimate'
   ])
 
   .run(function($rootScope, $state, $stateParams) {
