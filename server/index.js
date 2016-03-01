@@ -7,7 +7,8 @@ var express = require('express'),
 
 var usersCtrl = require('./controllers/usersCtrl.js'),
     postsCtrl = require('./controllers/postsCtrl.js'),
-    authCtrl = require('./controllers/authCtrl.js');
+    authCtrl = require('./controllers/authCtrl.js'),
+    commentsCtrl = require('./controllers/commentsCtrl.js');
 
 require('./controllers/passport')(passport);
 
@@ -48,22 +49,12 @@ app.put('/api/users/:id', authCtrl.requireAuth, usersCtrl.update); // Update use
 app.post('/api/users/', authCtrl.requireAuth, usersCtrl.create); // Create new user. Users collection.
 app.delete('/api/users/:id', authCtrl.requireAuth, usersCtrl.delete); // Delete user. Users collection.
 
+// Comments
+app.get('/api/comments', authCtrl.requireAuth, commentsCtrl.read); // Get comments. Accepts query parameter. Comments collection.
+app.put('/api/comments/:id', authCtrl.requireAuth, commentsCtrl.update); // Update comment. Comments collection.
+app.post('/api/comments/', authCtrl.requireAuth, commentsCtrl.create); // Create new comments. Comments collection.
+app.delete('/api/comments/:id', authCtrl.requireAuth, commentsCtrl.delete); // Delete comment. Comments collection.
 
-// No user authentication. For testing only.
-
-app.get('/api/test/posts', postsCtrl.read); // Get posts. Accepts query parameter. Posts collection.
-// app.get('/api/test/posts/:id', postsCtrl.readOne); // Gets individual post. Posts collection.
-// app.get('/api/test/posts/count', authCtrl.requireAuth, postsCtrl.count); // Gets count of all posts. Used for pagination.
-app.put('/api/test/posts/:id', postsCtrl.update); // Update post. Posts collection.
-app.post('/api/test/posts/', postsCtrl.create); // Create new post. Posts collection.
-app.delete('/api/test/posts/:id', postsCtrl.delete); // Delete post. Posts collection.
-
-/* Users
-app.get('/api/users', usersCtrl.read); // Get users. Accepts query parameter. Users collection.
-app.put('/api/users/:id', usersCtrl.update); // Update user. Users collection.
-app.post('/api/users/', usersCtrl.create); // Create new user. Users collection.
-app.delete('/api/users/:id', usersCtrl.delete); // Delete user. Users collection.
-*/
 
 //DB and Server Init
 var mongoUri = config.mongoUri,
