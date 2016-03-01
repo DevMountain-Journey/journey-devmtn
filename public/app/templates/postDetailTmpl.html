@@ -17,10 +17,22 @@
               </div><!--/.pt-body-->
           </div><!--/.posts-timeline--> 
           
-          <div ng-repeat="comment in comments">
+          <div>
                 Comments: {{comment}}
             
-           <div>      
+           <div class="addcomment">
+    <form class='submitForm' ng-submit="addComment()">
+    <h1 class="createComment">Create Comment</h1>
+
+    <div class="form-group">
+      <textarea type="text"
+      class="form-control"
+      placeholder="Comment (max 250 characters)"
+      ng-model="body" maxlength="250"></textarea>
+    </div>
+    <button class="commentBtn"  type="submit">Post</button>
+  </form>
+  </div>     
          </div><!-- COMMENTS-->
     </div>
   </div>

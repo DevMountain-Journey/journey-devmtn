@@ -8,7 +8,7 @@ angular.module('journey')
 console.log(auth, "AUTH");
 
 
-// $scope.daysInProgram = moment($scope.postData.user.startDate).fromNow();
+
 var a = moment(new Date());
 var b = moment($scope.postData.user.startDate);
 $scope.daysInProgram = a.diff(b, 'days');
