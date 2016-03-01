@@ -1,5 +1,6 @@
 var postsModel = require('./../models/postsModel.js');
 var moment = require('moment');
+var mongoose = require('mongoose');
 
 module.exports = {
 
@@ -110,41 +111,41 @@ module.exports = {
            var matchCriteria = {};
            switch(avgType) {
                case 'user' :
-                   matchCriteria = {user: userId};
+                   matchCriteria = {user: mongoose.Types.ObjectId(userId)};
                    break;
                case 'cohort' :
                    matchCriteria = {user: {$in: users}};
                    break;
                case 'userPerWeek' :
-                   matchCriteria = {user: userId, datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};
+                   matchCriteria = // {user: mongoose.Types.ObjectId(userId), datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};
+                       {datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'cohortPerWeek' :
                     matchCriteria = {user: {$in: users}, datePosted: {"$gte": moment(new Date()).subtract(7, 'day'), "$lt": moment(new Date())}};  
                     break;
            }
-
-           postsModel
-           .aggregate([
+          
+           postsModel.aggregate([
                {$match: matchCriteria},
-               {$group: {_id: null, avg: {$avg: "$positiveScale"}}}
-               ])
-           .exec(function(err, result) {
-                 console.log('err', err);
-                 console.log('result', result);
-                 if (err) {
-                     console.log('in error routine');
-                     return res.status(500).send(err);
-                 }
-                 else {
-                     res.send(result);
-                 }
+               {$group: {
+                   _id: null,
+                   avg: {$avg: "$positiveScale"},
+                   count: {$sum: 1}
+                }}
+           ], function(err, result) {
+               console.log('err', err);
+               console.log('result', result);
+               if (err) {
+                   console.log('in error routine');
+                   return res.status(500).send(err);
+               }
+               else {
+                   res.send(result);
+               }
            });
-               
        }
-       
    },
     
-
    read: function(req, res) {
         console.log('in postsCtrl');
         console.log('in read');
