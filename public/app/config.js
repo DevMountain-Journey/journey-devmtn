@@ -69,8 +69,34 @@ angular.module('journey' )
                 });
             }
         }
-      });
-
+      })
+      .state('profile', {
+        url: '/profile/:id',
+        templateUrl: './app/templates/profileTmpl.html',
+        controller: 'postCtrl',
+      resolve: {
+            postData:function(postService, errService, $stateParams) { 
+                return postService.getOnePost($stateParams.id)
+                .then(function(response) {
+                    console.log('CheckingforSinglePost', response);
+                    return response;
+                },function(err) {
+                    console.error('checkForSinglePost', err);
+                });
+            },
+             auth: function(authService, $state) {  // sends back who's logged in
+                return authService.checkForAuth()
+                .then(function(response) {
+                    console.log('checkForAuth', response);
+                    return response;
+                }, function(err) {
+                    console.error('checkForAuth', err);
+                    $state.go('login');
+                });
+            }
+        }
+      })
+                     
       $urlRouterProvider.otherwise('/');
     }
   ]);

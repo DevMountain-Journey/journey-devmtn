@@ -1,5 +1,5 @@
 angular.module('journey')
-.controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService) {
+.controller('profileCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService) {
    console.log($stateParams, "STATEPARAMS");
 
  $scope.postData = postData.data;
@@ -7,8 +7,6 @@ angular.module('journey')
      $scope.postData.numComments = 0;
  }
  console.log($scope.postData, "POSTDATA");
-
-$scope.auth = auth.data;
 
 console.log(auth, "AUTH");
 

@@ -251,6 +251,10 @@ div[ui-view]{
 
 .posts-timeline .person:hover .emotionOverlay .eo-inner { opacity: 1; }
 
+
+.viewProfile {
+    float:right;
+}
 /********************/
 /** SIDEBAR        **/
 /********************/
