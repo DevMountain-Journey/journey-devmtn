@@ -454,10 +454,8 @@ outline:none;
 
 .input__label {
   -khtml-user-select: none;
-  -moz-osx-font-smoothing: grayscale;
   -moz-user-select: none;
   -ms-user-select: none;
-  -webkit-font-smoothing: antialiased;
   -webkit-touch-callout: none;
   -webkit-transform: translate3d(0,3em,0);
   -webkit-transition: 0 .25s;
