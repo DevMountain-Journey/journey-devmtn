@@ -3,7 +3,7 @@
     <div class="feed">
       <div class="card text-cs-center">
         <div class="card-header">
-          Thought
+          Profile
         </div>
         <div class="card-block" style="height:calc(100vh - 114px);">
           <div class="scroll-body" slimscroll="{
@@ -16,14 +16,32 @@
         <div class="card-block">
           <div class="posts-timeline" >
               <div marked="postData.body">
-                  <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
+               
               </div>
 
-                <p class='datePosted'> Date Posted: {{postData.datePosted | date:'MM/dd h:mma'}} </p>
-               Tags: <p  class ="tags" ng-repeat= "tag in postData.tags">  {{tag}}  </p>
-                <br></br>
-                {{postData.body}}
+               
               <div class="pt-body">
+               <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">HTML</a></li>
+                    <li><a href="#">CSS</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                </ul>
+                </div>
+                    
+                  <p class="daysIn"> Days In Hell: {{daysInProgram}} <br>
+                  Day {{daysInProgram}} Heat Level : 
+                       </p>
+                  <h1 class='statistics'> Statistics </h1>
+                 
+                   <div class="lineChart">
+                        <nvd3 options="options" data="data" class="lineChart"></nvd3>
+                          </div>
+                  
+                  
+                  
                   <div class="clearfix">
 
                   </div>
@@ -48,69 +66,38 @@
         railVisible: true,
         railOpacity: '0.7'
       }">
-                <div class="author">
-                     <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
-                     <p class='authorInfo'>
-                      User: {{postData.user.firstName}}
-                     {{postData.user.lastName}}
-
-                      <br>
-                     Cohort: {{postData.user.cohort}}
-                     <br>
-                     Mentor: {{postData.user.assignedMentor}}
-                     <br>
-                    Days in Program: {{daysInProgram}}</p>
-                </div>
-                     <div>
-                       <button class ="followBtn" ng-if ="!following" ng-click="follow()">Follow </button>
-                       <button class ="followBtn" ng-if ="following" ng-click="unfollow()">Unfollow </button>
-                       </div>
-
-                     <div class="emotionalLevels">
-                      <p class='AEL'>Avg Emotion: <br><img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face postFace">
-                      {{userAverage}}
-                      <br>
-                      Total Posts: {{userCount}}
-                         </p>
-                             <p>
-                        Avg Cohort: <br>
-                        <img ng-src="assets/img/faces/face-{{cohortAverage}}.svg" class="eo-face postFace">
-                        {{cohortAverage}}
-                        <br>
-                        Total Posts: {{cohortCount}} </p>
-
-                           <p class='AEL'> Last Week: <br>
-                        <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face postFace">
-                        {{userAverageLastWeek}}
-                        <br>
-
-                            Total Posts: {{userCountLastWeek}}
-                        </p>
-                         <p> Cohort Last Week: <br>
-                        <img ng-src="assets/img/faces/face-{{cohortLastWeek}}.svg" class="eo-face postFace">
-                        {{cohortLastWeek}}
-                        <br>
-
-                            Total Posts: {{cohortLastWeekCount}}
-                        </p>
+              <div class="author">
+                     Preferences 
+                     <br></br>
+                     <h4> View </h4>
+               <form ng-submit="changeSettings()">
+                   <div class='views'>
+                      <input class="viewInput" type="radio" name="view" value="regular"><br> Regular <br>
+                      <input class="viewInput" type="radio" name="view" value="timeline"><br> TimeLine <br>
+                      <input class="viewInput" type="radio" name="view" value="Graph"><br> Graph <br>
+                      </div>
+                      <br></br>
+                      <h4> Communitcation </h4>
+                   <div>
+                      <input type="Radio" name="communication" value="commentEmail"> Recieve a email every time someone comments on your post <br>
+                      <input type="Radio" name="communication" value="WeeklyEmail"> Weekly overview email <br>
+                      </div>
+                      <br></br>
+                      <h4> Privacy </h4>
+                   <div>
+                      <input type="Radio" name="privacy" value="public"> Private <br>
+                      <input type="Radio" name="privacy" value="WeeklyEmail"> Public <br>                    
+                      </div>
                       <br> </br>
+                      <button type="submit">Save Settings</button>
+                  </form>            
+               </div>
+                  
+                     
 
-                     </div>
+                     
 
 
-
-                    <div class="lastPosts">
-                      <p> Recent Posts</p>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                    </div>
-
-                      <!--<div class="lineChart">
-                        <nvd3 options="options" data="data" class="lineChart"></nvd3>
-                          </div>-->
 
 
 

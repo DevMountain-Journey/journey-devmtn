@@ -73,17 +73,19 @@ angular.module('journey' )
       .state('profile', {
         url: '/profile/:id',
         templateUrl: './app/templates/profileTmpl.html',
-        controller: 'postCtrl',
-      resolve: {
-            postData:function(postService, errService, $stateParams) { 
-                return postService.getOnePost($stateParams.id)
+        controller: 'profileCtrl',
+        resolve: {
+            user: function(userService, $stateParams) {  // sends back who's logged in
+                return userService.getUser($stateParams.id)
                 .then(function(response) {
-                    console.log('CheckingforSinglePost', response);
+                    console.log('check For User', response);
                     return response;
-                },function(err) {
-                    console.error('checkForSinglePost', err);
+                }, function(err) {
+                    console.error('check For User Error', err);
+                   
                 });
             },
+      
              auth: function(authService, $state) {  // sends back who's logged in
                 return authService.checkForAuth()
                 .then(function(response) {
@@ -93,9 +95,10 @@ angular.module('journey' )
                     console.error('checkForAuth', err);
                     $state.go('login');
                 });
-            }
-        }
-      })
+              }
+           } 
+        });
+      
                      
       $urlRouterProvider.otherwise('/');
     }

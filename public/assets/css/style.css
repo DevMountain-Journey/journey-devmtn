@@ -390,14 +390,33 @@ div[ui-view]{
 
 
 /********************/
-/** Individual Post **/
+/** Profile **/
 /********************/
 
 .authorInfo {
     margin-left:2%0;
 }
 
+.views {
+    display:flex;
+}
+.statistics {
+  margin-left:30%;
+}
 
+.viewInput {
+    display:flex;
+    margin-left:10%;
+    text-align: center;
+}
+
+h4 {
+    margin-bottom:20px;
+}
+.daysIn {
+    float:left;
+    margin-right:5%;
+}
 /***********************/
 /**            Inputs **/
 /***********************/

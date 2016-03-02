@@ -1,6 +1,15 @@
 angular.module('journey')
   .service('userService', function($http, $q) {
 
+
+      this.getUser = function(id){
+            return $http({
+              method: 'GET',
+              url: '/api/users?_id=' + id
+          });
+    };
+      
+
     // GET USERS
     this.getSearchUsers = function(firstName, lastName) {
         
@@ -67,6 +76,36 @@ angular.module('journey')
           url: '/api/users/' + id,
           data: post
       });
-    };  
+    }; 
+    
+    
+    
+     this.profileQuery = function(group, num, duration) {
+         var query = '';
+         switch(group){
+             case 'user':
+                query = 'group=' + group + '&duration=' + duration + '&user=' + num;
+                break;
+             case 'following':
+                query = 'group=' + group + '&duration=' + duration + '&following=' + num;
+                break;  
+             case 'mentor':        
+                query = 'group=' + group + '&duration=' + duration + '&mentor=' + num;
+                break;
+             case 'cohort':
+                query = 'group=' + group + '&duration=' + duration + '&cohort=' + num;
+                break;    
+          }       
+        return $http({
+              method: 'GET',
+              url: '/api/users/getAvg?' + query
+          });
+    };
+    
+    
+    
+    
+    
+     
  
   });

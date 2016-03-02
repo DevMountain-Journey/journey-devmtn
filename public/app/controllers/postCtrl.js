@@ -8,7 +8,7 @@ angular.module('journey')
  }
  console.log($scope.postData, "POSTDATA");
 
-$scope.auth = auth.data;
+$scope.userInfo = auth.data;
 
 console.log(auth, "AUTH");
 
