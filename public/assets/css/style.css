@@ -518,6 +518,10 @@ div[ui-view]{
     max-height: 70px;
 }
 
+/*.lineChart {
+    background-color:white;
+}*/
+
 /***********************/
 /** Animation **/
 /***********************/

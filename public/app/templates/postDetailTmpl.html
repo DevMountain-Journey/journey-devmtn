@@ -86,7 +86,8 @@
                     Days in Program: {{daysInProgram}}</p>
                 </div>
                      <div> 
-                       <button class ="followBtn">Follow </button>  
+                       <button class ="followBtn" ng-if ="!following" ng-click="follow()">Follow </button> 
+                       <button class ="followBtn" ng-if ="following" ng-click="unfollow()">Unfollow </button>  
                        </div>
                        
                      <div class="emotionalLevels"> 

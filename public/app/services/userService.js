@@ -61,6 +61,12 @@ angular.module('journey')
               url: '/api/users/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
           });
     };
-                
+   this.updateUser = function(post, id) {
+      return $http ({
+          method: 'PUT',
+          url: '/api/users/' + id,
+          data: post
+      });
+    };  
  
   });

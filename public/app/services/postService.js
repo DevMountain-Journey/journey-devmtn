@@ -43,8 +43,12 @@ angular.module('journey')
 
 
     // UPDATE POST
-    this.updatePost = function(post) {
-      return $http.put('/api/posts/' + post._id);
+    this.updatePost = function(post, id) {
+      return $http ({
+          method: 'PUT',
+          url: '/api/posts/' + id,
+          data: post
+      });
     };
 
     this.deletePost = function(id) {

@@ -1,11 +1,53 @@
 angular.module('journey')
-.controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData) {
+.controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService) {
    console.log($stateParams, "STATEPARAMS");
 
  $scope.postData = postData.data;
+ if (!$scope.postData.numComments){
+     $scope.postData.numComments = 0;
+ }
  console.log($scope.postData, "POSTDATA");
 
 console.log(auth, "AUTH");
+
+        // FOLLOW
+ $scope.following = false;
+ if(
+ auth.data.usersFollowing && auth.data.usersFollowing.indexOf($scope.postData.user._id) != -1 ){
+     $scope.following = true;
+ }      
+
+$scope.follow = function(){
+    $scope.usersFollowing = auth.data.usersFollowing;
+    $scope.usersFollowing.push($scope.postData.user._id);
+    userService.updateUser(              {usersFollowing:$scope.usersFollowing}, 
+                 auth.data._id)
+                 .then(function(response){
+                     console.log(response);
+                     $scope.following= true;
+                 }, function(err) {
+                     console.error('Following Error', err);       
+  });
+};
+
+$scope.unfollow = function(){
+    $scope.usersFollowing = auth.data.usersFollowing;
+    var index = $scope.usersFollowing.indexOf($scope.postData.user._id)
+    $scope.usersFollowing.splice(index, 1);
+    userService.updateUser(              {usersFollowing:$scope.usersFollowing}, 
+                 auth.data._id)
+                 .then(function(response){
+                     console.log(response);
+                     $scope.following= false;
+                 }, function(err) {
+                     console.error('Following Error', err);       
+  });
+};
+
+
+
+
+
 
             // COMMENTS 
 postService.getComments($scope.postData._id)
@@ -28,15 +70,22 @@ $scope.addComment = function() {
              $scope.comments = response.data; 
              console.log(response, " POST Comment Response");
              $scope.commentBody = '';
-             postService.getComments($scope.postData._id)
-             .then(function(response){
-                 $scope.comments = response.data; 
-     console.log(response, "Newest comments");
-             }, function(err) {
-                console.error('checking for Comment Error', err);      
-            }); 
-         });
-};
+             $scope.postData.numComments++;
+             postService.updatePost(
+                 {numComments:$scope.postData.numComments}, 
+                 $scope.postData._id)
+                 .then(function(response){
+                        postService.getComments
+                        ($scope.postData._id)
+                            .then(function(response){
+                             $scope.comments = response.data; 
+                             console.log(response, "Newest comments");
+                             }, function(err) {
+                            console.error('checking for Comment Error', err);      
+                            }); 
+                          });    
+                        });                  
+                    };
  
 
             // DAYS USER HAS BEEN IN PROGRAM
