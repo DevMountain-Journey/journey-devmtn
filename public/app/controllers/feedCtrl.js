@@ -3,12 +3,14 @@ angular.module('journey')
 .controller('feedCtrl',
   function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
     $scope.postContent = {};
+    $scope.postContent.tags = [];
     $scope.totalPosts = 0;
     $scope.query = {};
     $scope.query.positiveScale = [];
     $scope.today = new Date();
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
+    $scope.currentUser = auth.data;
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
@@ -291,8 +293,18 @@ angular.module('journey')
             }
         }, cb);
 
-        //Init Tooltips
-        $('[data-toggle="tooltip"]').tooltip('show');
+        //Little script to add focused class to tag boxes
+        setTimeout(function(){
+          $('.tags input')
+            .focus(function() {
+                $(this).parents('.fancy-input').addClass('focused');
+            })
+            .blur(function() {
+                $(this).parents('.fancy-input').removeClass('focused');
+            });
+        }, 500);
+
+
 
     });
 

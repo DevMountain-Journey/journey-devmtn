@@ -25,8 +25,7 @@
                 <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
                 <span class="d-block">
                   <span ng-if="isToday(posts.date)">Today</span>
-                  <span ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}}
-                    days ago</span>
+                  <span ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}} days ago</span>
                 </span>
               </div>
 
@@ -82,9 +81,11 @@
         railOpacity: '0.7'
       }">
 
-        <form ng-submit="createPost()">
+        <form id="create-post" ng-submit="createPost()">
+
           <fieldset class="form-group">
-            <label for="emotionlevel">How are you feeling?</label>
+            <label for="emotionlevel">Hey
+              <span class="capitalize">{{currentUser.firstName}}</span>, how are you feeling?</label>
 
             <div class="emotions">
               <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
@@ -96,50 +97,70 @@
                 <span class="positive">POSITIVE</span>
               </div>
             </div>
-
           </fieldset>
 
-          <fieldset class="form-group">
-            <label for="tags">What are you working on?</label>
-            <tags-input ng-model="postContent.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
-              <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
-            </tags-input>
+          <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.tags.length > 0}">
+              <tags-input class="input__field" ng-model="postContent.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
+              </tags-input>
+              <label class="input__label" for="tags">
+                <span class="input__label-content" data-content="What are you working on?">What are you working on?</span>
+              </label>
           </fieldset>
 
-          <fieldset class="form-group">
-            <label for="thoughts">Thoughts</label>
-            <textarea class="form-control" id="thoughts" rows="1" placeholder="Thoughts?" ng-model="postContent.body"></textarea>
+          <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.body}">
+            <textarea class="form-control input__field" id="thoughts" rows="1" ng-model="postContent.body"></textarea>
+            <label class="input__label" for="thoughts">
+              <span class="input__label-content" data-content="Thoughts?">Thoughts?</span>
+            </label>
           </fieldset>
+
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
         <!--/.input form-->
 
         <hr>
 
-        <h4>Filter</h4>
+        <h5>Search</h5>
         <form ng-submit="createQuery()">
-          <fieldset class="form-group">
-            <label for="searchFirstName">Person's First Name</label>
-            <tags-input id="searchFirstName" ng-model="query.firstName" display-property="name" placeholder="First Name" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
-              <auto-complete source="loadAutoCompleteTags('firstName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
-            </tags-input>
+
+          <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.firstName.length > 0}">
+              <tags-input id="searchFirstName" class="input__field" ng-model="query.firstName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                <auto-complete source="loadAutoCompleteTags('firstName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
+              </tags-input>
+              <label class="input__label" for="searchFirstName">
+                <span class="input__label-content" data-content="First Name">First Name</span>
+              </label>
           </fieldset>
-          <fieldset class="form-group">
-            <label for="searchLastName">Person's Last Name</label>
-            <tags-input id="searchLastName" ng-model="query.lastName" display-property="name" placeholder="Last Name" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+
+          <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.lastName.length > 0}">
+            <tags-input id="searchLastName" class="input__field" ng-model="query.lastName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
               <auto-complete source="loadAutoCompleteTags('lastName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
             </tags-input>
+            <label class="input__label" for="searchLastName">
+              <span class="input__label-content" data-content="Last Name">Last Name</span>
+            </label>
           </fieldset>
-          <fieldset class="form-group">
-            <label for="searchTags">What They're Working On</label>
-            <tags-input id="searchTags" ng-model="query.tags" display-property="name" placeholder="What They're Working On" replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+
+          <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.tags.length > 0}">
+            <tags-input id="searchTags" class="input__field" ng-model="query.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
               <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
             </tags-input>
+            <label class="input__label" for="searchLastName">
+              <span class="input__label-content" data-content="Working On">Working On</span>
+            </label>
           </fieldset>
-          <fieldset class="form-group">
-            <label for="emotionlevel">How They're Feeling</label>
 
+          <fieldset class="form-group fancy-input">
+            <div id="daterange" class="pull-right form-control input__field" style="cursor: pointer; padding: 5px 10px;">
+              <i class="fa fa-calendar"></i>&nbsp;
+              <label class="input__label" for="daterange">
+                <span class="input__label-content" data-content="Date">Date</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group fancy-input">
             <div class="emotions">
               <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}">
                 <ng-include ng-click="setScaleQuery($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
@@ -152,18 +173,11 @@
             </div>
           </fieldset>
 
-          <fieldset class="form-group">
-            <label for="daterange">Date Range</label>
-            <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-              <div class="glyphicon glyphicon-calendar fa fa-calendar"></div>&nbsp;
-              <span></span>
-            </div>
-          </fieldset>
-
           <button type="submit" class="btn btn-primary" ng-disabled="processingQuery">Submit</button>
           <a class="btn btn-secondary" ng-click="clearQuery()">Clear</a>
 
         </form>
+        {{query}}
         <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
       </div>
       <!--/slimscroll-->

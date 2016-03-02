@@ -14,6 +14,10 @@ div[ui-view]{
   padding-top: 65px;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 /* Loading Overlay */
 .loadingOverlay{
   position: absolute;
@@ -269,6 +273,7 @@ div[ui-view]{
   padding:20px;
 }
 
+
 /** Emotion Bar **/
 .emotions {
    display:flex;
@@ -321,25 +326,26 @@ div[ui-view]{
   border-top: 2px solid #444;
   font-size: 10px;
   color: #444;
+  top: -6px;
 }
 
 .scalewrap:before{
   content: "➤";
   position: absolute;
-  top: -16px;
-  left: -5px;
+  top: -12px;
+  left: -7px;
   z-index: 10;
-  font-size: 20px;
+  font-size: 15px;
   transform: rotate(180deg);
 }
 
 .scalewrap:after{
   content: "➤";
   position: absolute;
-  top: -16px;
-  right: -5px;
+  top: -12px;
+  right: -7px;
   z-index: 10;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .scalewrap .negative, .positive{
@@ -351,24 +357,16 @@ div[ui-view]{
 }
 .scalewrap .negative {
   text-align: left;
-  padding-left: 25px;
+  padding-left: 15px;
   left: 0;
 }
 .scalewrap .positive{
   text-align: right;
-  padding-right: 25px;
+  padding-right: 15px;
   right: 0;
 }
 
 /*Filtering*/
-#searchFirstName, #searchLastName, #searchTags {
-    margin-bottom: 30px;
-}
-
-#searchLowEmotion, #searchHighEmotion {
-    width: 70px;
-    margin-bottom: 20px;
-}
 
 #daterange {
     margin-bottom: 20px;
@@ -397,129 +395,145 @@ div[ui-view]{
 
 
 /***********************/
-/** Fancy Inputs **/
+/**            Inputs **/
 /***********************/
-
-/*.input {
-	position: relative;
-	z-index: 1;
-	display: inline-block;
-	margin: 1em;
-	max-width: 350px;
-	width: calc(100% - 2em);
-	vertical-align: top;
+.sidebar input,
+.sidebar textarea,
+.sidebar .form-group{
+  color: #F7F7F7;
 }
+.form-group{
+  position: relative;
+  margin: 20px 0 10px 0;
+}
+
+.form-control{
+  padding: 5px;
+  background: rgba(0, 0, 0, .4);
+  cursor: text;
+  overflow: hidden;
+  word-wrap: break-word;
+  font-size: .85em;
+}
+
+label[for="emotionlevel"]{
+  font-size: 1.2em;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+#thoughts{
+  resize: none;
+  min-height:45px;
+  height: 45px;
+  transition: height 500ms ease-in-out;
+}
+
+#thoughts:focus{
+  height:200px;
+}
+
 
 .input__field {
-	position: relative;
-	display: block;
-	float: right;
-	padding: 0.8em;
-	width: 60%;
-	border: none;
-	border-radius: 0;
-	background: #f0f0f0;
-	color: #aaa;
-	font-weight: 400;
-	font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	-webkit-appearance: none;
+  -webkit-appearance: none;
+  -webkit-transition: background-color .25s border-color .25s;
+  border: 2px solid transparent;
+  border-radius: 0;
+  display: block;
+  font-weight: 400;
+  position: relative;
+  transition: background-color .25s border-color .25s;
+  width: 100%;
+  min-height: 45px;
 }
 
-.input__field:focus {
-	outline: none;
+.input__field:focus,
+.fancy-input .input {
+outline:none;
 }
 
 .input__label {
-	display: inline-block;
-	float: right;
-	padding: 0 1em;
-	width: 40%;
-	color: #696969;
-	font-weight: bold;
-	font-size: 70.25%;
-	-webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+  -khtml-user-select: none;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-touch-callout: none;
+  -webkit-transform: translate3d(0,3em,0);
+  -webkit-transition: 0 .25s;
+  -webkit-transition-timing-function: ease-in-out;
+  -webkit-user-select: none;
+  bottom: 96%;
+  float: right;
+  font-size: 80%;
+  font-weight: 600;
+  overflow: hidden;
+  padding: 0 1.25em;
+  pointer-events: none;
+  position: absolute;
+  transform: translate3d(0,3em,0);
+  transition: transform .25s;
+  transition-timing-function: ease-in-out;
+  user-select: none;
+  width: 100%;
 }
 
 .input__label-content {
-	position: relative;
-	display: block;
-	padding: 1.6em 0;
-	width: 100%;
-}*/
-
-/* Yoshiko */
-/*.input__field--yoshiko {
-	width: 100%;
-	background-color: #d0d1d0;
-	border: 2px solid transparent;
-	-webkit-transition: background-color 0.25s, border-color 0.25s;
-	transition: background-color 0.25s, border-color 0.25s;
+  -webkit-transition: 0 .25s;
+  -webkit-transition-timing-function: ease-in-out;
+  display: block;
+  position: relative;
+  transition: transform .25s;
+  transition-timing-function: ease-in-out;
+  width: 100%;
 }
 
-.input__label--yoshiko {
-	width: 100%;
-	text-align: left;
-	position: absolute;
-	bottom: 100%;
-	pointer-events: none;
-	overflow: hidden;
-	padding: 0 1.25em;
-	-webkit-transform: translate3d(0, 3em, 0);
-	transform: translate3d(0, 3em, 0);
-	-webkit-transition: -webkit-transform 0.25s;
-	transition: transform 0.25s ;
-	-webkit-transition-timing-function: ease-in-out;
-	transition-timing-function: ease-in-out;
+.input__label-content::after {
+bottom:100%;
+color:#a3d39c;
+content:attr(data-content);
+font-size:.85em;
+font-weight:800;
+height:100%;
+left:0;
+letter-spacing:1px;
+padding:.25em 0;
+position:absolute;
+text-transform:uppercase;
+width:100%;
 }
 
-.input__label-content--yoshiko {
-	color: #8B8C8B;
-	padding: 0.25em 0;
-	-webkit-transition: -webkit-transform 0.25s;
-	transition: transform 0.25s;
-	-webkit-transition-timing-function: ease-in-out;
-	transition-timing-function: ease-in-out;
+.input__field:focus + .input__label,
+.fancy-input.focused .input__field + .input__label,
+.input--filled .input__label {
+-webkit-transform:translate3d(0,.5em,0);
+transform:translate3d(0,.5em,0);
 }
 
-.input__label-content--yoshiko::after {
-	content: attr(data-content);
-	position: absolute;
-	font-weight: 800;
-	bottom: 100%;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	color: #a3d39c;
-	padding: 0.25em 0;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	font-size: 0.85em;
+.input__field#thoughts:focus + .input__label,
+.fancy-input.focused .input__field#thoughts + .input__label {
+-webkit-transform:translate3d(0,-.3em,0);
+transform:translate3d(0,-.3em,0);
 }
 
-.input__field--yoshiko:focus + .input__label--yoshiko,
-.input--filled .input__label--yoshiko {
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
+.input__field:focus + .input__label .input__label-content,
+.fancy-input.focused .input__field + .input__label .input__label-content,
+.input--filled .input__label-content {
+-webkit-transform:translate3d(0,100%,0);
+transform:translate3d(0,100%,0);
 }
 
-.input__field--yoshiko:focus + .input__label--yoshiko .input__label-content--yoshiko,
-.input--filled .input__label-content--yoshiko {
-	-webkit-transform: translate3d(0, 100%, 0);
-	transform: translate3d(0, 100%, 0);
+.input__field:focus + .input__field,
+.fancy-input.focused + .input__field + .input__field,
+.input--filled .input__field {
+  border-color:#a3d39c;
 }
-
-.input__field--yoshiko:focus + .input__field--yoshiko,
-.input--filled .input__field--yoshiko {
-	background-color: transparent;
-	border-color: #a3d39c;
-}*/
+.form-control:focus {
+  border-color:transparent;
+}
+.input--filled .form-control:focus {
+  border-color:#a3d39c;
+}
 
 /***********************/
 /** Animation **/

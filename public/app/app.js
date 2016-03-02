@@ -5,7 +5,8 @@ angular.module('journey', [
     'angularMoment',
     'ui.slimscroll',
     'angular-loading-bar',
-    'ngAnimate'
+    'ngAnimate',
+    'hc.marked'
   ])
 
   .run(function($rootScope, $state, $stateParams) {

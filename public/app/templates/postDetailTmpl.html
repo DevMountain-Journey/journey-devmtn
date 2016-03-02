@@ -8,15 +8,14 @@
         <div class="card-block">
 
           <div class="posts-timeline" >
-              <div>
-                {{postData.body}}
+              <div marked="postData.body">
                   <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
               </div>
 
               <div class="pt-body">
                   <!-- <h2 class="pt-title">Stats maybe here?</h2> -->
                   <div class="clearfix">
-                   
+
                   </div>
 
               </div><!--/.pt-body-->
@@ -24,7 +23,7 @@
 
     </div>
   </div>
- 
+
 </div>
 
     <div class="sidebar">
@@ -46,12 +45,12 @@
                    <br>
                    <p class='authorInfo'>
                   {{postData.user.email}}</p>
-                 
+
               <canvas class="chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"></canvas>
 
             </fieldset>
 
-           
+
           </form>
 
       <!--/.input form-->
@@ -72,18 +71,18 @@
                       <label for="searchHighEmotion">High Emotion Level</label>
                       <input id="searchHighEmotion" class="form-control" ng-model="query.highEmotion" type="number" min="1" max="10">
                       </input>
-      
+
                       <label for="daterange">Date Range</label>
                       <div id="daterange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                             <div class="glyphicon glyphicon-calendar fa fa-calendar"></div>&nbsp;
                             <span></span>
                       </div>
-      
-                          
+
+
                 </fieldset>
-    
+
                 <button type="submit" class="btn btn-primary">Submit</button>
-            
+
               </form>
               <!--<br>
               <button ng-click="clearQuery()" class="btn btn-primary">Clear</button>-->
