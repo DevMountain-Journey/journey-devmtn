@@ -2,6 +2,7 @@ angular.module('journey')
   .controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService, errService) {
     console.log($stateParams, "STATEPARAMS");
 
+
     $scope.scrollTo = function(id) {
       $('.feed .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
     };
@@ -80,50 +81,6 @@ angular.module('journey')
           $scope.comments.unshift(response.data);
         }, function(err){ errService.error(err); });
     };
-<<<<<<< HEAD
-        postService.postComments(post)
-            .then(function(response){
-             $scope.comments = response.data;
-             console.log(response, " POST Comment Response");
-             $scope.commentBody = '';
-             $scope.postData.numComments++;
-             postService.updatePost(
-                 {numComments:$scope.postData.numComments},
-                 $scope.postData._id)
-                 .then(function(response){
-                        postService.getComments
-                        ($scope.postData._id)
-                            .then(function(response){
-                             $scope.comments = response.data;
-                             console.log(response, "Newest comments");
-                             }, function(err) {
-                            console.error('checking for Comment Error', err);
-                            });
-                          });
-                        });
-                    };
-
-
-            // DAYS USER HAS BEEN IN PROGRAM
-var a = moment(new Date());
-var b = moment($scope.postData.user.startDate);
-$scope.daysInProgram = a.diff(b, 'days');
-console.log($scope.daysInProgram, "days in program");
-
-            // USER AVERAGE
-
-                // COHORT AVERAGE
- postService.averageQuery('cohort', $scope.postData.user.cohort)
-    .then(function(response) {
-      console.log('checkcohortAverage', response);
-           $scope.cohortAverage = Math.round(response.data[0].avg);
-           console.log($scope.cohortAverage, "cohortAverage");
-            $scope.cohortCount = response.data[0].count;
-                }, function(err) {
-                   console.error('checkForCohortAverage', err);
-  });
-=======
->>>>>>> dev
 
 
     // DAYS USER HAS BEEN IN PROGRAM
