@@ -81,13 +81,16 @@ module.exports = {
        console.log('in postsCtrl');
        console.log('in findAvg');
        console.log('req.query ', req.query);
-       var avgType = req.query.type;
-       var userId = req.query.user;
-       var cohort = req.query.cohort;
+       var group = req.query.group;
+       var duration = req.query.duration;
+       var user = req.query.user;
+       var cohort = 0;
+       var assignedMentor = '';
        var users = [];
-       if ((avgType === 'cohort' || avgType === 'cohortPerWeek') && cohort) {
+       var queryUsers = true;
+       if (group && group !== 'user') {
            usersModel
-           .find({cohort: cohort}, '_id')
+           .findById(user, 'cohort assignedMentor usersFollowing')
            .exec(function(err, result) {
                 console.log('err', err);
                 console.log('result', result);
@@ -96,32 +99,65 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 else {
-                    for (var i = 0; i < result.length; i++) {
-                        users.push(result[i]._doc._id);
+                    var queryObj = {};
+                    switch (group) {
+                        case 'following':
+                           for (var i = 0; i < result._doc.usersFollowing.length; i++) {
+                                users.push(result._doc.usersFollowing[i])
+                            }
+                            completeProcess();
+                            queryUsers = false;
+                            break;
+                        case 'mentor':
+                            assignedMentor = result._doc.assignedMentor;
+                            queryObj.assignedMentor = assignedMentor;
+                            break; 
+                        case 'cohort':
+                            cohort = result._doc.cohort;
+                            queryObj.cohort = cohort;
+                            break;      
                     }
-                    completeProcess();
+                    if (queryUsers) {
+                        usersModel
+                        .find(queryObj, '_id')
+                        .exec(function(er, re) {
+                            console.log('er', er);
+                            console.log('re', re);
+                            if (er) {
+                                console.log('in error routine');
+                                return res.status(500).send(er);
+                            }
+                            else {
+                                for (var i = 0; i < re.length; i++) {
+                                    users.push(re[i]._doc._id);
+                                }
+                                completeProcess();
+                            }
+                        });
+                    }
                 }
            });
        }
-       else
+       else {
+           users.push(mongoose.Types.ObjectId(user)); // cast to object because aggregate feature will not automatically do the casting for a ref.
            completeProcess();
-
-
+       }
+          
        function completeProcess() {
 
            var matchCriteria = {};
-           switch(avgType) {
-               case 'user' :
-                   matchCriteria = {user: mongoose.Types.ObjectId(userId)}; // cast to object because aggregate feature will not automatically do the casting for a ref.
+           switch(duration) {
+               case 'day' :
+                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
                    break;
-               case 'cohort' :
-                   matchCriteria = {user: {$in: users}};
-                   break;
-               case 'userPerWeek' :
-                   matchCriteria = {user: mongoose.Types.ObjectId(userId), datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
+               case 'week' :
+                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; 
                     break;
-               case 'cohortPerWeek' :
-                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
+               case 'month' :
+                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};
+                    break;
+               case 'allTime' :
+                    matchCriteria = {user: {$in: users} };
                     break;
            }
 
@@ -132,15 +168,15 @@ module.exports = {
                    avg: {$avg: "$positiveScale"},
                    count: {$sum: 1}
                 }}
-           ], function(err, result) {
-               console.log('err', err);
-               console.log('result', result);
-               if (err) {
+           ], function(e, r) {
+               console.log('err', e);
+               console.log('result', r);
+               if (e) {
                    console.log('in error routine');
-                   return res.status(500).send(err);
+                   return res.status(500).send(e);
                }
                else {
-                   res.send(result);
+                   res.send(r);
                }
            });
        }
