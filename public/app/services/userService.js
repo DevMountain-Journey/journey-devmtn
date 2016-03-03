@@ -80,27 +80,6 @@ angular.module('journey')
     
     
     
-     this.profileQuery = function(group, num, duration) {
-         var query = '';
-         switch(group){
-             case 'user':
-                query = 'group=' + group + '&duration=' + duration + '&user=' + num;
-                break;
-             case 'following':
-                query = 'group=' + group + '&duration=' + duration + '&following=' + num;
-                break;  
-             case 'mentor':        
-                query = 'group=' + group + '&duration=' + duration + '&mentor=' + num;
-                break;
-             case 'cohort':
-                query = 'group=' + group + '&duration=' + duration + '&cohort=' + num;
-                break;    
-          }       
-        return $http({
-              method: 'GET',
-              url: '/api/users/getAvg?' + query
-          });
-    };
     
     
     

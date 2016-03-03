@@ -1,189 +1,213 @@
 angular.module('journey')
-.controller('profileCtrl', function($stateParams, $scope, postService, auth, $interval, userService) {
+.controller('profileCtrl', function($stateParams, $scope, postService, auth, user, $interval,userAverage, mentorAverage, cohortAverage, followersAverage, userService) {
    console.log($stateParams, "STATEPARAMS");
 
 
 //  console.log($scope.postData, "POSTDATA");
-$scope.userInfo = auth.data;
+$scope.userInfo =user;
+console.log($scope.userInfo, "userinfo");
 console.log(auth, "AUTH");
+$scope.average = [];
+$scope.count = [];
+if (userAverage) {
+    $scope.average[0]= Math.round(userAverage.avg);
+    $scope.count[0] = userAverage.count; 
+ }
+else {
+        $scope.average[0] = 0;
+        $scope.count[0] = 0;
+    };
+    if (cohortAverage) {
+    $scope.average[1]= Math.round(cohortAverage.avg);
+    $scope.count[1] = cohortAverage.count; 
+ }
+else {
+        $scope.average[1] = 0;
+        $scope.count[1] = 0;
+    };
+    
+if (followersAverage) {
+    $scope.average[2]= Math.round(followersAverage.avg);
+    $scope.count[2] = followersAverage.count; 
+ }
+else {
+        $scope.average[2] = 0;
+        $scope.count[2] = 0; 
+    };    
+if (mentorAverage) {
+    $scope.average[3]= Math.round(mentorAverage.avg);
+    $scope.count[3] = mentorAverage.count; 
+ }
+else {
+        $scope.average[3] = 0;
+        $scope.count[3] = 0;
+    };    
+// $scope.average[1]= Math.round(cohortAverage.avg);
+// $scope.average[2]= Math.round(followersAverage.avg);
+// $scope.average[3]= Math.round(mentorAverage.avg);
+
+$scope.durationTitle = ["Last 24 Hours", "Last Week", "Last Month", "All Time"];
+$scope.switchTitle = 1;  
+
+$scope.findEmotionLevel = function(duration){
+   $scope.switchTitle = duration;
+   $scope.options.title.text = $scope.durationTitle[$scope.switchTitle] + ' Avg Emotion Level'; 
+   switch (duration) {
+       case 0:
+            $scope.textDuration = 'day';
+            break;
+        case 1:
+            $scope.textDuration = 'week';
+            break;
+         case 2:
+            $scope.textDuration = 'month';
+            break;
+         case 3:
+            $scope.textDuration = 'allTime';
+            break;               
+   } 
+   
+   postService.getEmotions($scope.textDuration, user)
+        .then(function(response){
+            console.log($scope.data, "data values");
+            if (response.dataUser.length) {
+            $scope.average[0] = response.dataUser[0].avg;
+            $scope.count[0] = response.dataUser[0].count;
+            }
+            else {
+                $scope.average[0] = 0;
+                $scope.count[0] = 0;
+            }
+            if (response.dataCohort.length) {
+            $scope.average[1] = response.dataCohort[0].avg;
+            $scope.count[1] = response.dataCohort[0].count;
+            }
+            else {
+                $scope.average[1] = 0;
+                $scope.count[1] = 0;
+            }
+            if (response.dataFollowing.length) {
+            $scope.average[2] = response.dataFollowing[0].avg;
+            $scope.count[2] = response.dataFollowing[0].count;
+            }
+            else {
+                $scope.average[2] = 0;
+                $scope.count[2] = 0;
+            }
+            if (response.dataMentor.length) {
+            $scope.average[3] = response.dataMentor[0].avg;
+            $scope.count[3] = response.dataMentor[0].count;
+            }
+            else {
+                $scope.average[3] = 0;
+                $scope.count[3] = 0;
+            }
+            // $scope.average[1] = response.dataCohort;
+            // $scope.average[2] = response.dataFollowing;
+            // $scope.average[3] = response.dataMentor;
+            $scope.data[0].values[0].value = $scope.average[0];
+            $scope.data[0].values[1].value = $scope.average[1];
+            $scope.data[0].values[2].value = $scope.average[2];
+            $scope.data[0].values[3].value = $scope.average[3];
+            $scope.data[0].values[0].label = $scope.userInfo.firstName +' (' + $scope.count[0] + ' posts)' ;
+            $scope.data[0].values[1].label = 'cohort' +' (' + $scope.count[1] + ' posts)' ;
+            $scope.data[0].values[2].label = 'followers' +' (' + $scope.count[2] + ' posts)' ;
+            $scope.data[0].values[3].label = 'mentor' +' (' + $scope.count[3] + ' posts)' ;
+            
+          $scope.api.refresh(); 
+          
+   });
+   console.log($scope.switchTitle, "after function"); 
+};
+
+
 
            // DAYS USER HAS BEEN IN PROGRAM
 var a = moment(new Date());
 var b = moment($scope.userInfo.startDate);
 $scope.daysInProgram = a.diff(b, 'days');
 console.log($scope.daysInProgram, "days in program");
+$scope.first = $scope.userInfo.firstName;
+$scope.last = $scope.userInfo.lastName;
 
 
-userService.profileQuery('user', $scope.userInfo._id)
-    .then(function(response) {
-      console.log('checking profile Average', response);
-           $scope.profileAverage = Math.round(response.data[0].avg);
-           console.log($scope.profileAverage, "userAverage");
-            $scope.profileCount = response.data[0].count;
-                }, function(err) {
-                   console.error('check for profile average', err);
-  });
-
-
-//         // FOLLOW
-//  $scope.following = false;
-//  if(
-//  auth.data.usersFollowing && auth.data.usersFollowing.indexOf($scope.postData.user._id) != -1 ){
-//      $scope.following = true;
-//  }
-
-// $scope.follow = function(){
-//     $scope.usersFollowing = auth.data.usersFollowing;
-//     $scope.usersFollowing.push($scope.postData.user._id);
-//     userService.updateUser(              {usersFollowing:$scope.usersFollowing},
-//                  auth.data._id)
-//                  .then(function(response){
-//                      console.log(response);
-//                      $scope.following= true;
-//                  }, function(err) {
-//                      console.error('Following Error', err);
-//   });
-// };
-
-// $scope.unfollow = function(){
-//     $scope.usersFollowing = auth.data.usersFollowing;
-//     var index = $scope.usersFollowing.indexOf($scope.postData.user._id);
-//     $scope.usersFollowing.splice(index, 1);
-//     userService.updateUser(              {usersFollowing:$scope.usersFollowing},
-//                  auth.data._id)
-//                  .then(function(response){
-//                      console.log(response);
-//                      $scope.following= false;
-//                  }, function(err) {
-//                      console.error('Following Error', err);
-//   });
-// };
-
-
-
-
-
-
-
- 
-//             // USER AVERAGE
-// postService.averageQuery('user', $scope.postData.user._id)
-//     .then(function(response) {
-//       console.log('checkuserAverage', response);
-//            $scope.userAverage = Math.round(response.data[0].avg);
-//            console.log($scope.userAverage, "userAverage");
-//             $scope.userCount = response.data[0].count;
-//                 }, function(err) {
-//                    console.error('checkForUserAverage', err);
-//   });
-//                 // COHORT AVERAGE
-//  postService.averageQuery('cohort', $scope.postData.user.cohort)
-//     .then(function(response) {
-//       console.log('checkcohortAverage', response);
-//            $scope.cohortAverage = Math.round(response.data[0].avg);
-//            console.log($scope.cohortAverage, "cohortAverage");
-//             $scope.cohortCount = response.data[0].count;
-//                 }, function(err) {
-//                    console.error('checkForCohortAverage', err);
-//   });
-
-                //    USER LAST WEEK
-// postService.averageQuery('userPerWeek', $scope.postData.user._id)
-//     .then(function(response) {
-//       console.log('checkuserLastWeek', response);
-//            $scope.userAverageLastWeek = Math.round(response.data[0].avg);
-//            console.log($scope.userAverageWeekly, "userAverageWeekly");
-//             $scope.userCountLastWeek = response.data[0].count;
-//                 }, function(err) {
-//                    console.error('checkForUserAverageWeekly', err);
-//   });
-
-
-                // COHORT LAST WEEK
-// postService.averageQuery('cohortPerWeek', $scope.postData.user.cohort)
-//     .then(function(response) {
-//       console.log('checkCohortAverageWeekly', response);
-//            $scope.cohortLastWeek= Math.round(response.data[0].avg);
-//            console.log($scope.userAverage, "cohortlastWeek");
-//             $scope.cohortLastWeekCount = response.data[0].count;
-//                 }, function(err) {
-//                    console.error('checkForcohortLastWeek', err);
-//   });
-
-
-
- $scope.options = {
-           chart: {
-                type: 'lineChart',
-                height: 500,
-                width:700,
-                 lines2: { //options for basic line model; focus chart
-        forceX: 100
-    },
-
-                x: function(d){ return d.x; },
-                y: function(d){ return d.y; },
-                useInteractiveGuideline: true,
-                dispatch: {
-                    stateChange: function(e){ console.log("stateChange"); },
-                    changeState: function(e){ console.log("changeState"); },
-                    tooltipShow: function(e){ console.log("tooltipShow"); },
-                    tooltipHide: function(e){ console.log("tooltipHide"); }
+ $scope.optionsObject = {
+            chart: {
+                type: 'discreteBarChart',
+                height: 450,
+                width: 700,
+                showLegend: true,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 50,
+                    left: 55
                 },
+                x: function(d){return d.label;},
+                y: function(d){return d.value; },
+                showValues: true,
+                showLabels: true,
+                
+                valueFormat: function(d){
+                    return d3.format('.0f')(d);
+                },
+                duration: 500,
                 xAxis: {
-                    axisLabel: 'Days',
-                    tickPadding: 10,
-                    axisLabelDistance: 20,
+                    
+                   
                 },
                 yAxis: {
-                    axisLabel: 'Emtional Level',
-                    tickFormat: function(d){
-                        return d3.format('.02f')(d);
-                    },
-                    axisLabelDistance: 10,
-                    tickPadding:20,
+                    axisLabel:'Emotion Level',
+                    axisLabelDistance: -15,
+                    tickFormat:d3.format('.0f'),
+                    tickValues:([1,2,3,4,5,6,7,8,9,10]),
+                    showMax: true,
+                    rotateYLabel: true,
+                  
                 },
-                callback: function(chart){
-                    console.log("Chart Should be working");
-                }
+               
+                
             },
             title: {
-                enable: true,
-                text: 'Glass Case of Emotion'
-            },
-
+                    enable:true,
+                    text: $scope.durationTitle[$scope.switchTitle] + ' Avg Emotion Level'
+                }
         };
+        
 
-        $scope.data =  [
-                {
-                    values: [{x: 1, y: 5}, {x: 2, y:6}, {x: 3, y: 7}, {x: 4, y: 5}, {x: 5, y: 5}, {x: 6, y: 7}, {x: 7, y: 7}, {x:8, y: 3}, {x: 9, y: 4}, {x: 10, y: 7}, {}],
-                    key: $scope.userInfo.firstName,
-                    area:false,
-                    color: '#353535' ,
-                    dashed: 'dahsed',
-                    // key: 'Feature One', //key  - the name of the series.
-                    // color: '#6699ff'  //color - optional: choose your own line color.
-                },
-                {
-                    values:  [{x: 1, y: 8}, {x: 2, y:3}, {x: 3, y: 6}, {x: 4, y: 8}, {x: 5, y: 7}, {x: 6, y: 4}, {x: 7, y: 8}, {x:8, y: 5}, {x: 9, y: 8}, {x: 10, y: 2}, {}],
-                    key: 'Cohort',
-                    classed: 'dashed',
-                    color: '#25aae1' ,
-                    area:false,
+       
+$scope.dataObject = [ 
+    {
+                key: "Cumulative Return",
+                values: [
+                    {
+                        "label" : $scope.userInfo.firstName +' (' + $scope.count[0] + ' posts)' ,
+                        "value" : $scope.average[0],
+                        
+                    } ,
+                    {
+                        "label" : "cohort" +' (' + $scope.count[1] + ' posts)',
+                        "value" : $scope.average[1],
+                        
+                    } ,
+                    {
+                        "label" : "followers" +' (' + $scope.count[2] + ' posts)' ,
+                        "value" : $scope.average[2],
+                        
+                    } ,
+                    {
+                        "label" : "mentor" +' (' + $scope.count[3] + ' posts)' ,
+                        "value" :$scope.average[3],
+                        
+                    } 
+                   
+                ]
+            }
+        ];
 
-                },
-                 {
-                    values:  [{x: 1, y: 5}, {x: 2, y:8}, {x: 3, y: 3}, {x: 4, y: 8}, {x: 5, y: 10}, {x: 6, y: 7}, {x: 7, y: 3}, {x:8, y: 6}, {x: 9, y: 5}, {x: 10, y: 2}, {}],
-                    key: 'Average',
-                    strokeWidth: 5,
-                    classed: 'dashed',
-                    color: '#E07C0F' ,
-                    area:false,
+    $scope.options = $scope.optionsObject;       
 
-                },
-            ];
-
-
+    $scope.data = $scope.dataObject;
 
 
 

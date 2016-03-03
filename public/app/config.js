@@ -79,12 +79,58 @@ angular.module('journey' )
                 return userService.getUser($stateParams.id)
                 .then(function(response) {
                     console.log('check For User', response);
-                    return response;
+                    return response.data[0];
                 }, function(err) {
                     console.error('check For User Error', err);
                    
                 });
             },
+            userAverage: function(user, postService)  {
+                return postService.profileQuery
+                ('user', 
+                user._id, 'week', 'false')
+                    .then(function(response) {
+                    console.log('checking profile Average', response);
+                   return  response.data[0];
+                }, function(err) {
+                   console.error('check for profile average', err);
+  });
+            },
+             cohortAverage: function(user, postService)  {
+                return postService.profileQuery
+                ('cohort', 
+                user._id, 'week', 'false')
+                    .then(function(response) {
+                    console.log('checking cohort Average', response);
+                   return  response.data[0];
+                }, function(err) {
+                   console.error('check for profile average', err);
+  });
+            },
+               followersAverage: function(user, postService)  {
+                return postService.profileQuery
+                ('followers', 
+                user._id, 'week', 'false')
+                    .then(function(response) {
+                    console.log('checking followers Average', response);
+                   return  response.data[0];
+                }, function(err) {
+                   console.error('check for profile average', err);
+  });
+            },
+             mentorAverage: function(user, postService)  {
+                return postService.profileQuery
+                ('mentor', 
+                user._id, 'week', 'false')
+                    .then(function(response) {
+                    console.log('checking mentor Average', response);
+                   return  response.data[0];
+                }, function(err) {
+                   console.error('check for profile average', err);
+  });
+            },
+            
+      
       
              auth: function(authService, $state) {  // sends back who's logged in
                 return authService.checkForAuth()

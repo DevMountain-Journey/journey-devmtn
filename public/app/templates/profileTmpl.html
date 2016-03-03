@@ -3,7 +3,7 @@
     <div class="feed">
       <div class="card text-cs-center">
         <div class="card-header">
-          Profile
+          {{first}} {{last}}
           <a class="topFilter"> Cohort  </a> 
           <a class="topFilter"> Group | </a> 
           <a class="topFilter"> Following  |</a>
@@ -26,13 +26,14 @@
                
               <div class="pt-body">
                <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="submit()"> {{selectedAction.name}}
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="submit()"> 
+                    
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a>Today</a></li>
-                    <li><a>Past Week</a></li>
-                    <li><a>Past Month</a></li>
-                    <li><a>Past Time</a></li>
+                    <li><a ng-click="findEmotionLevel(0)">Today</a></li>
+                    <li><a ng-click="findEmotionLevel(1)">Past Week</a></li>
+                    <li><a  ng-click="findEmotionLevel(2)">Past Month</a></li>
+                    <li><a ng-click="findEmotionLevel(3)">All Time</a></li>
                 </ul>
                 </div>
                     
@@ -40,9 +41,16 @@
                   Day {{daysInProgram}} Heat Level : 
                        </p>
                   <h1 class='statistics'> Statistics </h1>
+                  
+                User:  {{userAverage}} <br> <br>
+                Cohort:   {{cohortAverage}}<br>
+                 Mentor:  {{mentorAverage}}     <br> 
+                Following:  {{followersAverage}}           
                  
                    <div class="lineChart">
-                        <nvd3 options="options" data="data" class="lineChart"></nvd3>
+                        <!--<nvd3 options="options" data="data" class="lineChart"></nvd3>-->
+                        
+                        <nvd3 options="options" data="data" api="api"></nvd3>
                           </div>
                   
                   
