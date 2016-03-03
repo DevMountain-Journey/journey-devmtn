@@ -304,8 +304,6 @@ angular.module('journey')
             });
         }, 500);
 
-
-
     });
 
 
