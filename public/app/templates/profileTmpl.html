@@ -4,6 +4,10 @@
       <div class="card text-cs-center">
         <div class="card-header">
           Profile
+          <a class="topFilter"> Cohort  </a> 
+          <a class="topFilter"> Group | </a> 
+          <a class="topFilter"> Following  |</a>
+           <a class="topFilter"> Me  |</a>  
         </div>
         <div class="card-block" style="height:calc(100vh - 114px);">
           <div class="scroll-body" slimscroll="{
@@ -22,12 +26,13 @@
                
               <div class="pt-body">
                <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="submit()"> {{selectedAction.name}}
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">HTML</a></li>
-                    <li><a href="#">CSS</a></li>
-                    <li><a href="#">JavaScript</a></li>
+                    <li><a>Today</a></li>
+                    <li><a>Past Week</a></li>
+                    <li><a>Past Month</a></li>
+                    <li><a>Past Time</a></li>
                 </ul>
                 </div>
                     
@@ -72,21 +77,24 @@
                      <h4> View </h4>
                <form ng-submit="changeSettings()">
                    <div class='views'>
-                      <input class="viewInput" type="radio" name="view" value="regular"><br> Regular <br>
-                      <input class="viewInput" type="radio" name="view" value="timeline"><br> TimeLine <br>
-                      <input class="viewInput" type="radio" name="view" value="Graph"><br> Graph <br>
+                      <input class="viewInput" type="radio" ng-model="view" value="regular">
+                       Regular <br>
+                      <input class="viewInput" type="radio" ng-model="view" value="timeline">
+                      TimeLine <br>
+                      <input class="viewInput" type="radio" ng-model="view" value="Graph">
+                       Graph <br>
                       </div>
                       <br></br>
                       <h4> Communitcation </h4>
                    <div>
-                      <input type="Radio" name="communication" value="commentEmail"> Recieve a email every time someone comments on your post <br>
-                      <input type="Radio" name="communication" value="WeeklyEmail"> Weekly overview email <br>
+                      <input class="viewInput" type="Radio" ng-model="communication" value="commentEmail"> Recieve a email every time someone comments on your post <br>
+                      <input class="viewInput" type="Radio" ng-model="communication" value="WeeklyEmail"> Weekly overview email <br>
                       </div>
                       <br></br>
                       <h4> Privacy </h4>
                    <div>
-                      <input type="Radio" name="privacy" value="public"> Private <br>
-                      <input type="Radio" name="privacy" value="WeeklyEmail"> Public <br>                    
+                      <input class="viewInput" type="Radio" ng-model="privacy" value="public"> Private <br>
+                      <input class="viewInput" type="Radio" ng-model="privacy" value="WeeklyEmail"> Public <br>                    
                       </div>
                       <br> </br>
                       <button type="submit">Save Settings</button>

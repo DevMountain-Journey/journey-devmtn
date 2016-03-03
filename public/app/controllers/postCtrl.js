@@ -97,15 +97,7 @@ $scope.daysInProgram = a.diff(b, 'days');
 console.log($scope.daysInProgram, "days in program");
 
             // USER AVERAGE
-postService.averageQuery('user', $scope.postData.user._id)
-    .then(function(response) {
-      console.log('checkuserAverage', response);
-           $scope.userAverage = Math.round(response.data[0].avg);
-           console.log($scope.userAverage, "userAverage");
-            $scope.userCount = response.data[0].count;
-                }, function(err) {
-                   console.error('checkForUserAverage', err);
-  });
+
                 // COHORT AVERAGE
  postService.averageQuery('cohort', $scope.postData.user.cohort)
     .then(function(response) {

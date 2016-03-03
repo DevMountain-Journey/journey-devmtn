@@ -14,7 +14,15 @@ $scope.daysInProgram = a.diff(b, 'days');
 console.log($scope.daysInProgram, "days in program");
 
 
-
+userService.profileQuery('user', $scope.userInfo._id)
+    .then(function(response) {
+      console.log('checking profile Average', response);
+           $scope.profileAverage = Math.round(response.data[0].avg);
+           console.log($scope.profileAverage, "userAverage");
+            $scope.profileCount = response.data[0].count;
+                }, function(err) {
+                   console.error('check for profile average', err);
+  });
 
 
 //         // FOLLOW

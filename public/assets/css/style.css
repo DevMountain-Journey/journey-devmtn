@@ -397,26 +397,37 @@ div[ui-view]{
     margin-left:2%0;
 }
 
-.views {
-    display:flex;
-}
+
 .statistics {
   margin-left:30%;
 }
 
 .viewInput {
-    display:flex;
     margin-left:10%;
     text-align: center;
 }
 
 h4 {
     margin-bottom:20px;
+   
 }
 .daysIn {
     float:left;
     margin-right:5%;
 }
+
+.dropdown {
+    float:right;
+    margin-right:5%;
+}
+
+.topFilter {
+    float:right;
+    margin-right:1%;
+}
+
+
+
 /***********************/
 /**            Inputs **/
 /***********************/
