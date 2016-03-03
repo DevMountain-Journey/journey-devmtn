@@ -36,8 +36,7 @@
                       <div class="eo-inner">
                         <div class="eo-bottom-bar eo-{{post.positiveScale}}">
                           <div class="eo-comments">
-                            3
-                            <i class="fa fa-comment"></i>
+                            {{post.numComments}} <i class="fa fa-comment"></i>
                           </div>
                           <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
                           <div class="eo-post" ui-sref="post({id:post._id})">
@@ -177,7 +176,6 @@
           <a class="btn btn-secondary" ng-click="clearQuery()">Clear</a>
 
         </form>
-        {{query}}
         <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
       </div>
       <!--/slimscroll-->

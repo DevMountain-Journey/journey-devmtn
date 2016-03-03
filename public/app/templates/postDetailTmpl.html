@@ -51,81 +51,69 @@
     </div>
     <div class="sidebar">
       <div class="scroll-body" slimscroll="{ height: 'auto', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
-        <div class="author">
-          <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
-          <p class='authorInfo'>
-            User:
-            {{postData.user.firstName}}
-            {{postData.user.lastName}}
-
-            <br>
-            Cohort:
-            {{postData.user.cohort}}
-            <br>
-            Mentor:
-            {{postData.user.assignedMentor}}
-            <br>
-            Days in Program:
-            {{daysInProgram}}</p>
-        </div>
-        <div>
-          <button class="followBtn" ng-if="!following" ng-click="follow()">Follow
-          </button>
-          <button class="followBtn" ng-if="following" ng-click="unfollow()">Unfollow
-          </button>
+        <div class="author clearfix">
+          <div class="author-avatar">
+            <img gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
+            <button class="btn btn-primary btn-sm btn-block" ng-if="!following" ng-click="follow()">Follow</button>
+            <button class="btn btn-success btn-sm btn-block active" ng-if="following" ng-click="unfollow()">Unfollow</button>
+          </div>
+          <div class="author-meta">
+            <div class="author-name">{{postData.user.firstName}} {{postData.user.lastName}}</div>
+            <strong>day {{daysInProgram}} in {{postData.user.cohort}}</strong><br>
+            <small>Mentor: {{postData.user.assignedMentor}}</small>
+          </div>
         </div>
 
-        <div class="emotionalLevels">
-          <p class='AEL'>Avg Emotion:
-            <br><img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face postFace">
-            {{userAverage}}
-            <br>
-            Total Posts:
-            {{userCount}}
-          </p>
-          <p>
-            Avg Cohort:
-            <br>
-            <img ng-src="assets/img/faces/face-{{cohortAverage}}.svg" class="eo-face postFace">
-            {{cohortAverage}}
-            <br>
-            Total Posts:
-            {{cohortCount}}
-          </p>
+        <div class="author-stats">
 
-          <p class='AEL'>
-            Last Week:
-            <br>
-            <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face postFace">
-            {{userAverageLastWeek}}
-            <br>
+        <strong>OVERALL</strong>
+        <div class="stats-box clearfix">
+          <img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face post-face">
+          <div class="average et-{{userAverage}}">{{userAverage}}</div>
+          <div class="info">
+            <div class="title">{{postData.user.firstName}}'s Avg Emotion Level</div>
+            <small>From <strong>{{userCount}}</strong> Total Posts</small>
+          </div>
+        </div>
 
-            Total Posts:
-            {{userCountLastWeek}}
-          </p>
-          <p>
-            Cohort Last Week:
-            <br>
-            <img ng-src="assets/img/faces/face-{{cohortLastWeek}}.svg" class="eo-face postFace">
-            {{cohortLastWeek}}
-            <br>
+        <div class="stats-box clearfix">
+          <img ng-src="assets/img/faces/face-{{cohortAverage}}.svg" class="eo-face post-face">
+          <div class="average et-{{cohortAverage}}">{{cohortAverage}}</div>
+          <div class="info">
+            <div class="title">Cohort Avg Emotion Level</div>
+            <small>From <strong>{{cohortCount}}</strong> Total Posts</small>
+          </div>
+        </div>
+        <hr>
+        <strong>LAST WEEK</strong>
+        <div class="stats-box clearfix">
+          <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face post-face">
+          <div class="average et-{{cohortAverage}}">{{userAverageLastWeek}}</div>
+          <div class="info">
+            <div class="title">{{postData.user.firstName}}'s Avg Emotion Level</div>
+            <small>From <strong>{{userCountLastWeek}}</strong> Total Posts</small>
+          </div>
+        </div>
 
-            Total Posts:
-            {{cohortLastWeekCount}}
-          </p>
-          <br></br>
+        <div class="stats-box clearfix">
+          <img ng-src="assets/img/faces/face-{{cohortLastWeek}}.svg" class="eo-face post-face">
+          <div class="average et-{{cohortLastWeek}}">{{cohortAverage}}</div>
+          <div class="info">
+            <div class="title">Cohort Avg Emotion Level</div>
+            <small>From <strong>{{cohortLastWeekCount}}</strong> Total Posts</small>
+          </div>
+        </div>
 
         </div>
 
-        <div class="lastPosts">
-          <p>
-            Recent Posts</p>
+        <!-- <div class="lastPosts">
+          <p>Recent Posts</p>
           <div class="recentPosts"></div>
           <div class="recentPosts"></div>
           <div class="recentPosts"></div>
           <div class="recentPosts"></div>
           <div class="recentPosts"></div>
-        </div>
+        </div> -->
 
         <!--<div class="lineChart">
                         <nvd3 options="options" data="data" class="lineChart"></nvd3>

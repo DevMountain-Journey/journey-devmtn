@@ -52,11 +52,6 @@ angular.module('journey')
         });
     };
 
-
-
-
-
-
     // COMMENTS
     postService.getComments($scope.postData._id)
       .then(function(response) {
@@ -76,6 +71,12 @@ angular.module('journey')
       postService.postComments(post)
         .then(function(response) {
           $scope.postData.numComments++;
+          $scope.commentBody = '';
+          response.data.user = {
+            firstName: auth.data.firstName,
+            lastName : auth.data.lastName,
+            email : auth.data.email
+          };
           $scope.comments.unshift(response.data);
         }, function(err){ errService.error(err); });
     };
