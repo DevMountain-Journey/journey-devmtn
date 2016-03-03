@@ -65,14 +65,14 @@ angular.module('journey')
         var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
         return {datePosted: [fromDate, today]};
     };
-    
+
     this.autoCompleteQuery = function(fieldName, query) {
         return $http({
               method: 'GET',
               url: '/api/posts/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
           });
     };
-    
+
      this.averageQuery = function(type, num) {
          var query = '';
          switch(type){
@@ -83,21 +83,21 @@ angular.module('journey')
              case 'cohort':
              case 'cohortPerWeek':
                 query = 'type=' + type + '&cohort=' + num;
-                break;   
-          }       
+                break;
+          }
         return $http({
               method: 'GET',
               url: '/api/posts/getAvg?' + query
           });
     };
-    
+
     this.getComments = function(id) {
       return $http ({
           method:'GET',
           url: '/api/comments?postParent=' + id
       });
     };
-  
+
    this.postComments = function(post) {
       return $http ({
           method:'POST',
@@ -105,7 +105,7 @@ angular.module('journey')
           data: post
       });
     };
-  
-  
-  
+
+
+
   });
