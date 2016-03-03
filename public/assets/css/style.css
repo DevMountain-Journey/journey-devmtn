@@ -13,6 +13,29 @@ body {
 div[ui-view]{
   padding-top: 65px;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+*[ng-click]{
+  cursor: pointer;
+}
+
+/* Loading Overlay */
+.loadingOverlay{
+  position: absolute;
+  z-index: 200;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.9);
+  color: #CCC;
+  font-size: 5em;
+  text-align: center;
+  line-height: 80vh;
+}
+
+/* NAV BAR */
 .navbar {
   border-radius: 0;
   margin-bottom: 0;
@@ -46,6 +69,13 @@ div[ui-view]{
 }
 
 
+/*Main Content Area Wrapper*/
+.card-header:first-child {
+    border-radius: 0;
+    font-size: .8em;
+    color: #666;
+}
+
 /********************/
 /** POSTS TIMELINE **/
 /********************/
@@ -54,10 +84,17 @@ div[ui-view]{
   height:calc(100vh - 65px);
   float: left;
 }
+.feed .card-block{
+  height:calc(100vh - 114px);
+  padding:0;
+}
 .posts-timeline {
   position: relative;
   padding-left: 120px;
   margin-bottom: 75px;
+}
+.posts-timeline:first-child{
+  margin-top:40px;
 }
 .posts-timeline .pt-line {
   position: absolute;
@@ -107,11 +144,13 @@ div[ui-view]{
   float: left;
   width: 70px;
   height: 70px;
-  margin: 0 8px 15px 0;
+  margin: 0 10px 15px 0;
   position: relative;
+  border-radius: 50%;
 }
 
-.posts-timeline .person .gravatar {
+.posts-timeline .person .gravatar{
+      border-radius: 50%;
 }
 
 .posts-timeline .person .emotionOverlay{
@@ -119,37 +158,110 @@ div[ui-view]{
   height:100%;
   width: 100%;
   top:0;
-  left: 0;
+  right: 0;
+  border-radius: 50%;
   z-index:10;
+  transition: transform 300ms ease;
+  transition: width 300ms ease;
 }
 
-.posts-timeline .person .emotionOverlay .emotionFace{
+.posts-timeline .person:hover .emotionOverlay{
+  transform: scale(1.5,1.5);
+  z-index:100;
+  width: 150px;
+  box-shadow: 0 0 2px rgba(0,0,0,.5);
+  opacity: 1;
+}
+
+.posts-timeline .person .emotionOverlay .eo-inner{
+  color: #EAEAEA;
+  opacity: 0;
+  background: #222;
+  width: 100%;
+  height: 100%;
+      border-radius: 5px;
+}
+
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar{
   position: absolute;
-  bottom: -7px;
-  left: 34.5%;
-  height: 30%;
+  width: 100%;
+  height: 14px;
+  bottom:0;
+  border-radius: 5px;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar .eo-comments{
+  position: absolute;
+  font-size: .6em;
+  left: 3px;
+  bottom: 0;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar .eo-time{
+  position: absolute;
+  bottom: 0;
+  font-size: .6em;
+  text-align: center;
+  width: 100%;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar .eo-post{
+  position: absolute;
+  right: 4px;
+  font-size: .6em;
+  bottom: 0;
+  cursor: pointer;
 }
 
-.posts-timeline .person .emotionOverlay.eo-1  { background: rgba(136, 111, 111, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-2  { background: rgba(181, 79, 79, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-3  { background: rgba(209, 124, 122, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-4  { background: rgba(209, 161, 158, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-5  { background: rgba(209, 191, 165, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-6  { background: rgba(209, 208, 163, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-7  { background: rgba(185, 209, 164, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-8  { background: rgba(172, 209, 159, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-9  { background: rgba(137, 167, 127, 0.5); }
-.posts-timeline .person .emotionOverlay.eo-10 { background: rgba(114, 138, 105, 0.5); }
+.posts-timeline .person .emotionOverlay .eo-inner .eo-face{
+  height: 52%;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+}
 
-.posts-timeline .person .emotionOverlay .eo-number{
-  font-size: 1.5em;
-  color: rgba(0,0,0,0.5);
+.posts-timeline .person .emotionOverlay .eo-inner .eo-tags{
+  position: absolute;
+  top: 5px;
+  left: 0;
+  padding-left: 44px;
+  font-size: .6em;
+  height: 65%;
+  width: 100%;
+  color: #888;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-tags span{
+  display: block;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.posts-timeline .person .emotionOverlay .eo-inner .eo-tags span:before{
+  content: "# ";
+  color: #555;
+}
+
+.posts-timeline .person .emotionOverlay .eo-inner .eo-number{
+  font-size: 2.5em;
+  color: rgba(0,0,0,0.3);
   font-weight: bold;
   line-height: 1em;
   position: absolute;
-  bottom: 0;
-  left: 5px;
+  top: 1px;
+  right: 5px;
 }
+
+.eo-1  { background: rgba(153, 43, 43, 0.4); }
+.eo-2  { background: rgba(181, 79, 79, 0.4); }
+.eo-3  { background: rgba(209, 124, 122, 0.4); }
+.eo-4  { background: rgba(209, 161, 158, 0.4); }
+.eo-5  { background: rgba(209, 191, 165, 0.4); }
+.eo-6  { background: rgba(209, 208, 163, 0.4); }
+.eo-7  { background: rgba(185, 209, 164, 0.4); }
+.eo-8  { background: rgba(172, 209, 159, 0.4); }
+.eo-9  { background: rgba(137, 167, 127, 0.4); }
+.eo-10 { background: rgba(114, 138, 105, 0.4); }
+
+.posts-timeline .person:hover .emotionOverlay .eo-inner { opacity: 1; }
 
 /********************/
 /** SIDEBAR        **/
@@ -172,6 +284,7 @@ div[ui-view]{
 .sidebar .scroll-body{
   padding:20px;
 }
+
 
 /** Emotion Bar **/
 .emotions {
@@ -204,14 +317,18 @@ div[ui-view]{
   cursor: pointer;
 }
 .emotions .emotionWrapper .emotionSvg:hover,
-.emotions .emotionWrapper .emotionSvg.toggled {
-  transform: scale(2,2);
+.emotions .emotionWrapper.toggled .emotionSvg {
+  transform: scale(1.5,1.5);
 }
 .emotions .emotionWrapper .emotionSvg:hover svg g path:first-child {
-  fill: #ddd468!important;
+  /*fill: #ddd468!important;*/
 }
-.emotions .emotionWrapper .emotionSvg.toggled svg g path:first-child {
+.emotions .emotionWrapper.toggled .emotionSvg svg g path:first-child {
    -webkit-animation: colorPulse 8s infinite alternate;
+}
+
+.emotions .emotionWrapper.toggled {
+  color: yellow;
 }
 
 .scalewrap{
@@ -221,51 +338,47 @@ div[ui-view]{
   border-top: 2px solid #444;
   font-size: 10px;
   color: #444;
+  top: -6px;
 }
 
 .scalewrap:before{
   content: "➤";
   position: absolute;
-  top: -16px;
-  left: -5px;
+  top: -12px;
+  left: -7px;
   z-index: 10;
-  font-size: 20px;
+  font-size: 15px;
   transform: rotate(180deg);
 }
 
 .scalewrap:after{
   content: "➤";
   position: absolute;
-  top: -16px;
-  right: -5px;
+  top: -12px;
+  right: -7px;
   z-index: 10;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .scalewrap .negative, .positive{
-  display: inline-block;
+  display: block;
   width: 50%;
   margin: 0;
   padding: 0;
+  position: absolute;
 }
 .scalewrap .negative {
   text-align: left;
-  padding-left: 25px;
+  padding-left: 15px;
+  left: 0;
 }
 .scalewrap .positive{
   text-align: right;
-  padding-right: 25px;
+  padding-right: 15px;
+  right: 0;
 }
 
 /*Filtering*/
-#searchFirstName, #searchLastName, #searchTags {
-    margin-bottom: 30px;
-}
-
-#searchLowEmotion, #searchHighEmotion {
-    width: 70px;
-    margin-bottom: 20px;
-}
 
 #daterange {
     margin-bottom: 20px;
@@ -284,11 +397,329 @@ div[ui-view]{
 }
 
 
-/********************/
-/** Individual Post **/
-/********************/
+/***********************************/
+/** Individual Post / Post Detail **/
+/***********************************/
+
+.post-detail .tag:before {
+  content: "#";
+}
+
+.post-detail .post-detail-wrapper{
+  margin: 50px auto;
+  width: 80%;
+  position: relative;
+  z-index:1;
+}
+
+.post-detail .post-detail-watermark {
+  position: absolute;
+  width: 70%;
+  top: -10%;
+  left: -10%;
+  opacity: 0.1;
+}
+.post-detail .card-header .emotion-level img {
+  margin-top: -5px;
+  width: 20px
+}
+.post-detail .card-header .emotion-level span{
+  font-weight: bold;
+  font-size: 1.3em;
+  line-height:0;
+}
+
+.post-detail .post-detail-content{
+  font-size: 1.1em;
+  line-height: 2em;
+  color: #353535;
+  margin-bottom:50px;
+  position: relative;
+}
+.author{
+  margin-bottom: 40px;
+}
+.author .author-avatar{
+  max-width: 100px;
+  float:left;
+  margin-right:10px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.author .author-avatar button{
+  border-radius: 0
+}
+
+.author .author-meta {
+  float:left;
+  text-transform: uppercase;
+}
+.author .author-meta .author-name{
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.author-stats .stats-box{
+  background: rgba(0,0,0,.5);
+  padding:15px;
+  margin-bottom: 20px;
+  border: 1px solid #000;
+}
+
+.author-stats .stats-box .post-face {
+  width: 50px;
+  float: left;
+}
+
+.author-stats .stats-box .average{
+  float: left;
+  font-size: 3.5em;
+  top: 0;
+  line-height: .95em;
+}
+
+.author-stats .stats-box .info{
+  float: left;
+  padding-left:15px;
+  margin-top: 1%;
+}
+
+.author-stats .stats-box .info .title{
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: .95em;
+}
+
+.et-1  { color: rgba(153, 43, 43, 0.6); }
+.et-2  { color: rgba(181, 79, 79, 0.6); }
+.et-3  { color: rgba(209, 124, 122, 0.6); }
+.et-4  { color: rgba(209, 161, 158, 0.6); }
+.et-5  { color: rgba(209, 191, 165, 0.6); }
+.et-6  { color: rgba(209, 208, 163, 0.6); }
+.et-7  { color: rgba(185, 209, 164, 0.6); }
+.et-8  { color: rgba(172, 209, 159, 0.6); }
+.et-9  { color: rgba(137, 167, 127, 0.6); }
+.et-10 { color: rgba(114, 138, 105, 0.6); }
 
 
-.authorInfo {
-    margin-left:2%0;
+
+/***********************/
+/**          Comments **/
+/***********************/
+.comments-section{
+  max-width:810px;
+}
+.comments-section .section-title{
+  padding-top: 40px;
+  border-top: 2px dashed#ccc;
+}
+.comment{
+  margin-bottom: 30px;
+  position: relative;
+}
+.comment .comment-meta{
+  font-size: .8em;
+  color: #555;
+  float: left;
+  width: 110px;
+  text-align: center;
+  padding: 0 5px;
+}
+.comment .comment-meta img{
+  border-radius: 50%;
+  border: 3px solid #a3d39c;
+}
+.comment .comment-meta .comment-author{
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.comment .comment-meta .comment-time{
+  font-size: .9em;
+  color: #666;
+  font-style: italic;
+}
+.comment .comment-body{
+  max-width: 700px;
+  float: left;
+  background: #a3d39c;
+  padding: 1em 1em .25em 1em;
+  position: relative;
+  border-radius: 20px;
+}
+.comment .comment-body:before{
+  content: "";
+  width: 30px;
+  height: 30px;
+  display: block;
+  position: absolute;
+  background: #a3d39c;
+  transform: rotate(45deg);
+  left: -10px;
+  top: 15px;
+  z-index: -1;
+}
+
+.add-comment{
+  margin-bottom:50px;
+}
+
+
+/***********************/
+/**            Inputs **/
+/***********************/
+.sidebar input,
+.sidebar textarea,
+.sidebar .form-group{
+  color: #F7F7F7;
+}
+.form-group{
+  position: relative;
+  margin: 20px 0 10px 0;
+}
+
+.form-control{
+  padding: 5px;
+  background: rgba(0, 0, 0, .4);
+  cursor: text;
+  overflow: hidden;
+  word-wrap: break-word;
+  font-size: .85em;
+}
+
+label[for="emotionlevel"]{
+  font-size: 1.2em;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+#thoughts{
+  resize: none;
+  min-height:45px;
+  height: 45px;
+  transition: height 500ms ease-in-out;
+}
+
+#thoughts:focus{
+  height:200px;
+}
+
+
+.input__field {
+  -webkit-appearance: none;
+  -webkit-transition: background-color .25s border-color .25s;
+  border: 2px solid transparent;
+  border-radius: 0;
+  display: block;
+  font-weight: 400;
+  position: relative;
+  transition: background-color .25s border-color .25s;
+  width: 100%;
+  min-height: 45px;
+}
+
+.input__field:focus,
+.fancy-input .input {
+outline:none;
+}
+
+.input__label {
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-transform: translate3d(0,3em,0);
+  -webkit-transition: 0 .25s;
+  -webkit-transition-timing-function: ease-in-out;
+  -webkit-user-select: none;
+  bottom: 96%;
+  float: right;
+  font-size: 80%;
+  font-weight: 600;
+  overflow: hidden;
+  padding: 0 1.25em;
+  pointer-events: none;
+  position: absolute;
+  transform: translate3d(0,3em,0);
+  transition: transform .25s;
+  transition-timing-function: ease-in-out;
+  user-select: none;
+  width: 100%;
+}
+
+.input__label-content {
+  -webkit-transition: 0 .25s;
+  -webkit-transition-timing-function: ease-in-out;
+  display: block;
+  position: relative;
+  transition: transform .25s;
+  transition-timing-function: ease-in-out;
+  width: 100%;
+}
+
+.input__label-content::after {
+bottom:100%;
+color:#a3d39c;
+content:attr(data-content);
+font-size:.85em;
+font-weight:800;
+height:100%;
+left:0;
+letter-spacing:1px;
+padding:.25em 0;
+position:absolute;
+text-transform:uppercase;
+width:100%;
+}
+
+.input__field:focus + .input__label,
+.fancy-input.focused .input__field + .input__label,
+.input--filled .input__label {
+-webkit-transform:translate3d(0,.5em,0);
+transform:translate3d(0,.5em,0);
+}
+
+.input__field#thoughts:focus + .input__label,
+.fancy-input.focused .input__field#thoughts + .input__label {
+-webkit-transform:translate3d(0,-.3em,0);
+transform:translate3d(0,-.3em,0);
+}
+
+.input__field:focus + .input__label .input__label-content,
+.fancy-input.focused .input__field + .input__label .input__label-content,
+.input--filled .input__label-content {
+-webkit-transform:translate3d(0,100%,0);
+transform:translate3d(0,100%,0);
+}
+
+.input__field:focus + .input__field,
+.fancy-input.focused + .input__field + .input__field,
+.input--filled .input__field {
+  border-color:#a3d39c;
+}
+.form-control:focus {
+  border-color:transparent;
+}
+.input--filled .form-control:focus {
+  border-color:#a3d39c;
+}
+
+/***********************/
+/** Animation **/
+/***********************/
+.animate.ng-enter {
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.animate.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.animate.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+}
+.animate.ng-leave.ng-leave-active {
+  opacity:0;
 }

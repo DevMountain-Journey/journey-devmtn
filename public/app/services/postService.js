@@ -43,8 +43,12 @@ angular.module('journey')
 
 
     // UPDATE POST
-    this.updatePost = function(post) {
-      return $http.put('/api/posts/' + post._id);
+    this.updatePost = function(post, id) {
+      return $http ({
+          method: 'PUT',
+          url: '/api/posts/' + id,
+          data: post
+      });
     };
 
     this.deletePost = function(id) {
@@ -61,12 +65,47 @@ angular.module('journey')
         var fromDate = moment(today).subtract(pageSize.DAYS, 'days');
         return {datePosted: [fromDate, today]};
     };
-    
+
     this.autoCompleteQuery = function(fieldName, query) {
         return $http({
               method: 'GET',
               url: '/api/posts/autocomplete?' + 'fieldname=' + fieldName + '&ac_query=' + query
           });
     };
+
+     this.averageQuery = function(type, num) {
+         var query = '';
+         switch(type){
+             case 'user':
+             case 'userPerWeek':
+                query = 'type=' + type + '&user=' + num;
+                break;
+             case 'cohort':
+             case 'cohortPerWeek':
+                query = 'type=' + type + '&cohort=' + num;
+                break;
+          }
+        return $http({
+              method: 'GET',
+              url: '/api/posts/getAvg?' + query
+          });
+    };
+
+    this.getComments = function(id) {
+      return $http ({
+          method:'GET',
+          url: '/api/comments?postParent=' + id
+      });
+    };
+
+   this.postComments = function(post) {
+      return $http ({
+          method:'POST',
+          url: '/api/comments/',
+          data: post
+      });
+    };
+
+
 
   });

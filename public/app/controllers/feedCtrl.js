@@ -3,11 +3,14 @@ angular.module('journey')
 .controller('feedCtrl',
   function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
     $scope.postContent = {};
+    $scope.postContent.tags = [];
     $scope.totalPosts = 0;
     $scope.query = {};
+    $scope.query.positiveScale = [];
     $scope.today = new Date();
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
+    $scope.currentUser = auth.data;
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
@@ -51,9 +54,7 @@ angular.module('journey')
                     }
                 }
 
-                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
                 autoCompleteTags = removeDuplicates(autoCompleteTags);
-                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
                 return autoCompleteTags.filter(function(item) {
                      return item.indexOf($query.toLowerCase()) !== -1;
                 });
@@ -69,9 +70,7 @@ angular.module('journey')
                     autoCompleteTags.push(response.data[i][fieldname]);
                 }
 
-                console.log('autoCompleteTags before remove duplicates = ', autoCompleteTags);
                 autoCompleteTags = removeDuplicates(autoCompleteTags);
-                console.log('autoCompleteTags after remove duplicates = ', autoCompleteTags);
                 return autoCompleteTags.filter(function(item) {
                      return item.indexOf($query.toLowerCase()) !== -1;
                 });
@@ -86,7 +85,6 @@ angular.module('journey')
             });
             return uniqueArr;
         }
-
     };
 
     $scope.createPost = function() {
@@ -154,6 +152,18 @@ angular.module('journey')
       }
     };
 
+    $scope.setScaleQuery = function(num) {
+        var alreadySelected = false;
+        for (var i = 0; i < $scope.query.positiveScale.length; i++) {
+            if ($scope.query.positiveScale[i] === num + 1)  { // if already selected
+                $scope.query.positiveScale.splice(i, 1);  // remove from array
+                alreadySelected = true;
+            }
+        }
+        if (!alreadySelected)
+            $scope.query.positiveScale.push(num + 1);
+    };
+
     $scope.repeatEmotions = function() {
       return new Array(10);
     };
@@ -164,6 +174,7 @@ angular.module('journey')
 
     $scope.clearQuery = function() {
         $scope.query = {};
+        $scope.query.positiveScale = [];
         $('#daterange span').html(''); // clear out contents */
     };
 
@@ -172,7 +183,7 @@ angular.module('journey')
         $scope.queryErrorMsg = '';
         var filters = {};
         $scope.processingQuery = true;
-        if ($scope.query.firstName || $scope.query.lastName) {
+        if (($scope.query.firstName && $scope.query.firstName.length) || ($scope.query.lastName && $scope.query.lastName.length)) {
             userService.getSearchUsers($scope.query.firstName, $scope.query.lastName)
             .then(function(response) {
                 console.log('getSearchUsers response = ', response);
@@ -193,14 +204,14 @@ angular.module('journey')
 
         function completeQuery() {
 
-            if ($scope.query.tags) {
+            if ($scope.query.tags && $scope.query.tags.length) {
                 filters.tags = [];
                 for (var i = 0; i < $scope.query.tags.length; i++) {
                     filters.tags[i] = $scope.query.tags[i].name.toLowerCase();
                 }
             }
 
-            if ($scope.query.lowEmotion && $scope.query.highEmotion) {
+            /* if ($scope.query.lowEmotion && $scope.query.highEmotion) {
                 if ($scope.query.lowEmotion <= $scope.query.highEmotion) {
                     filters.positiveScale = [];
                     for (var x = $scope.query.lowEmotion; x <= $scope.query.highEmotion; x++) {
@@ -211,6 +222,13 @@ angular.module('journey')
                      var err = {data: 'Low Emotion Level cannot be greater than High Emotion Level'};
                      errService.error(err);
                 }
+            } */
+
+            if ($scope.query.positiveScale && $scope.query.positiveScale.length) {
+                 filters.positiveScale = [];
+                 for (var x = 0; x < $scope.query.positiveScale.length; x++) {
+                     filters.positiveScale.push($scope.query.positiveScale[x]);
+                 }
             }
 
             console.log('query.dateRange = ', $scope.query.dateRange);
@@ -225,9 +243,8 @@ angular.module('journey')
             console.log('in createQuery before calling getAllPosts');
             console.log('filters = ', filters);
             if (jQuery.isEmptyObject(filters)) {
-                $scope.queryErrorMsg = 'Please enter search criteria';
-                $scope.processingQuery = false;
-                return;
+              $scope.processingQuery = true;
+              filters = postService.pageOneDateFilter();
             }
 
             postService.getAllPosts(filters)
@@ -265,6 +282,7 @@ angular.module('journey')
             locale: {
                 cancelLabel: 'Clear'
             },
+            drops: 'up',
             ranges: {
                'Today': [moment(), moment()],
                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -275,9 +293,18 @@ angular.module('journey')
             }
         }, cb);
 
+        //Little script to add focused class to tag boxes
+        setTimeout(function(){
+          $('.tags input')
+            .focus(function() {
+                $(this).parents('.fancy-input').addClass('focused');
+            })
+            .blur(function() {
+                $(this).parents('.fancy-input').removeClass('focused');
+            });
+        }, 500);
+
     });
-
-
 
 
     //Init - Format the postPromise on the route.

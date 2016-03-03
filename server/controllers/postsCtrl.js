@@ -1,15 +1,21 @@
 var postsModel = require('./../models/postsModel.js');
+var usersModel = require('./../models/usersModel.js');
 var moment = require('moment');
+var mongoose = require('mongoose');
 
 module.exports = {
 
     create: function(req, res) {
         var newPost = new postsModel(req.body);
         newPost.save(function(err) {
-            postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
-              if(err) return res.status(500).send(err);
-              res.send(post);
-            });
+            if (err)
+                return res.status(500).send(err);
+                postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
+                    if (err)
+                        return res.status(500).send(err);
+                    else
+                        res.send(post);
+                });
         });
     },
 
@@ -43,7 +49,7 @@ module.exports = {
              }
        });
    },
-    
+
    autocomplete: function(req, res) {
        console.log('in postsCtrl');
        console.log('in autocomplete');
@@ -51,8 +57,8 @@ module.exports = {
        var fieldname = req.query.fieldname;
        var ac_regex = new RegExp(req.query.ac_query);
        req.query = {};
-       req.query[fieldname] = {$regex: ac_regex}; 
-       // req.query[fieldname] = {$regex: /jq/}; 
+       req.query[fieldname] = {$regex: ac_regex};
+       // req.query[fieldname] = {$regex: /jq/};
        /* req.query[fieldname] = 'jquery'; */
        console.log('req.query after processing', req.query);
        postsModel
@@ -69,6 +75,75 @@ module.exports = {
                  res.send(result);
              }
        });
+   },
+
+   findAvg: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in findAvg');
+       console.log('req.query ', req.query);
+       var avgType = req.query.type;
+       var userId = req.query.user;
+       var cohort = req.query.cohort;
+       var users = [];
+       if ((avgType === 'cohort' || avgType === 'cohortPerWeek') && cohort) {
+           usersModel
+           .find({cohort: cohort}, '_id')
+           .exec(function(err, result) {
+                console.log('err', err);
+                console.log('result', result);
+                if (err) {
+                    console.log('in error routine');
+                    return res.status(500).send(err);
+                }
+                else {
+                    for (var i = 0; i < result.length; i++) {
+                        users.push(result[i]._doc._id);
+                    }
+                    completeProcess();
+                }
+           });
+       }
+       else
+           completeProcess();
+
+
+       function completeProcess() {
+
+           var matchCriteria = {};
+           switch(avgType) {
+               case 'user' :
+                   matchCriteria = {user: mongoose.Types.ObjectId(userId)}; // cast to object because aggregate feature will not automatically do the casting for a ref.
+                   break;
+               case 'cohort' :
+                   matchCriteria = {user: {$in: users}};
+                   break;
+               case 'userPerWeek' :
+                   matchCriteria = {user: mongoose.Types.ObjectId(userId), datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
+                    break;
+               case 'cohortPerWeek' :
+                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
+                    break;
+           }
+
+           postsModel.aggregate([
+               {$match: matchCriteria},
+               {$group: {
+                   _id: null,
+                   avg: {$avg: "$positiveScale"},
+                   count: {$sum: 1}
+                }}
+           ], function(err, result) {
+               console.log('err', err);
+               console.log('result', result);
+               if (err) {
+                   console.log('in error routine');
+                   return res.status(500).send(err);
+               }
+               else {
+                   res.send(result);
+               }
+           });
+       }
    },
 
    read: function(req, res) {

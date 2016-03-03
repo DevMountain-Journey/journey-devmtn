@@ -7,14 +7,18 @@
           <h3 class="card-title">Login</h3>
           <form ng-submit="login()">
 
-            <fieldset class="form-group">
-              <label for="email">Email Address</label>
-              <input ng-model="user.email" type="email" class="form-control" id="email">
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': user.email}">
+              <input ng-model="user.email" type="text" class="form-control input__field" id="email">
+              <label class="input__label" for="email">
+                <span class="input__label-content" data-content="Email">Email</span>
+              </label>
             </fieldset>
 
-            <fieldset class="form-group">
-              <label for="password">Password</label>
-              <input ng-model="user.password" type="password" class="form-control" id="password">
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': user.password}">
+              <input ng-model="user.password" type="password" class="form-control input__field" id="password">
+              <label class="input__label" for="password">
+                <span class="input__label-content" data-content="Password">Password</span>
+              </label>
             </fieldset>
 
             <button type="submit" class="btn btn-primary">Login</button>
