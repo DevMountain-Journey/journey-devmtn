@@ -1,155 +1,143 @@
-<div class="container-fluid">
+<div class="container-fluid post-detail">
   <div class="row">
     <div class="feed">
       <div class="card text-cs-center">
-        <div class="card-header">
-          Thought
+        <div class="card-header row  text-xs-center">
+          <div class="col-md-3">
+            {{postData.datePosted | date:"M/d/yyyy 'at' h:mma"}}
+          </div>
+          <div class="col-md-3 emotion-level">EMOTION LEVEL <img ng-src="assets/img/faces/face-{{postData.positiveScale-1}}.svg"> <span>{{postData.positiveScale}}</span></div>
+          <div class="col-md-3">
+            <a ng-click="scrollTo('#comments')"><i class="fa fa-comment"></i> {{postData.numComments || '0'}} COMMENTS</a>
+          </div>
+          <div class="col-md-3">
+            <span class="tag" ng-repeat="tag in postData.tags">{{tag}} </span>
+          </div>
         </div>
-        <div class="card-block" style="height:calc(100vh - 114px);">
-          <div class="scroll-body" slimscroll="{
-            height: 'auto',
-            color: '#333',
-            railVisible: true,
-            railOpacity: '0.7',
-            railColor: '#DDDDDD'
-          }">
         <div class="card-block">
-          <div class="posts-timeline" >
-              <div marked="postData.body">
-                  <!-- <span class="d-block" am-time-ago="posts.date"></span> -->
-              </div>
+          <div class="scroll-body" slimscroll="{ height: 'auto', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
+            <div class="post-detail-wrapper">
+              <div class="post-detail-content" marked="postData.body"></div>
+              <div class="comments-section" id="comments">
+                <h2 class="section-title">Comments</h2>
+                <div class="add-comment">
+                  <form ng-submit="addComment()">
+                    <fieldset class="form-group fancy-input" ng-class="{'input--filled': commentBody}">
+                      <textarea type="text" class="form-control commentArea input__field" ng-model="commentBody" maxlength="2000" required></textarea>
+                      <label class="input__label" for="comment">
+                        <span class="input__label-content" data-content="Add a Comment">Add a Comment</span>
+                      </label>
+                    </fieldset>
 
-                <p class='datePosted'> Date Posted: {{postData.datePosted | date:'MM/dd h:mma'}} </p>
-               Tags: <p  class ="tags" ng-repeat= "tag in postData.tags">  {{tag}}  </p>
-                <br></br>
-                {{postData.body}}
-              <div class="pt-body">
-                  <div class="clearfix">
-
-                  </div>
-              </div><!--/.pt-body-->
-          </div><!--/.posts-timeline-->
-
-
-      <div class="card-header">
-          Comments
-        </div>
-
-      <div class="comment" ng-repeat = "comment in comments">
-          <img class="authorImg" gravatar-src="comment.user.email" gravatar-size="30" gravatar-default="mm">
-           <p class="commentUser">
-               {{comment.user.firstName}}
-               {{comment.user.lastName}}
-
-               Date Posted:  {{comment.datePosted | date:'MM/dd h:mma'}}
-                </p> <br>
-             <p class='authorInfo'>
-                 Comments:
-                {{comment.body}}
-        </p>
-      </div>
-
-    <div class="addcomment">
-    <form ng-submit="addComment()">
-        <h6 class="createComment">Create Comment</h6>
-
-
-              <textarea type="text"
-                class="form-control commentArea"
-                placeholder="Add Comment"
-                ng-model="commentBody" maxlength="250" required></textarea>
-                <button type="submit">Add Comment</button>
-            </form>
-            </div>
-
-
-    </div>
-  </div>
-
-        </div><!---SLIM SCROLL-->
-        </div>
-</div>
-
-    <div class="sidebar">
-      <div class="scroll-body" slimscroll="{
-        height: '700px',
-        color: 'white',
-        alwaysVisible: false,
-        railVisible: true,
-        railOpacity: '0.7'
-      }">
-                <div class="author">
-                     <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
-                     <p class='authorInfo'>
-                      User: {{postData.user.firstName}}
-                     {{postData.user.lastName}}
-
-                      <br>
-                     Cohort: {{postData.user.cohort}}
-                     <br>
-                     Mentor: {{postData.user.assignedMentor}}
-                     <br>
-                    Days in Program: {{daysInProgram}}</p>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
                 </div>
-                     <div>
-                       <button class ="followBtn" ng-if ="!following" ng-click="follow()">Follow </button>
-                       <button class ="followBtn" ng-if ="following" ng-click="unfollow()">Unfollow </button>
-                       </div>
+                <div class="comment clearfix" ng-repeat="comment in comments">
+                  <div class="comment-meta">
+                    <img gravatar-src="comment.user.email" gravatar-size="50" gravatar-default="mm">
+                    <div class="comment-author">{{comment.user.firstName}} {{comment.user.lastName}}</div>
+                    <div class="comment-time" am-time-ago="comment.datePosted"></div>
+                  </div>
+                    <div class="comment-body" marked="comment.body"></div>
+                </div>
+            </div>
+            </div>
+            <div class="post-detail-watermark">
+              <ng-include src="'assets/img/faces/face-'+(postData.positiveScale - 1)+'.svg'"></ng-include>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="scroll-body" slimscroll="{ height: 'auto', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
+        <div class="author">
+          <img class="authorImg" gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
+          <p class='authorInfo'>
+            User:
+            {{postData.user.firstName}}
+            {{postData.user.lastName}}
 
-                     <div class="emotionalLevels">
-                      <p class='AEL'>Avg Emotion: <br><img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face postFace">
-                      {{userAverage}}
-                      <br>
-                      Total Posts: {{userCount}}
-                         </p>
-                             <p>
-                        Avg Cohort: <br>
-                        <img ng-src="assets/img/faces/face-{{cohortAverage}}.svg" class="eo-face postFace">
-                        {{cohortAverage}}
-                        <br>
-                        Total Posts: {{cohortCount}} </p>
+            <br>
+            Cohort:
+            {{postData.user.cohort}}
+            <br>
+            Mentor:
+            {{postData.user.assignedMentor}}
+            <br>
+            Days in Program:
+            {{daysInProgram}}</p>
+        </div>
+        <div>
+          <button class="followBtn" ng-if="!following" ng-click="follow()">Follow
+          </button>
+          <button class="followBtn" ng-if="following" ng-click="unfollow()">Unfollow
+          </button>
+        </div>
 
-                           <p class='AEL'> Last Week: <br>
-                        <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face postFace">
-                        {{userAverageLastWeek}}
-                        <br>
+        <div class="emotionalLevels">
+          <p class='AEL'>Avg Emotion:
+            <br><img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face postFace">
+            {{userAverage}}
+            <br>
+            Total Posts:
+            {{userCount}}
+          </p>
+          <p>
+            Avg Cohort:
+            <br>
+            <img ng-src="assets/img/faces/face-{{cohortAverage}}.svg" class="eo-face postFace">
+            {{cohortAverage}}
+            <br>
+            Total Posts:
+            {{cohortCount}}
+          </p>
 
-                            Total Posts: {{userCountLastWeek}}
-                        </p>
-                         <p> Cohort Last Week: <br>
-                        <img ng-src="assets/img/faces/face-{{cohortLastWeek}}.svg" class="eo-face postFace">
-                        {{cohortLastWeek}}
-                        <br>
+          <p class='AEL'>
+            Last Week:
+            <br>
+            <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face postFace">
+            {{userAverageLastWeek}}
+            <br>
 
-                            Total Posts: {{cohortLastWeekCount}}
-                        </p>
-                      <br> </br>
+            Total Posts:
+            {{userCountLastWeek}}
+          </p>
+          <p>
+            Cohort Last Week:
+            <br>
+            <img ng-src="assets/img/faces/face-{{cohortLastWeek}}.svg" class="eo-face postFace">
+            {{cohortLastWeek}}
+            <br>
 
-                     </div>
+            Total Posts:
+            {{cohortLastWeekCount}}
+          </p>
+          <br></br>
 
+        </div>
 
+        <div class="lastPosts">
+          <p>
+            Recent Posts</p>
+          <div class="recentPosts"></div>
+          <div class="recentPosts"></div>
+          <div class="recentPosts"></div>
+          <div class="recentPosts"></div>
+          <div class="recentPosts"></div>
+        </div>
 
-                    <div class="lastPosts">
-                      <p> Recent Posts</p>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                        <div class="recentPosts"> </div>
-                    </div>
-
-                      <!--<div class="lineChart">
+        <!--<div class="lineChart">
                         <nvd3 options="options" data="data" class="lineChart"></nvd3>
                           </div>-->
 
+        <!--/.input form-->
 
-
-
-      <!--/.input form-->
-
-
-
-      </div><!--/slimscroll-->
-    </div><!--/.sidebar-->
-  </div><!--/.row-->
-</div><!--/.container-fluid-->
+      </div>
+      <!--/slimscroll-->
+    </div>
+    <!--/.sidebar-->
+  </div>
+  <!--/.row-->
+</div>
+<!--/.container-fluid-->

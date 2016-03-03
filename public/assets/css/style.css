@@ -18,6 +18,10 @@ div[ui-view]{
   text-transform: capitalize;
 }
 
+*[ng-click]{
+  cursor: pointer;
+}
+
 /* Loading Overlay */
 .loadingOverlay{
   position: absolute;
@@ -64,6 +68,13 @@ div[ui-view]{
   color: #909090;
 }
 
+
+/*Main Content Area Wrapper*/
+.card-header:first-child {
+    border-radius: 0;
+    font-size: .8em;
+    color: #666;
+}
 
 /********************/
 /** POSTS TIMELINE **/
@@ -385,12 +396,108 @@ div[ui-view]{
 }
 
 
-/********************/
-/** Individual Post **/
-/********************/
+/***********************************/
+/** Individual Post / Post Detail **/
+/***********************************/
+
+.post-detail .tag:before {
+  content: "#";
+}
+
+.post-detail .post-detail-wrapper{
+  margin: 50px auto;
+  width: 80%;
+  position: relative;
+  z-index:1;
+}
+
+.post-detail .post-detail-watermark {
+  position: absolute;
+  width: 70%;
+  top: -10%;
+  left: -10%;
+  opacity: 0.1;
+}
+.post-detail .card-header .emotion-level img {
+  margin-top: -5px;
+  width: 20px
+}
+.post-detail .card-header .emotion-level span{
+  font-weight: bold;
+  font-size: 1.3em;
+  line-height:0;
+}
+
+.post-detail .post-detail-content{
+  font-size: 1.1em;
+  line-height: 2em;
+  color: #353535;
+  margin-bottom:50px;
+  position: relative;
+}
 
 .authorInfo {
-    margin-left:2%0;
+    margin-left:2%;
+}
+
+/***********************/
+/**          Comments **/
+/***********************/
+.comments-section{
+  max-width:810px;
+}
+.comments-section .section-title{
+  padding-top: 40px;
+  border-top: 2px dashed#ccc;
+}
+.comment{
+  margin-bottom: 30px;
+  position: relative;
+}
+.comment .comment-meta{
+  font-size: .8em;
+  color: #555;
+  float: left;
+  width: 110px;
+  text-align: center;
+  padding: 0 5px;
+}
+.comment .comment-meta img{
+  border-radius: 50%;
+  border: 3px solid #a3d39c;
+}
+.comment .comment-meta .comment-author{
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.comment .comment-meta .comment-time{
+  font-size: .9em;
+  color: #666;
+  font-style: italic;
+}
+.comment .comment-body{
+  max-width: 700px;
+  float: left;
+  background: #a3d39c;
+  padding: 1em 1em .25em 1em;
+  position: relative;
+  border-radius: 20px;
+}
+.comment .comment-body:before{
+  content: "";
+  width: 30px;
+  height: 30px;
+  display: block;
+  position: absolute;
+  background: #a3d39c;
+  transform: rotate(45deg);
+  left: -10px;
+  top: 15px;
+  z-index: -1;
+}
+
+.add-comment{
+  margin-bottom:50px;
 }
 
 
