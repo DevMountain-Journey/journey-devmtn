@@ -71,7 +71,7 @@ $scope.findEmotionLevel = function(duration){
         .then(function(response){
             console.log($scope.data, "data values");
             if (response.dataUser.length) {
-            $scope.average[0] = response.dataUser[0].avg;
+            $scope.average[0] = Math.round(response.dataUser[0].avg);
             $scope.count[0] = response.dataUser[0].count;
             }
             else {
@@ -79,7 +79,7 @@ $scope.findEmotionLevel = function(duration){
                 $scope.count[0] = 0;
             }
             if (response.dataCohort.length) {
-            $scope.average[1] = response.dataCohort[0].avg;
+            $scope.average[1] = Math.round(response.dataCohort[0].avg);
             $scope.count[1] = response.dataCohort[0].count;
             }
             else {
@@ -87,7 +87,7 @@ $scope.findEmotionLevel = function(duration){
                 $scope.count[1] = 0;
             }
             if (response.dataFollowing.length) {
-            $scope.average[2] = response.dataFollowing[0].avg;
+            $scope.average[2] = Math.round(response.dataFollowing[0].avg);
             $scope.count[2] = response.dataFollowing[0].count;
             }
             else {
@@ -95,7 +95,7 @@ $scope.findEmotionLevel = function(duration){
                 $scope.count[2] = 0;
             }
             if (response.dataMentor.length) {
-            $scope.average[3] = response.dataMentor[0].avg;
+            $scope.average[3] = Math.round(response.dataMentor[0].avg);
             $scope.count[3] = response.dataMentor[0].count;
             }
             else {

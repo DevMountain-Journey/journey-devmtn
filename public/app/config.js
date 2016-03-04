@@ -86,7 +86,7 @@ angular.module('journey' )
                 });
             },
             userAverage: function(user, postService)  {
-                return postService.profileQuery
+                return postService.averageQuery
                 ('user', 
                 user._id, 'week', 'false')
                     .then(function(response) {
@@ -97,7 +97,7 @@ angular.module('journey' )
   });
             },
              cohortAverage: function(user, postService)  {
-                return postService.profileQuery
+                return postService.averageQuery
                 ('cohort', 
                 user._id, 'week', 'false')
                     .then(function(response) {
@@ -108,7 +108,7 @@ angular.module('journey' )
   });
             },
                followersAverage: function(user, postService)  {
-                return postService.profileQuery
+                return postService.averageQuery
                 ('followers', 
                 user._id, 'week', 'false')
                     .then(function(response) {
@@ -119,7 +119,7 @@ angular.module('journey' )
   });
             },
              mentorAverage: function(user, postService)  {
-                return postService.profileQuery
+                return postService.averageQuery
                 ('mentor', 
                 user._id, 'week', 'false')
                     .then(function(response) {

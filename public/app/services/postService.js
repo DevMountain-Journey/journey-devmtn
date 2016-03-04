@@ -73,23 +73,23 @@ angular.module('journey')
           });
     };
 
-     this.averageQuery = function(type, num) {
-         var query = '';
-         switch(type){
-             case 'user':
-             case 'userPerWeek':
-                query = 'type=' + type + '&user=' + num;
-                break;
-             case 'cohort':
-             case 'cohortPerWeek':
-                query = 'type=' + type + '&cohort=' + num;
-                break;
-          }
-        return $http({
-              method: 'GET',
-              url: '/api/posts/getAvg?' + query
-          });
-    };
+//     this.averageQuery = function(type, num) {
+//         var query = '';
+//         switch(type){
+//             case 'user':
+//             case 'userPerWeek':
+//                query = 'type=' + type + '&user=' + num;
+//                break;
+//             case 'cohort':
+//             case 'cohortPerWeek':
+//                query = 'type=' + type + '&cohort=' + num;
+//                break;
+//          }
+//        return $http({
+//              method: 'GET',
+//              url: '/api/posts/getAvg?' + query
+//          });
+//    };
 
     this.getComments = function(id) {
       return $http ({
@@ -108,7 +108,7 @@ angular.module('journey')
 
 
 
-     this.profileQuery = function(group, num, duration, tags) {           
+     this.averageQuery = function(group, num, duration, tags) {           
           var query = 'group=' + group + '&duration=' + duration + '&user=' + num + '&tags=' + tags;      console.log(query, "query");
        return $http({
               method: 'GET',
@@ -124,7 +124,7 @@ angular.module('journey')
         var dataCohort;
         var dataFollowing;
         var dataMentor;      
-        this.profileQuery ('user', user._id, duration, 'false')
+        this.averageQuery ('user', user._id, duration, 'false')
             .then(function(response) {
                 dataUser = response.data;     
                 console.log(response, 'user average');
@@ -132,7 +132,7 @@ angular.module('journey')
                     }, function(err) {
                     console.error('check for profile average', err);
         });
-         this.profileQuery ('cohort', user._id, duration, 'false')
+         this.averageQuery ('cohort', user._id, duration, 'false')
             .then(function(response) {
                 dataCohort = response.data;
             console.log(response, 'cohort average');
@@ -140,7 +140,7 @@ angular.module('journey')
             }, function(err) {
             console.error('check for profile average', err);
         });
-          this.profileQuery ('following', user._id, duration, 'false')
+          this.averageQuery ('following', user._id, duration, 'false')
             .then(function(response) {
                 dataFollowing = response.data;
                 console.log(response, 'following average');
@@ -148,7 +148,7 @@ angular.module('journey')
                     }, function(err) {
                     console.error('check for profile average', err);
         }); 
-         this.profileQuery ('mentor', user._id, duration, 'false')
+         this.averageQuery ('mentor', user._id, duration, 'false')
             .then(function(response) {
                 dataMentor = response.data;
                 console.log(response, 'mentor average');
