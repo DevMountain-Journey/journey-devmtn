@@ -304,6 +304,11 @@ angular.module('journey')
             });
         }, 500);
 
+        //Enable tooltips
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+        });
+
     });
 
 

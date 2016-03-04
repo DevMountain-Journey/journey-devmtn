@@ -9,7 +9,7 @@ angular.module('journey')
             if ($stateParams.successRedirect) {
               $state.go($stateParams.successRedirect);
             } else { // default redirect to student
-              $state.go('feed');
+              $state.go('timeline');
             }
           }
         })

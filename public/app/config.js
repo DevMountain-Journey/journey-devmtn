@@ -18,6 +18,7 @@ angular.module('journey' )
 
       .state('feed', {
         url: '/',
+        abstract: true,
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
@@ -44,12 +45,22 @@ angular.module('journey' )
             }
          }
       })
+      .state('timeline', {
+        parent: 'feed',
+        url: 'timeline',
+        templateUrl: './app/templates/timelineTmpl.html'
+      })
+      .state('standard', {
+        parent: 'feed',
+        url: 'standard',
+        templateUrl: './app/templates/standardFeedTmpl.html'
+      })
       .state('post', {
         url: '/post/:id',
         controller: 'postCtrl',
         templateUrl: './app/templates/postDetailTmpl.html',
         resolve: {
-            postData:function(postService, errService, $stateParams) { 
+            postData:function(postService, errService, $stateParams) {
                 return postService.getOnePost($stateParams.id)
                 .then(function(response) {
                     console.log('CheckingforSinglePost', response);
@@ -71,6 +82,6 @@ angular.module('journey' )
         }
       });
 
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/timeline');
     }
   ]);

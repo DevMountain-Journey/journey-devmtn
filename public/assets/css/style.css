@@ -6,6 +6,8 @@
   100% {fill: #d57878;}
 }
 
+.text-black{ color: #000; }
+
 body {
   overflow: hidden;
 }
@@ -18,7 +20,7 @@ div[ui-view]{
   text-transform: capitalize;
 }
 
-*[ng-click]{
+[ng-click], [ui-sref], [data-toggle="collapse"]{
   cursor: pointer;
 }
 
@@ -75,10 +77,7 @@ div[ui-view]{
     font-size: .8em;
     color: #666;
 }
-
-/********************/
-/** POSTS TIMELINE **/
-/********************/
+/*FEED VIEW WRAPPER*/
 .feed{
   width:calc(100vw - 400px);
   height:calc(100vh - 65px);
@@ -88,6 +87,27 @@ div[ui-view]{
   height:calc(100vh - 114px);
   padding:0;
 }
+
+.feed .card-header .view-buttons span {
+  display: inline-block;
+  padding: 0 5px;
+  background: rgba(255,255,255,1);
+  border-radius: 3px;
+  margin-right: 3px;
+}
+
+.feed .card-header .view-buttons span.toggled{
+  background: rgba(163, 210, 156, 0.5)
+}
+
+.feed .card-header .view-buttons span:hover{
+  background: rgba(163, 210, 156, 0.3);
+}
+
+/********************/
+/** POSTS TIMELINE **/
+/********************/
+
 .posts-timeline {
   position: relative;
   padding-left: 120px;
@@ -250,18 +270,116 @@ div[ui-view]{
   right: 5px;
 }
 
-.eo-1  { background: rgba(153, 43, 43, 0.4); }
-.eo-2  { background: rgba(181, 79, 79, 0.4); }
-.eo-3  { background: rgba(209, 124, 122, 0.4); }
-.eo-4  { background: rgba(209, 161, 158, 0.4); }
-.eo-5  { background: rgba(209, 191, 165, 0.4); }
-.eo-6  { background: rgba(209, 208, 163, 0.4); }
-.eo-7  { background: rgba(185, 209, 164, 0.4); }
-.eo-8  { background: rgba(172, 209, 159, 0.4); }
-.eo-9  { background: rgba(137, 167, 127, 0.4); }
-.eo-10 { background: rgba(114, 138, 105, 0.4); }
-
 .posts-timeline .person:hover .emotionOverlay .eo-inner { opacity: 1; }
+
+/*******************************/
+/** STANDARD FEED VIEW        **/
+/*******************************/
+.standard-view-wrapper {
+  margin: 50px auto;
+  width: 80%;
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+}
+
+.posts-standard .feed-date{
+  width: 300px;
+  margin: 150px auto 50px;
+  text-align: center;
+  position: relative;
+  border-top: 5px solid #EAEAEA;
+  border-bottom: 5px solid #EAEAEA;
+}
+.posts-standard:first-child .feed-date{
+  margin-top:0;
+}
+.posts-standard .feed-date > div{
+  font-size: 2em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.posts-standard .standard-post{
+  margin-bottom: 70px;
+}
+.posts-standard .standard-post .header{
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.posts-standard .standard-post .header .gravatar{
+    border-radius: 50%;
+    width: 45px;
+}
+.posts-standard .standard-post .header .eo-face{
+  width: 35px;
+}
+.posts-standard .standard-post .header .tags > span{
+  font-style: italic;
+}
+.posts-standard .standard-post .header .tags > span:before{
+  content:"#"
+}
+.posts-standard .standard-post .body{
+  background: #222;
+  border-radius: 10px;
+  position: relative;
+  padding-top:5px;
+}
+.posts-standard .standard-post .body:before{
+  content: "";
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  background: #222;
+  transform: rotate(45deg);
+  left: 12px;
+  top: -5px;
+  z-index: -1;
+}
+.posts-standard .standard-post .body .body-text{
+  padding: 10px;
+  overflow: hidden;
+  max-height: 80px;
+  position: relative;
+  color: #999999;
+}
+.posts-standard .standard-post .body .body-text:after{
+  content: "";
+  display: block;
+  position: absolute;
+  bottom:0;
+  left:0;
+  height: 35px;
+  width: 100%;
+  z-index: 100;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,222222+100&0+38,0.65+100 */
+  background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(13,13,13,.05) 38%, rgba(34,34,34,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(13,13,13,.05) 38%,rgba(34,34,34,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(13,13,13,.05) 38%,rgba(34,34,34,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6222222',GradientType=0 ); /* IE6-9 */
+  pointer-events: none;
+}
+
+.posts-standard .standard-post .footer{
+  padding: 3px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: .9em;
+}
+
+.posts-standard .standard-post .footer > div:nth-child(2) > span{
+  padding: 0 10px;
+}
 
 /********************/
 /** SIDEBAR        **/
@@ -453,6 +571,7 @@ div[ui-view]{
 .author .author-meta {
   float:left;
   text-transform: uppercase;
+  width: calc(100% - 110px);
 }
 .author .author-meta .author-name{
   font-size: 1.3em;
@@ -489,18 +608,6 @@ div[ui-view]{
   text-transform: capitalize;
   font-size: .95em;
 }
-
-.et-1  { color: rgba(153, 43, 43, 0.6); }
-.et-2  { color: rgba(181, 79, 79, 0.6); }
-.et-3  { color: rgba(209, 124, 122, 0.6); }
-.et-4  { color: rgba(209, 161, 158, 0.6); }
-.et-5  { color: rgba(209, 191, 165, 0.6); }
-.et-6  { color: rgba(209, 208, 163, 0.6); }
-.et-7  { color: rgba(185, 209, 164, 0.6); }
-.et-8  { color: rgba(172, 209, 159, 0.6); }
-.et-9  { color: rgba(137, 167, 127, 0.6); }
-.et-10 { color: rgba(114, 138, 105, 0.6); }
-
 
 
 /***********************/
@@ -548,14 +655,14 @@ div[ui-view]{
 }
 .comment .comment-body:before{
   content: "";
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   display: block;
   position: absolute;
   background: #a3d39c;
   transform: rotate(45deg);
-  left: -10px;
-  top: 15px;
+  left: -7px;
+  top: 18px;
   z-index: -1;
 }
 
@@ -723,3 +830,37 @@ transform:translate3d(0,100%,0);
 .animate.ng-leave.ng-leave-active {
   opacity:0;
 }
+
+/* EMOTION COLORING */
+.eo-1  { background: rgba(153, 43, 43, 0.4); }
+.eo-2  { background: rgba(181, 79, 79, 0.4); }
+.eo-3  { background: rgba(209, 124, 122, 0.4); }
+.eo-4  { background: rgba(209, 161, 158, 0.4); }
+.eo-5  { background: rgba(209, 191, 165, 0.4); }
+.eo-6  { background: rgba(209, 208, 163, 0.4); }
+.eo-7  { background: rgba(185, 209, 164, 0.4); }
+.eo-8  { background: rgba(172, 209, 159, 0.4); }
+.eo-9  { background: rgba(137, 167, 127, 0.4); }
+.eo-10 { background: rgba(114, 138, 105, 0.4); }
+
+.et-1  { color: rgba(153, 43, 43, 0.6); }
+.et-2  { color: rgba(181, 79, 79, 0.6); }
+.et-3  { color: rgba(209, 124, 122, 0.6); }
+.et-4  { color: rgba(209, 161, 158, 0.6); }
+.et-5  { color: rgba(209, 191, 165, 0.6); }
+.et-6  { color: rgba(209, 208, 163, 0.6); }
+.et-7  { color: rgba(185, 209, 164, 0.6); }
+.et-8  { color: rgba(172, 209, 159, 0.6); }
+.et-9  { color: rgba(137, 167, 127, 0.6); }
+.et-10 { color: rgba(114, 138, 105, 0.6); }
+
+.eb-1  { border-color: rgba(153, 43, 43, 0.4); }
+.eb-2  { border-color: rgba(181, 79, 79, 0.4); }
+.eb-3  { border-color: rgba(209, 124, 122, 0.4); }
+.eb-4  { border-color: rgba(209, 161, 158, 0.4); }
+.eb-5  { border-color: rgba(209, 191, 165, 0.4); }
+.eb-6  { border-color: rgba(209, 208, 163, 0.4); }
+.eb-7  { border-color: rgba(185, 209, 164, 0.4); }
+.eb-8  { border-color: rgba(172, 209, 159, 0.4); }
+.eb-9  { border-color: rgba(137, 167, 127, 0.4); }
+.eb-10 { border-color: rgba(114, 138, 105, 0.4); }
