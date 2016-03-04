@@ -1,5 +1,5 @@
 angular.module('journey')
-  .service('postService', function($http, pageSize) {
+  .service('postService', function($http, pageSize, $q) {
 
     // GET ALL POSTS
     this.getAllPosts = function(filters) {
@@ -73,23 +73,23 @@ angular.module('journey')
           });
     };
 
-     this.averageQuery = function(type, num) {
-         var query = '';
-         switch(type){
-             case 'user':
-             case 'userPerWeek':
-                query = 'type=' + type + '&user=' + num;
-                break;
-             case 'cohort':
-             case 'cohortPerWeek':
-                query = 'type=' + type + '&cohort=' + num;
-                break;
-          }
-        return $http({
-              method: 'GET',
-              url: '/api/posts/getAvg?' + query
-          });
-    };
+//     this.averageQuery = function(type, num) {
+//         var query = '';
+//         switch(type){
+//             case 'user':
+//             case 'userPerWeek':
+//                query = 'type=' + type + '&user=' + num;
+//                break;
+//             case 'cohort':
+//             case 'cohortPerWeek':
+//                query = 'type=' + type + '&cohort=' + num;
+//                break;
+//          }
+//        return $http({
+//              method: 'GET',
+//              url: '/api/posts/getAvg?' + query
+//          });
+//    };
 
     this.getComments = function(id) {
       return $http ({
@@ -108,4 +108,70 @@ angular.module('journey')
 
 
 
+     this.averageQuery = function(group, num, duration, tags) {           
+          var query = 'group=' + group + '&duration=' + duration + '&user=' + num + '&tags=' + tags;      console.log(query, "query");
+       return $http({
+              method: 'GET',
+              url: '/api/posts/getAvg?' + query
+              
+          });
+    };
+    
+    
+    this.getEmotions = function(duration, user){
+        var defer = $q.defer();
+        var dataUser;
+        var dataCohort;
+        var dataFollowing;
+        var dataMentor;      
+        this.averageQuery ('user', user._id, duration, 'false')
+            .then(function(response) {
+                dataUser = response.data;     
+                console.log(response, 'user average');
+                checkIfAllDataDone();
+                    }, function(err) {
+                    console.error('check for profile average', err);
+        });
+         this.averageQuery ('cohort', user._id, duration, 'false')
+            .then(function(response) {
+                dataCohort = response.data;
+            console.log(response, 'cohort average');
+           checkIfAllDataDone();
+            }, function(err) {
+            console.error('check for profile average', err);
+        });
+          this.averageQuery ('following', user._id, duration, 'false')
+            .then(function(response) {
+                dataFollowing = response.data;
+                console.log(response, 'following average');
+                checkIfAllDataDone();
+                    }, function(err) {
+                    console.error('check for profile average', err);
+        }); 
+         this.averageQuery ('mentor', user._id, duration, 'false')
+            .then(function(response) {
+                dataMentor = response.data;
+                console.log(response, 'mentor average');
+                checkIfAllDataDone();
+                }, function(err) {
+                    console.error('check for profile average', err);
+        });  
+           function checkIfAllDataDone() {
+             if (dataUser && dataCohort && dataFollowing && dataMentor) {
+                    defer.resolve({
+                        dataUser: dataUser,
+                        dataCohort: dataCohort,
+                        dataFollowing: dataFollowing,
+                        dataMentor: dataMentor
+                    });
+                  }
+                }
+                return defer.promise;
+            };
+     
+
+
+
   });
+
+

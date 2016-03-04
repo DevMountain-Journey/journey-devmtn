@@ -1,6 +1,15 @@
 angular.module('journey')
   .service('userService', function($http, $q) {
 
+
+      this.getUser = function(id){
+            return $http({
+              method: 'GET',
+              url: '/api/users?_id=' + id
+          });
+    };
+      
+
     // GET USERS
     this.getSearchUsers = function(firstName, lastName) {
         
@@ -67,6 +76,15 @@ angular.module('journey')
           url: '/api/users/' + id,
           data: post
       });
-    };  
+    }; 
+    
+    
+    
+    
+    
+    
+    
+    
+     
  
   });

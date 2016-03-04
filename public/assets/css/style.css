@@ -272,6 +272,10 @@ div[ui-view]{
 
 .posts-timeline .person:hover .emotionOverlay .eo-inner { opacity: 1; }
 
+.viewProfile {
+    float:right;
+}
+
 /*******************************/
 /** STANDARD FEED VIEW        **/
 /*******************************/
@@ -515,6 +519,7 @@ div[ui-view]{
 }
 
 
+
 /***********************************/
 /** Individual Post / Post Detail **/
 /***********************************/
@@ -665,10 +670,41 @@ div[ui-view]{
   top: 18px;
   z-index: -1;
 }
+>>>>>>> dev
 
 .add-comment{
   margin-bottom:50px;
 }
+
+
+.statistics {
+  margin-left:30%;
+}
+
+.viewInput {
+    margin-left:10%;
+    text-align: center;
+}
+
+h4 {
+    margin-bottom:20px;
+   
+}
+.daysIn {
+    float:left;
+    margin-right:5%;
+}
+
+.dropdown {
+    float:right;
+    margin-right:5%;
+}
+
+.topFilter {
+    float:right;
+    margin-right:1%;
+}
+
 
 
 /***********************/

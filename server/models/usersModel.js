@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var preferencesSchema = require('./../schema/preferencesSchema');
 
 var usersSchema = new Schema({
     firstName: {type: 'String', required: true, lowercase: true},
@@ -10,7 +11,8 @@ var usersSchema = new Schema({
 	cohort: {type: 'Number', required: true},
 	startDate: {type: 'Date', required: true},
 	assignedMentor: {type: 'String', required: true, lowercase: true},
-    usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}]
+    usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}],
+    preferences: preferencesSchema
 });
 
 // Methods
