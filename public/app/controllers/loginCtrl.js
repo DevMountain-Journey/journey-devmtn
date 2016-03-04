@@ -23,7 +23,7 @@ angular.module('journey')
         .then(function(response) {
           console.log('in signupCtrl -- in processForm -- Signup Response: ', response);
           if (response.status === 200) {
-            $state.go('feed', {
+            $state.go('timeline', {
               toastMessage: 'Signup Successful'
             });
           }
