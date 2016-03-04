@@ -4,7 +4,6 @@ angular.module('journey')
     $scope.login = function() {
       authService.login($scope.user)
         .then(function(response) {
-          console.log('in loginCtrl -- in processForm -- Login Response: ', response);
           if (response.status === 200) {
             if ($stateParams.successRedirect) {
               $state.go($stateParams.successRedirect);
@@ -21,11 +20,8 @@ angular.module('journey')
     $scope.signup = function() {
       authService.signup($scope.userSignup)
         .then(function(response) {
-          console.log('in signupCtrl -- in processForm -- Signup Response: ', response);
           if (response.status === 200) {
-            $state.go('feed', {
-              toastMessage: 'Signup Successful'
-            });
+            $state.go('timeline');
           }
         })
         .catch(function(error) {
