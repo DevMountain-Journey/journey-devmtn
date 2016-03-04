@@ -12,9 +12,9 @@ body {
   overflow: hidden;
 }
 
-div[ui-view]{
+/*div[ui-view]{
   padding-top: 65px;
-}
+}*/
 
 .capitalize {
   text-transform: capitalize;
@@ -46,8 +46,7 @@ div[ui-view]{
   background: #111111;
   border-bottom:1px solid #000;
   height: 65px;
-  position:fixed;
-  width: 100vw;
+  width: 100%;
 }
 .navbar-brand img {
   max-width: 200px;
@@ -688,7 +687,7 @@ div[ui-view]{
 
 h4 {
     margin-bottom:20px;
-   
+
 }
 .daysIn {
     float:left;

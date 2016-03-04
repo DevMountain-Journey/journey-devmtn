@@ -4,54 +4,56 @@ angular.module('journey')
 
 
 //  console.log($scope.postData, "POSTDATA");
-$scope.userInfo =user;
+$scope.userInfo = user;
+$scope.userId = auth.data._id;
+
 console.log($scope.userInfo, "userinfo");
 console.log(auth, "AUTH");
 $scope.average = [];
 $scope.count = [];
 if (userAverage) {
     $scope.average[0]= Math.round(userAverage.avg);
-    $scope.count[0] = userAverage.count; 
+    $scope.count[0] = userAverage.count;
  }
 else {
         $scope.average[0] = 0;
         $scope.count[0] = 0;
-    };
+    }
     if (cohortAverage) {
     $scope.average[1]= Math.round(cohortAverage.avg);
-    $scope.count[1] = cohortAverage.count; 
+    $scope.count[1] = cohortAverage.count;
  }
 else {
         $scope.average[1] = 0;
         $scope.count[1] = 0;
-    };
-    
+    }
+
 if (followersAverage) {
     $scope.average[2]= Math.round(followersAverage.avg);
-    $scope.count[2] = followersAverage.count; 
+    $scope.count[2] = followersAverage.count;
  }
 else {
         $scope.average[2] = 0;
-        $scope.count[2] = 0; 
-    };    
+        $scope.count[2] = 0;
+    }
 if (mentorAverage) {
     $scope.average[3]= Math.round(mentorAverage.avg);
-    $scope.count[3] = mentorAverage.count; 
+    $scope.count[3] = mentorAverage.count;
  }
 else {
         $scope.average[3] = 0;
         $scope.count[3] = 0;
-    };    
+    }
 // $scope.average[1]= Math.round(cohortAverage.avg);
 // $scope.average[2]= Math.round(followersAverage.avg);
 // $scope.average[3]= Math.round(mentorAverage.avg);
 
 $scope.durationTitle = ["Last 24 Hours", "Last Week", "Last Month", "All Time"];
-$scope.switchTitle = 1;  
+$scope.switchTitle = 1;
 
 $scope.findEmotionLevel = function(duration){
    $scope.switchTitle = duration;
-   $scope.options.title.text = $scope.durationTitle[$scope.switchTitle] + ' Avg Emotion Level'; 
+   $scope.options.title.text = $scope.durationTitle[$scope.switchTitle] + ' Avg Emotion Level';
    switch (duration) {
        case 0:
             $scope.textDuration = 'day';
@@ -64,9 +66,9 @@ $scope.findEmotionLevel = function(duration){
             break;
          case 3:
             $scope.textDuration = 'allTime';
-            break;               
-   } 
-   
+            break;
+   }
+
    postService.getEmotions($scope.textDuration, user)
         .then(function(response){
             console.log($scope.data, "data values");
@@ -113,11 +115,11 @@ $scope.findEmotionLevel = function(duration){
             $scope.data[0].values[1].label = 'cohort' +' (' + $scope.count[1] + ' posts)' ;
             $scope.data[0].values[2].label = 'followers' +' (' + $scope.count[2] + ' posts)' ;
             $scope.data[0].values[3].label = 'mentor' +' (' + $scope.count[3] + ' posts)' ;
-            
-          $scope.api.refresh(); 
-          
+
+          $scope.api.refresh();
+
    });
-   console.log($scope.switchTitle, "after function"); 
+   console.log($scope.switchTitle, "after function");
 };
 
 
@@ -147,14 +149,14 @@ $scope.last = $scope.userInfo.lastName;
                 y: function(d){return d.value; },
                 showValues: true,
                 showLabels: true,
-                
+
                 valueFormat: function(d){
                     return d3.format('.0f')(d);
                 },
                 duration: 500,
                 xAxis: {
-                    
-                   
+
+
                 },
                 yAxis: {
                     axisLabel:'Emotion Level',
@@ -163,49 +165,49 @@ $scope.last = $scope.userInfo.lastName;
                     tickValues:([1,2,3,4,5,6,7,8,9,10]),
                     showMax: true,
                     rotateYLabel: true,
-                  
+
                 },
-               
-                
+
+
             },
             title: {
                     enable:true,
                     text: $scope.durationTitle[$scope.switchTitle] + ' Avg Emotion Level'
                 }
         };
-        
 
-       
-$scope.dataObject = [ 
+
+
+$scope.dataObject = [
     {
                 key: "Cumulative Return",
                 values: [
                     {
                         "label" : $scope.userInfo.firstName +' (' + $scope.count[0] + ' posts)' ,
                         "value" : $scope.average[0],
-                        
+
                     } ,
                     {
                         "label" : "cohort" +' (' + $scope.count[1] + ' posts)',
                         "value" : $scope.average[1],
-                        
+
                     } ,
                     {
                         "label" : "followers" +' (' + $scope.count[2] + ' posts)' ,
                         "value" : $scope.average[2],
-                        
+
                     } ,
                     {
                         "label" : "mentor" +' (' + $scope.count[3] + ' posts)' ,
                         "value" :$scope.average[3],
-                        
-                    } 
-                   
+
+                    }
+
                 ]
             }
         ];
 
-    $scope.options = $scope.optionsObject;       
+    $scope.options = $scope.optionsObject;
 
     $scope.data = $scope.dataObject;
 

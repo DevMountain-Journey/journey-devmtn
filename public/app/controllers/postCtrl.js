@@ -2,7 +2,7 @@ angular.module('journey')
   .controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService, errService) {
     console.log($stateParams, "STATEPARAMS");
 
-
+    $scope.userId = auth.data._id;
     $scope.scrollTo = function(id) {
       $('.feed .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
     };
@@ -11,9 +11,6 @@ angular.module('journey')
     if (!$scope.postData.numComments) {
       $scope.postData.numComments = 0;
     }
-    console.log($scope.postData, "POSTDATA");
-
-    console.log(auth, "AUTH");
 
     // FOLLOW
     $scope.following = false;
