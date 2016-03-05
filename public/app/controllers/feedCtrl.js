@@ -1,7 +1,7 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, $location, $anchorScroll) {
+  function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, postsByGroupFilter) {
     $scope.postContent = {};
     $scope.postContent.tags = [];
     $scope.totalPosts = 0;
@@ -12,6 +12,7 @@ angular.module('journey')
     $scope.queryErrorMsg = '';
     $scope.currentUser = auth.data;
     $scope.userId = auth.data._id;
+    $scope.group = 'everyone'; // default filter
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
@@ -250,6 +251,11 @@ angular.module('journey')
         }
 
     };
+    
+    $scope.filterByGroup = function(group) {
+        $scope.group = group;
+        $scope.fixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
+    }
 
     $(document).ready(function() {
 
@@ -305,5 +311,7 @@ angular.module('journey')
 
     //Init - Format the postPromise on the route.
     formatPosts(postPromise.data);
+    
+    $scope.fixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
 
   });

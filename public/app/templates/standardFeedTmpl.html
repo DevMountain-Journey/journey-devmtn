@@ -1,6 +1,6 @@
 <div class="standard-view-wrapper">
 
-  <div class="posts-standard animate" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
+  <div class="posts-standard animate" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'>
     <div class="feed-date">
       <div ng-if="isToday(posts.date)">Today</div>
       <div ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}} DAYS AGO</div>
