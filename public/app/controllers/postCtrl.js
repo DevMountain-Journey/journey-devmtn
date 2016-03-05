@@ -2,7 +2,7 @@ angular.module('journey')
   .controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService, errService) {
     console.log($stateParams, "STATEPARAMS");
 
-
+    $scope.userId = auth.data._id;
     $scope.scrollTo = function(id) {
       $('.feed .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
     };
@@ -11,9 +11,6 @@ angular.module('journey')
     if (!$scope.postData.numComments) {
       $scope.postData.numComments = 0;
     }
-    console.log($scope.postData, "POSTDATA");
-
-    console.log(auth, "AUTH");
 
     // FOLLOW
     $scope.following = false;
@@ -90,7 +87,7 @@ angular.module('journey')
     console.log($scope.daysInProgram, "days in program");
 
     // USER AVERAGE
-    postService.averageQuery('user', $scope.postData.user._id)
+    postService.averageQuery('user', $scope.postData.user._id, 'allTime')
       .then(function(response) {
         console.log('checkuserAverage', response);
         $scope.userAverage = Math.round(response.data[0].avg);
@@ -100,7 +97,7 @@ angular.module('journey')
         console.error('checkForUserAverage', err);
       });
     // COHORT AVERAGE
-    postService.averageQuery('cohort', $scope.postData.user.cohort)
+    postService.averageQuery('cohort', $scope.postData.user._id, 'allTime')
       .then(function(response) {
         console.log('checkcohortAverage', response);
         $scope.cohortAverage = Math.round(response.data[0].avg);
@@ -111,7 +108,7 @@ angular.module('journey')
       });
 
     //    USER LAST WEEK
-    postService.averageQuery('userPerWeek', $scope.postData.user._id)
+    postService.averageQuery('user', $scope.postData.user._id, 'week')
       .then(function(response) {
         console.log('checkuserLastWeek', response);
         $scope.userAverageLastWeek = Math.round(response.data[0].avg);
@@ -123,10 +120,10 @@ angular.module('journey')
 
 
     // COHORT LAST WEEK
-    postService.averageQuery('cohortPerWeek', $scope.postData.user.cohort)
+    postService.averageQuery('cohort', $scope.postData.user._id, 'week')
       .then(function(response) {
         console.log('checkCohortAverageWeekly', response);
-        $scope.cohortLastWeek = Math.round(response.data[0].avg);
+        $scope.cohortAverageLastWeek = Math.round(response.data[0].avg);
         console.log($scope.userAverage, "cohortlastWeek");
         $scope.cohortLastWeekCount = response.data[0].count;
       }, function(err) {

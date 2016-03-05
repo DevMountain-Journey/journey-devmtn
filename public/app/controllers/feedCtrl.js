@@ -11,7 +11,8 @@ angular.module('journey')
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
     $scope.currentUser = auth.data;
-   
+    $scope.userId = auth.data._id;
+
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
@@ -303,6 +304,11 @@ angular.module('journey')
                 $(this).parents('.fancy-input').removeClass('focused');
             });
         }, 500);
+
+        //Enable tooltips
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+        });
 
     });
 

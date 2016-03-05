@@ -1,9 +1,10 @@
+require('dotenv').config({path: './.env'});
+
 var express = require('express'),
     expressSession = require('express-session'),
     passport = require('passport'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    config = require('./config/config.js');
+    mongoose = require('mongoose');
 
 var usersCtrl = require('./controllers/usersCtrl.js'),
     postsCtrl = require('./controllers/postsCtrl.js'),
@@ -17,7 +18,11 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/../public'));
-app.use(expressSession(config.express)); // use separate config file for secret
+app.use(expressSession({
+    secret: process.env.DMJ_SECRET,
+    saveUninitialized: false,
+    resave: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -59,8 +64,8 @@ app.delete('/api/comments/:id', authCtrl.requireAuth, commentsCtrl.delete); // D
 
 
 //DB and Server Init
-var mongoUri = config.mongoUri,
-    port = (process.env.port || config.port);
+var mongoUri = process.env.DMJ_MONGO_URI,
+    port = (process.env.port || process.env.DMJ_PORT);
 
 mongoose.set('debug', true);
 mongoose.connect(mongoUri);

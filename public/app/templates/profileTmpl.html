@@ -1,13 +1,15 @@
+<div ng-include="'app/templates/navTmpl.html'"></div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="feed">
       <div class="card text-cs-center">
         <div class="card-header">
           {{first}} {{last}}
-          <a class="topFilter"> Cohort  </a> 
-          <a class="topFilter"> Group | </a> 
+          <a class="topFilter"> Cohort  </a>
+          <a class="topFilter"> Group | </a>
           <a class="topFilter"> Following  |</a>
-           <a class="topFilter"> Me  |</a>  
+           <a class="topFilter"> Me  |</a>
         </div>
         <div class="card-block" style="height:calc(100vh - 114px);">
           <div class="scroll-body" slimscroll="{
@@ -20,14 +22,14 @@
         <div class="card-block">
           <div class="posts-timeline" >
               <div marked="postData.body">
-               
+
               </div>
 
-               
+
               <div class="pt-body">
                <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="submit()"> 
-                    
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="submit()">
+
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a ng-click="findEmotionLevel(0)">Today</a></li>
@@ -36,25 +38,25 @@
                     <li><a ng-click="findEmotionLevel(3)">All Time</a></li>
                 </ul>
                 </div>
-                    
+
                   <p class="daysIn"> Days In Hell: {{daysInProgram}} <br>
-                  Day {{daysInProgram}} Heat Level : 
+                  Day {{daysInProgram}} Heat Level :
                        </p>
                   <h1 class='statistics'> Statistics </h1>
-                  
+
                 User:  {{userAverage}} <br> <br>
                 Cohort:   {{cohortAverage}}<br>
-                 Mentor:  {{mentorAverage}}     <br> 
-                Following:  {{followersAverage}}           
-                 
+                 Mentor:  {{mentorAverage}}     <br>
+                Following:  {{followersAverage}}
+
                    <div class="lineChart">
                         <!--<nvd3 options="options" data="data" class="lineChart"></nvd3>-->
-                        
+
                         <nvd3 options="options" data="data" api="api"></nvd3>
                           </div>
-                  
-                  
-                  
+
+
+
                   <div class="clearfix">
 
                   </div>
@@ -62,7 +64,7 @@
           </div><!--/.posts-timeline-->
 
 
-     
+
 
     </div>
   </div>
@@ -80,7 +82,7 @@
         railOpacity: '0.7'
       }">
               <div class="author">
-                     Preferences 
+                     Preferences
                      <br></br>
                      <h4> View </h4>
                <form ng-submit="changeSettings()">
@@ -102,16 +104,16 @@
                       <h4> Privacy </h4>
                    <div>
                       <input class="viewInput" type="Radio" ng-model="privacy" value="public"> Private <br>
-                      <input class="viewInput" type="Radio" ng-model="privacy" value="WeeklyEmail"> Public <br>                    
+                      <input class="viewInput" type="Radio" ng-model="privacy" value="WeeklyEmail"> Public <br>
                       </div>
                       <br> </br>
                       <button type="submit">Save Settings</button>
-                  </form>            
+                  </form>
                </div>
-                  
-                     
 
-                     
+
+
+
 
 
 

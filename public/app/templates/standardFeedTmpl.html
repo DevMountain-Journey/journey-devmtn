@@ -1,0 +1,37 @@
+<div class="standard-view-wrapper">
+
+  <div class="posts-standard animate" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
+    <div class="feed-date">
+      <div ng-if="isToday(posts.date)">Today</div>
+      <div ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}} DAYS AGO</div>
+      <strong>{{posts.date | date:'M/d/yyyy'}}</strong>
+    </div>
+
+    <div class="standard-post animate" ng-repeat="post in posts.posts">
+      <div class="header">
+        <img class="gravatar" gravatar-src="post.user.email" gravatar-size="30" gravatar-default="mm">
+        <span class="text-uppercase text-black">{{post.user.firstName}}</span> is feeling
+        <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="eo-face">
+        <span class="tag-wrapper" ng-if="post.tags.length > 0">about working on <span class="tags text-black"><span ng-repeat="tag in post.tags track by $index">{{tag}}<span ng-if="post.tags.length > 1 && $index < post.tags.length - 1">, </span></span></span></span>
+      </div>
+      <div class="body">
+        <div class="body-text" ng-if="post.body" marked="post.body"></div>
+        <div class="footer eo-{{post.positiveScale}} clearfix">
+          <div class="col-sm-3">
+            <span>{{post.datePosted | date:'shortTime'}}</span>
+          </div>
+          <div class="col-sm-6 text-xs-center">
+            <span>{{post.numComments}} <i class="fa fa-comment"></i></span>
+            <span>DM8</span>
+            <span>Mentor: Joe Mentor</span>
+          </div>
+          <div class="col-sm-3 text-xs-right">
+            <span ui-sref="post({id:post._id})">MORE &raquo;</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

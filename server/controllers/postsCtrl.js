@@ -81,8 +81,16 @@ module.exports = {
        console.log('in postsCtrl');
        console.log('in findAvg');
        console.log('req.query ', req.query);
-       var group = req.query.group;
-       var duration = req.query.duration;
+       var group = '',
+           duration = '';
+       if (req.query.group)
+            group = req.query.group;
+       else
+            group = 'user'; 
+       if (req.query.duration)
+            duration = req.query.duration;
+       else 
+            duration = 'allTime';
        var user = req.query.user;
        var breakOutTags = (req.query.tags === 'true');
        var cohort = 0;
@@ -114,6 +122,7 @@ module.exports = {
                             queryObj.assignedMentor = assignedMentor;
                             break; 
                         case 'cohort':
+                        default:
                             cohort = result._doc.cohort;
                             queryObj.cohort = cohort;
                             break;      
@@ -158,6 +167,7 @@ module.exports = {
                     matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'allTime' :
+               default :
                     matchCriteria = {user: {$in: users} };
                     break;
            }
