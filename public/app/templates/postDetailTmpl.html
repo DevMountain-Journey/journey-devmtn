@@ -64,8 +64,11 @@
         <div class="author clearfix">
           <div class="author-avatar">
             <img gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
-            <button class="btn btn-primary btn-sm btn-block" ng-if="!following" ng-click="follow()">Follow</button>
-            <button class="btn btn-success btn-sm btn-block active" ng-if="following" ng-click="unfollow()">Unfollow</button>
+
+            <div ng-if="postData.user._id != userId ">
+              <button class="btn btn-primary btn-sm btn-block" ng-if="!following" ng-click="follow()">Follow</button>
+              <button class="btn btn-success btn-sm btn-block active" ng-if="following" ng-click="unfollow()">Unfollow</button>
+            </div>
           </div>
           <div class="author-meta">
             <div class="author-name">{{postData.user.firstName}}

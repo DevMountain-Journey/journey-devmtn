@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-var postsModel = require('./postsModel.js');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    postsModel = require('./postsModel.js'),
+    usersModel = require('./usersModel.js'),
+    Schema = mongoose.Schema;
 
 var commentsSchema = new Schema({
     body: {type: 'String', required: true},
@@ -13,13 +14,21 @@ var commentsSchema = new Schema({
 commentsSchema.post('save', function(comment){
   postsModel
     .findById(comment.postParent)
-    .exec(function(err, result){
+    .exec(function(err, post){
       if(err) return err;
-      result.numComments++;
-      result.save(function(err, result){
+      post.numComments++;
+      post.save(function(err, result){
         if(err) return err;
-        return comment;
       });
+      usersModel
+        .findById(post.user)
+        .exec(function(err, user){
+          if(err) return err;
+          if(user.preferences.communicationPreferences != ('none' || 'weeklySummary')){
+            console.log('YO DAWG, YOUR COMMUNICATION PREFERENCES IF STATEMENT IS WORKING PROPERLY!');
+          }
+          return comment;
+        });
     });
 });
 

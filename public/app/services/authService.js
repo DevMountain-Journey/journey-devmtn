@@ -30,7 +30,7 @@ angular.module('journey')
       return $http({
         method: 'GET',
         url: '/api/current_user'
-      })
+      });
     };
 
 
