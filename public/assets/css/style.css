@@ -61,6 +61,22 @@ body {
   cursor: pointer;
 }
 
+.navbar .logUser {
+  color: #EAEAEA;
+  position: absolute;
+  right: 150px;
+  top:20px;
+}
+.navbar button {
+    position:absolute;
+    right: 120px;
+    top:20px;
+    border:none;
+    background-color: none; 
+};
+.navbar button:hover span {display:none}
+
+
 /********************/
 /** LOGIN / SIGNUP **/
 /********************/

@@ -316,4 +316,5 @@ angular.module('journey')
     //Init - Format the postPromise on the route.
     formatPosts(postPromise.data);
 
+   $scope.userInfo = auth.data;
   });

@@ -1,12 +1,17 @@
 angular.module('journey')
-  .controller('loginCtrl', function(authService, $scope, $state, $stateParams, errService) {
+  .controller('loginCtrl', function(authService, $scope, $state, $stateParams, errService, userService) {
+      
 
     $scope.login = function() {
       authService.login($scope.user)
         .then(function(response) {
+           
           if (response.status === 200) {
+              $scope.first = response.data;
+              console.log($scope.first.firstName, "checking");
             if ($stateParams.successRedirect) {
               $state.go($stateParams.successRedirect);
+             
             } else { // default redirect to student
               $state.go('timeline');
             }
@@ -28,4 +33,7 @@ angular.module('journey')
           errService.error(error);
         });
     };
+   
+
+   
   });

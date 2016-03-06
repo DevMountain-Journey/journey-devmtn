@@ -1,7 +1,10 @@
-<div class="navbar navbar-static-top navbar-dark">
+<div  class="navbar navbar-static-top navbar-dark">
   <div class="container-fluid">
     <a href="/" class="navbar-brand"><img src="assets/img/dmlogo.png"></a>
-    <span ui-sref="profile({id:userId})">Profile</span>
+    <button ui-sref="profile({id:userId})">
+        <span>{{userInfo.firstName}} {{userInfo.lastName}} |</span>
+        </button>
     <span class="logout" ng-click="logout()">Logout</span>
+    
   </div>
 </div>

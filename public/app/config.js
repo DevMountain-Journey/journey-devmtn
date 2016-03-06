@@ -137,6 +137,9 @@ angular.module('journey' )
               }
            } 
         });
+        
+        
+        
       
                      
         $urlRouterProvider.otherwise('/timeline');
