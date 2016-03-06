@@ -7,8 +7,6 @@ angular.module('journey')
         .then(function(response) {
            
           if (response.status === 200) {
-              $scope.first = response.data;
-              console.log($scope.first.firstName, "checking");
             if ($stateParams.successRedirect) {
               $state.go($stateParams.successRedirect);
              

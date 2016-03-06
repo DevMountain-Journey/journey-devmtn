@@ -69,14 +69,27 @@ body {
 }
 .navbar button {
     position:absolute;
-    right: 120px;
-    top:20px;
+    right: 110px;
+    top:18px;
     border:none;
-    background-color: none; 
+    background: none; 
+    color:#EAEAEA;   
 };
 .navbar button:hover span {display:none}
 
-
+.navbar button:focus {  
+    outline:none;
+   background-color:#111111;
+    }
+ .navbar button:hover {
+     background-color:#333333;
+ }   
+ .logBar {
+  color: #EAEAEA;
+  position: absolute;
+  right: 90px;
+  top:20px;
+ }   
 /********************/
 /** LOGIN / SIGNUP **/
 /********************/
