@@ -1,14 +1,12 @@
 angular.module('journey')
 .controller('profileCtrl', function($stateParams, $scope, postService, auth, user, $interval,userAverage, mentorAverage, cohortAverage, followersAverage, userService) {
-   console.log($stateParams, "STATEPARAMS");
+
 
 
 //  console.log($scope.postData, "POSTDATA");
 $scope.userInfo = user;
 $scope.userId = auth.data._id;
 
-console.log($scope.userInfo, "userinfo");
-console.log(auth, "AUTH");
 $scope.average = [];
 $scope.count = [];
 if (userAverage) {
@@ -48,8 +46,8 @@ else {
 // $scope.average[2]= Math.round(followersAverage.avg);
 // $scope.average[3]= Math.round(mentorAverage.avg);
 
-$scope.durationTitle = ["Last 24 Hours", "Last Week", "Last Month", "All Time"];
-$scope.switchTitle = 1;
+$scope.durationTitle = ["Past 24 Hours", "Past Week", "Past Month", "All Time"];
+$scope.switchTitle = 0;
 
 $scope.findEmotionLevel = function(duration){
    $scope.switchTitle = duration;
@@ -139,6 +137,8 @@ $scope.last = $scope.userInfo.lastName;
                 height: 450,
                 width: 700,
                 showLegend: true,
+               
+                yDomain: [1,10],
                 margin : {
                     top: 20,
                     right: 20,

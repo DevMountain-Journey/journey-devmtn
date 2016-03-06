@@ -33,7 +33,4 @@ angular.module('journey')
       });
     };
 
-
-
-
   });

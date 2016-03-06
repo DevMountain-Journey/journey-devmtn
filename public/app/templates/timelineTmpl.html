@@ -1,4 +1,4 @@
-<div class="posts-timeline animate" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
+<div class="posts-timeline animate" ng-repeat="posts in filteredFixedPosts track by $index | orderBy : '-date'">
   <div class="pt-line text-right">
     <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
     <span class="d-block">

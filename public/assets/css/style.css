@@ -61,6 +61,35 @@ body {
   cursor: pointer;
 }
 
+.navbar .logUser {
+  color: #EAEAEA;
+  position: absolute;
+  right: 150px;
+  top:20px;
+}
+.navbar button {
+    position:absolute;
+    right: 110px;
+    top:18px;
+    border:none;
+    background: none; 
+    color:#EAEAEA;   
+};
+.navbar button:hover span {display:none}
+
+.navbar button:focus {  
+    outline:none;
+   background-color:#111111;
+    }
+ .navbar button:hover {
+     background-color:#333333;
+ }   
+ .logBar {
+  color: #EAEAEA;
+  position: absolute;
+  right: 90px;
+  top:20px;
+ }   
 /********************/
 /** LOGIN / SIGNUP **/
 /********************/
@@ -505,7 +534,7 @@ body {
     margin-bottom: 20px;
 }
 #daterange span {
-    color: #000;
+    color: #fff;
 }
 
 #processing_query {
@@ -757,6 +786,7 @@ label[for="emotionlevel"]{
   transition: background-color .25s border-color .25s;
   width: 100%;
   min-height: 45px;
+  color: #fff;
 }
 
 .input__field:focus,
