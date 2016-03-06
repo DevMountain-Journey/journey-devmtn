@@ -30,6 +30,7 @@ angular.module('journey')
           posts: groupedPosts[date]
         });
       }
+      $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);    
     }//end function formatPosts
 
     //TODO: Move the get request to the service.
@@ -104,6 +105,7 @@ angular.module('journey')
                 posts: [post]
               });
             }
+            $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);  
           } else {
             errService.error(response);
           }
@@ -313,6 +315,5 @@ angular.module('journey')
     //Init - Format the postPromise on the route.
     formatPosts(postPromise.data);
     
-    $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
-
+   
   });
