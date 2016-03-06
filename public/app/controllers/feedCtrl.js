@@ -13,6 +13,7 @@ angular.module('journey')
     $scope.currentUser = auth.data;
     $scope.userId = auth.data._id;
     $scope.group = 'everyone'; // default filter
+    $scope.filteredFixedPosts = [];
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
@@ -254,7 +255,7 @@ angular.module('journey')
     
     $scope.filterByGroup = function(group) {
         $scope.group = group;
-        $scope.fixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
+        $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
     }
 
     $(document).ready(function() {
@@ -312,6 +313,6 @@ angular.module('journey')
     //Init - Format the postPromise on the route.
     formatPosts(postPromise.data);
     
-    $scope.fixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
+    $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
 
   });
