@@ -28,7 +28,7 @@ angular.module('journey' )
                 .then(function( response ) {
                    return response;
                 }, function(err) {
-                    console.error('PostPromise', err);
+                    // console.error('PostPromise', err);
                 });
             },
             auth: function(authService, $state) {  // sends back who's logged in
@@ -36,7 +36,7 @@ angular.module('journey' )
                 .then(function(response) {
                     return response;
                 }, function(err) {
-                    console.error('checkForAuth', err);
+                    // console.error('checkForAuth', err);
                     $state.go('login');
                 });
             }

@@ -2,7 +2,7 @@ angular.module('journey')
   .service('authService', function($http) {
 
     this.login = function(userData) {
-      console.log('userData = ', userData);
+    //   console.log('userData = ', userData);
       return $http({
         method: 'POST',
         url: '/api/login',
@@ -18,7 +18,7 @@ angular.module('journey')
     };
 
     this.signup = function(userData) {
-      console.log('userData = ', userData);
+    //   console.log('userData = ', userData);
       return $http({
         method: 'POST',
         url: '/api/signup',
