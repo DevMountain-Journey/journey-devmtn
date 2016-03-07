@@ -32,5 +32,13 @@ angular.module('journey')
         url: '/api/current_user'
       });
     };
+    
+    this.devMtnLogin = function() {
+      return $http({
+        method: 'GET',
+        url: '/auth/devmtn'
+      });
+        
+    };
 
   });

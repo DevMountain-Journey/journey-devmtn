@@ -33,6 +33,23 @@ angular.module('journey')
         });
     };
    
-
+    $scope.devMtnLogin = function() {
+      
+      authService.devMtnLogin()
+        .then(function(response) {
+           
+          if (response.status === 200) {
+            if ($stateParams.successRedirect) {
+              $state.go($stateParams.successRedirect);
+             
+            } else { // default redirect to student
+              $state.go('timeline');
+            }
+          }
+        })
+        .catch(function(error) {
+          errService.error(error);
+        });
+    };
    
   });
