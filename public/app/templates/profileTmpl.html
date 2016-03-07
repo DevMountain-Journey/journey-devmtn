@@ -4,12 +4,17 @@
   <div class="row">
     <div class="feed">
       <div class="card text-cs-center">
-        <div class="card-header">
-          {{first}} {{last}}
-          <a class="topFilter"> Cohort  </a>
-          <a class="topFilter"> Group | </a>
-          <a class="topFilter"> Following  |</a>
-           <a class="topFilter"> Me  |</a>
+        <div class="card-header row">
+          <div class="col-sm-6 query-info text-uppercase">{{first}} {{last}}</div>
+          <div class="col-sm-6 text-xs-right view-buttons">
+            Filter:
+            <span ng-click="">My Posts</span>
+            <span ng-click="">My Cohort</span>
+            <span ng-click="">My Mentor Group</span>
+            <span ng-click="">Following</span>
+          </div>
+
+
         </div>
         <div class="card-block" style="height:calc(100vh - 114px);">
           <div class="scroll-body" slimscroll="{
@@ -48,11 +53,8 @@
                    <div class="lineChart">
                         <!--<nvd3 options="options" data="data" class="lineChart"></nvd3>-->
 
-                        <nvd3 options="options" data="data" api="api"></nvd3>
+                        <nvd3 options="options" data="data" api="api"></nvd3>                                            
                           </div>
-
-
-
                   <div class="clearfix">
 
                   </div>

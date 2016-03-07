@@ -29,11 +29,8 @@ angular.module('journey')
     this.checkForAuth = function() {
       return $http({
         method: 'GET',
-        url: '/api/current_user',
+        url: '/api/current_user'
       });
     };
-
-
-
 
   });

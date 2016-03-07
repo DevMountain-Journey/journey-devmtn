@@ -1,6 +1,9 @@
-var mongoose = require('mongoose');
-var postsModel = require('./postsModel.js');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    postsModel = require('./postsModel.js'),
+    usersModel = require('./usersModel.js'),
+    nodemailer = require('nodemailer'),
+    sparkPostTransport = require('nodemailer-sparkpost-transport'),
+    Schema = mongoose.Schema;
 
 var commentsSchema = new Schema({
     body: {type: 'String', required: true},
@@ -10,16 +13,47 @@ var commentsSchema = new Schema({
     datePosted: {type: 'Date', default: Date.now}
 });
 
+
 commentsSchema.post('save', function(comment){
   postsModel
     .findById(comment.postParent)
-    .exec(function(err, result){
+    .exec(function(err, post){
       if(err) return err;
-      result.numComments++;
-      result.save(function(err, result){
+      post.numComments++;
+      post.save(function(err, result){
         if(err) return err;
-        return comment;
       });
+      usersModel
+        .findById(post.user)
+        .exec(function(err, user){
+          if(err) return err;
+          if(user.preferences && user.preferences.communicationPreferences != ('none' || 'weeklySummary')){
+            console.log('SENDING EMAIL');
+            var transporter = nodemailer.createTransport(sparkPostTransport({
+              "content": {
+                "template_id": "my-first-email"
+              },
+              "substitution_data": {
+                "postId": post._id
+              }
+            }));
+
+            transporter.sendMail({
+              "recipients": [
+                {
+                  "address": {
+                    "email": user.email,
+                    "name": user.firstName + " " + user.lastName
+                  }
+                }
+              ]
+            }, function(err, info) {
+              if (err) { console.log('EMAIL ERROR: ', err); }
+              else { console.log('EMAIL SENT: ', info); }
+            });
+          }
+          return comment;
+        });
     });
 });
 

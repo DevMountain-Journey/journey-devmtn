@@ -21,7 +21,7 @@
             <span>{{post.datePosted | date:'shortTime'}}</span>
           </div>
           <div class="col-sm-6 text-xs-center">
-            <span>{{post.numComments}} <i class="fa fa-comment"></i></span>
+            <span ui-sref="post({id:post._id})">{{post.numComments}} <i class="fa fa-comment"></i></span>
             <span>DM8</span>
             <span>Mentor: Joe Mentor</span>
           </div>

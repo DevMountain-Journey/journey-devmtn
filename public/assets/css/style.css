@@ -72,24 +72,24 @@ body {
     right: 110px;
     top:18px;
     border:none;
-    background: none; 
-    color:#EAEAEA;   
+    background: none;
+    color:#EAEAEA;
 };
 .navbar button:hover span {display:none}
 
-.navbar button:focus {  
+.navbar button:focus {
     outline:none;
    background-color:#111111;
     }
  .navbar button:hover {
      background-color:#333333;
- }   
+ }
  .logBar {
   color: #EAEAEA;
   position: absolute;
   right: 90px;
   top:20px;
- }   
+ }
 /********************/
 /** LOGIN / SIGNUP **/
 /********************/
@@ -651,7 +651,7 @@ body {
 }
 .comments-section .section-title{
   padding-top: 40px;
-  border-top: 2px dashed#ccc;
+  border-top: 2px dashed #ccc;
 }
 .comment{
   margin-bottom: 30px;
@@ -698,12 +698,10 @@ body {
   top: 18px;
   z-index: -1;
 }
->>>>>>> dev
 
-.add-comment{
+.comments-section .add-comment{
   margin-bottom:50px;
 }
-
 
 .statistics {
   margin-left:30%;
