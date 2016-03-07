@@ -7,7 +7,7 @@
       <strong>{{posts.date | date:'M/d/yyyy'}}</strong>
     </div>
 
-    <div class="standard-post animate" ng-repeat="post in posts.posts">
+    <div class="standard-post animate" ng-repeat="post in posts.posts" ui-sref="post({id:post._id})">
       <div class="header">
         <img class="gravatar" gravatar-src="post.user.email" gravatar-size="30" gravatar-default="mm">
         <span class="text-uppercase text-black">{{post.user.firstName}}</span> is feeling
