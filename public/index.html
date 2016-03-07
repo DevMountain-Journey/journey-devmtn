@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Journey</title>
+    <title>Journey @ DevMountain</title>
 
     <!--Styles-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
@@ -13,14 +13,12 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.7.1/loading-bar.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
     <link rel="stylesheet" href="assets/css/tags-input.css">
     <link rel="stylesheet" href="assets/css/style.css">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
-
-
 
   </head>
-  <body ng-controller="mainCtrl" class="{{$state.current.name}}">
+  <body class="{{$state.current.name}}">
 
     <ui-view></ui-view>
 
@@ -65,8 +63,9 @@
     <script src="app/controllers/mainCtrl.js"></script>
     <script src="app/controllers/feedCtrl.js"></script>
     <script src="app/controllers/loginCtrl.js"></script>
-   <script src="app/controllers/postCtrl.js"></script>
+    <script src="app/controllers/postCtrl.js"></script>
     <script src="app/controllers/profileCtrl.js"></script>
+    <script src="app/controllers/preferencesCtrl.js"></script>
 
 
     <!--SERVICES-->

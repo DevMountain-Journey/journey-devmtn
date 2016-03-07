@@ -15,9 +15,25 @@ angular.module('journey' )
         templateUrl: './app/templates/loginTmpl.html',
         controller: 'loginCtrl'
       })
-
-      .state('feed', {
+      .state('journey', {
+        abstract: true,
         url: '/',
+        controller: 'mainCtrl',
+        template: '<ui-view></ui-view>',
+        resolve:{
+          auth: function(authService, $state) {
+              return authService.checkForAuth()
+              .then(function(response) {
+                  return response;
+              }, function(err) {
+                  $state.go('login');
+              });
+          }
+        }
+      })
+      .state('feed', {
+        parent: 'journey',
+        url: 'feed',
         abstract: true,
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
@@ -28,32 +44,24 @@ angular.module('journey' )
                 .then(function( response ) {
                    return response;
                 }, function(err) {
-                    // console.error('PostPromise', err);
-                });
-            },
-            auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                    return response;
-                }, function(err) {
-                    // console.error('checkForAuth', err);
-                    $state.go('login');
+                    errService.error(err);
                 });
             }
          }
       })
       .state('timeline', {
         parent: 'feed',
-        url: 'timeline',
+        url: '/timeline',
         templateUrl: './app/templates/timelineTmpl.html'
       })
       .state('standard', {
         parent: 'feed',
-        url: 'standard',
+        url: '/standard',
         templateUrl: './app/templates/standardFeedTmpl.html'
       })
       .state('post', {
-        url: '/post/:id',
+        parent: 'journey',
+        url: 'post/:id',
         controller: 'postCtrl',
         templateUrl: './app/templates/postDetailTmpl.html',
         resolve: {
@@ -64,36 +72,21 @@ angular.module('journey' )
                 },function(err) {
                     console.error('checkForSinglePost', err);
                 });
-            },
-             auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                   return response;
-                }, function(err) {
-                    console.error('checkForAuth', err);
-                    $state.go('login');
-                });
             }
         }
       })
-      .stat('preferences', {
-        url: '/preferences',
+      .state('preferences', {
+        parent: 'journey',
+        url: 'preferences',
         templateUrl: './app/templates/preferencesTmpl.html',
         controller: 'prefrencesCtrl'
       })
-      .state('stats', {
-        url: '/stats/:id',
+      .state('profile', {
+        parent: 'journey',
+        url: 'profile/:id',
         templateUrl: './app/templates/profileTmpl.html',
         controller: 'profileCtrl',
         resolve: {
-            user: function(userService, $stateParams) {  // sends back who's logged in
-                return userService.getUser($stateParams.id)
-                .then(function(response) {
-                    return response.data[0];
-                }, function(err) {
-                    console.error('check For User Error', err);
-                });
-            },
             userAverage: function(user, postService)  {
                 return postService.averageQuery('user',
                 user._id, 'week', 'false')
@@ -129,24 +122,11 @@ angular.module('journey' )
                 }, function(err) {
                    console.error('check for profile average', err);
                 });
-            },
-
-            auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                    return response;
-                }, function(err) {
-                    console.error('checkForAuth', err);
-                    $state.go('login');
-                });
-              }
+            }
            }
         });
 
 
-
-
-
-        $urlRouterProvider.otherwise('/timeline');
+        $urlRouterProvider.otherwise('feed/timeline');
     }
   ]);

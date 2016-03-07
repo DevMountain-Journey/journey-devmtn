@@ -1,7 +1,7 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postPromise, postService, userService, auth, pageSize, postsByGroupFilter) {
+  function($scope, $http, errService, postPromise, postService, userService, postsByGroupFilter) {
     $scope.postContent = {};
     $scope.postContent.tags = [];
     $scope.totalPosts = 0;
@@ -10,11 +10,9 @@ angular.module('journey')
     $scope.today = new Date();
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
-    $scope.currentUser = auth.data;
-    $scope.userId = auth.data._id;
+
     $scope.group = 'everyone'; // default filter
     $scope.filteredFixedPosts = [];
-    $scope.userInfo = auth.data;
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
@@ -30,20 +28,8 @@ angular.module('journey')
           posts: groupedPosts[date]
         });
       }
-      $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);    
+      $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);
     }//end function formatPosts
-
-    //TODO: Move the get request to the service.
-//    $scope.loadTags = function($query) {
-//      return $http.get('tags.json', {
-//        cache: true
-//      }).then(function(response) {
-//        var data = response.data;
-//        return data.filter(function(tag) {
-//          return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
-//        });
-//      });
-//    };
 
     $scope.loadAutoCompleteTags = function(fieldname, $query) {
         if (fieldname === 'tags') {
@@ -88,7 +74,7 @@ angular.module('journey')
     };
 
     $scope.createPost = function() {
-      $scope.postContent.user = auth.data._id;
+      $scope.postContent.user = $scope.currentUser._id;
       $scope.postContent.tags = _.map($scope.postContent.tags, 'name');
       postService.createPost($scope.postContent)
         .then(function(response) {
@@ -105,7 +91,7 @@ angular.module('journey')
                 posts: [post]
               });
             }
-            $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);  
+            $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);
           } else {
             errService.error(response);
           }
@@ -254,11 +240,11 @@ angular.module('journey')
         }
 
     };
-    
+
     $scope.filterByGroup = function(group) {
         $scope.group = group;
         $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, $scope.group, $scope.currentUser);
-    }
+    };
 
     $(document).ready(function() {
 

@@ -8,6 +8,19 @@
   100% {fill: #d57878;}
 }
 
+@-webkit-keyframes emotionPulse{
+  0%  { background: rgba(114, 138, 105, 0.8); }
+  10% { background: rgba(137, 167, 127, 0.8); }
+  20% { background: rgba(172, 209, 159, 0.8); }
+  30% { background: rgba(185, 209, 164, 0.8); }
+  40% { background: rgba(209, 208, 163, 0.8); }
+  50% { background: rgba(209, 191, 165, 0.8); }
+  60% { background: rgba(209, 161, 158, 0.8); }
+  70% { background: rgba(209, 124, 122, 0.8); }
+  80% { background: rgba(181, 79, 79, 0.8); }
+  90% { background: rgba(153, 43, 43, 0.8); }
+}
+
 .text-black{ color: #000; }
 
 body{
@@ -667,6 +680,7 @@ html, body, body > ui-view {
   text-align: center;
   left: -20px;
   position: relative;
+  padding-right: 5px;
 }
 .comment .comment-meta img{
   border-radius: 50%;
@@ -732,6 +746,13 @@ html, body, body > ui-view {
 /**       PREFERENCES **/
 /***********************/
 
+.preferences{
+  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
+}
+.prefs {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
 
 

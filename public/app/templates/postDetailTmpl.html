@@ -3,7 +3,7 @@
 <div class="page post-detail">
     <div class="page-content-wrapper">
       <div class="page-content">
-        <div class="page-headbar container-fluid">
+        <div class="page-headbar container-fluid text-xs-center">
           <div class="col-md-3">{{postData.datePosted | date:"M/d/yyyy 'at' h:mma"}}</div>
           <div class="col-md-3 emotion-level">
             EMOTION LEVEL <img ng-src="assets/img/faces/face-{{postData.positiveScale-1}}.svg"> <span>{{postData.positiveScale}}</span>
@@ -12,7 +12,7 @@
             <a ng-click="scrollTo('#comments')"><i class="fa fa-comment"></i> {{postData.numComments || '0'}} COMMENTS</a>
           </div>
           <div class="col-md-3">
-            <span class="tag" ng-repeat="tag in postData.tags">{{tag}}</span>
+            <span class="tag" ng-repeat="tag in postData.tags">{{tag}} </span>
           </div>
         </div>
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
