@@ -76,8 +76,13 @@ angular.module('journey' )
             }
         }
       })
-      .state('profile', {
-        url: '/profile/:id',
+      .stat('preferences', {
+        url: '/preferences',
+        templateUrl: './app/templates/preferencesTmpl.html',
+        controller: 'prefrencesCtrl'
+      })
+      .state('stats', {
+        url: '/stats/:id',
         templateUrl: './app/templates/profileTmpl.html',
         controller: 'profileCtrl',
         resolve: {
@@ -90,7 +95,7 @@ angular.module('journey' )
                 });
             },
             userAverage: function(user, postService)  {
-                return postService.averageQuery('user', 
+                return postService.averageQuery('user',
                 user._id, 'week', 'false')
                 .then(function(response) {
                     return  response.data[0];
@@ -99,7 +104,7 @@ angular.module('journey' )
             });
             },
              cohortAverage: function(user, postService)  {
-                return postService.averageQuery('cohort', 
+                return postService.averageQuery('cohort',
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
@@ -108,7 +113,7 @@ angular.module('journey' )
                 });
             },
                followersAverage: function(user, postService)  {
-                return postService.averageQuery('followers', 
+                return postService.averageQuery('followers',
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
@@ -117,7 +122,7 @@ angular.module('journey' )
                 });
             },
              mentorAverage: function(user, postService)  {
-                return postService.averageQuery('mentor', 
+                return postService.averageQuery('mentor',
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
@@ -125,7 +130,7 @@ angular.module('journey' )
                    console.error('check for profile average', err);
                 });
             },
-                
+
             auth: function(authService, $state) {  // sends back who's logged in
                 return authService.checkForAuth()
                 .then(function(response) {
@@ -135,13 +140,13 @@ angular.module('journey' )
                     $state.go('login');
                 });
               }
-           } 
+           }
         });
-        
-        
-        
-      
-                     
+
+
+
+
+
         $urlRouterProvider.otherwise('/timeline');
     }
   ]);
