@@ -32,6 +32,9 @@ module.exports = function(passport) {
 
           // find a user whose email is the same as the forms email
           // we are checking to see if the user trying to login already exists
+          
+          // convert email to lowercase so that it matches 
+          email = email.toLowerCase();
           user.findOne({ 'email' :  email }, function(err, user) {
               // if there are any errors, return the error
               if (err) return done(err);
