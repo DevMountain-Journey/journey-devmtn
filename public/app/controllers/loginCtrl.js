@@ -3,6 +3,7 @@ angular.module('journey')
       
 
     $scope.login = function() {
+      
       authService.login($scope.user)
         .then(function(response) {
            

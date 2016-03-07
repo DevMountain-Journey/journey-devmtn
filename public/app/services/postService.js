@@ -15,7 +15,7 @@ angular.module('journey')
           for (var type in filters){
               urlQuery += '&' + type + '=['+ filters[type]+']';
           }
-          console.log('urlQuery = ', urlQuery);
+        //   console.log('urlQuery = ', urlQuery);
           return $http({
               method: 'GET',
               url: '/api/posts/filterBy?' + urlQuery
@@ -109,7 +109,8 @@ angular.module('journey')
 
 
      this.averageQuery = function(group, num, duration, tags) {           
-          var query = 'group=' + group + '&duration=' + duration + '&user=' + num + '&tags=' + tags;      console.log(query, "query");
+          var query = 'group=' + group + '&duration=' + duration + '&user=' + num + '&tags=' + tags; 
+            //    console.log(query, "query");
        return $http({
               method: 'GET',
               url: '/api/posts/getAvg?' + query
@@ -127,7 +128,7 @@ angular.module('journey')
         this.averageQuery ('user', user._id, duration, 'false')
             .then(function(response) {
                 dataUser = response.data;     
-                console.log(response, 'user average');
+                // console.log(response, 'user average');
                 checkIfAllDataDone();
                     }, function(err) {
                     console.error('check for profile average', err);
@@ -135,7 +136,7 @@ angular.module('journey')
          this.averageQuery ('cohort', user._id, duration, 'false')
             .then(function(response) {
                 dataCohort = response.data;
-            console.log(response, 'cohort average');
+            // console.log(response, 'cohort average');
            checkIfAllDataDone();
             }, function(err) {
             console.error('check for profile average', err);
@@ -143,7 +144,7 @@ angular.module('journey')
           this.averageQuery ('following', user._id, duration, 'false')
             .then(function(response) {
                 dataFollowing = response.data;
-                console.log(response, 'following average');
+                // console.log(response, 'following average');
                 checkIfAllDataDone();
                     }, function(err) {
                     console.error('check for profile average', err);
@@ -151,7 +152,7 @@ angular.module('journey')
          this.averageQuery ('mentor', user._id, duration, 'false')
             .then(function(response) {
                 dataMentor = response.data;
-                console.log(response, 'mentor average');
+                // console.log(response, 'mentor average');
                 checkIfAllDataDone();
                 }, function(err) {
                     console.error('check for profile average', err);

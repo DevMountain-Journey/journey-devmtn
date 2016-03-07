@@ -10,9 +10,9 @@
   <div class="pt-body clearfix">
       <div class="person animate" ng-repeat="post in posts.posts">
         <div class="emotionOverlay eo-{{post.positiveScale}}">
-          <div class="eo-inner">
+          <div class="eo-inner" ui-sref="post({id:post._id})">
             <div class="eo-bottom-bar eo-{{post.positiveScale}}">
-              <div class="eo-comments">
+              <div class="eo-comments"  ui-sref="post({id:post._id})" >
                 {{post.numComments}} <i class="fa fa-comment"></i>
               </div>
               <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
