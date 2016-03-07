@@ -47,7 +47,7 @@ else {
 // $scope.average[3]= Math.round(mentorAverage.avg);
 
 $scope.durationTitle = ["Past 24 Hours", "Past Week", "Past Month", "All Time"];
-$scope.switchTitle = 0;
+$scope.switchTitle = 1;
 
 $scope.findEmotionLevel = function(duration){
    $scope.switchTitle = duration;
