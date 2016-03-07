@@ -14,13 +14,13 @@ angular.module('journey')
     };
     
     $scope.userInfo =  function() {
-      userService.getUser($stateParams.id)
+     authService.checkForAuth()
         .then(function(response) {
-            return response.data[0];
+            return response.data;
         });
    };
   
- $scope.user =$scope.userInfo(); 
+ $scope.user = $scope.userInfo(); 
 
     
     
