@@ -6,15 +6,7 @@
       <div class="card text-cs-center">
         <div class="card-header row">
           <div class="col-sm-6 query-info text-uppercase">{{first}} {{last}}</div>
-          <div class="col-sm-6 text-xs-right view-buttons">
-            Filter:
-            <span ng-click="">My Posts</span>
-            <span ng-click="">My Cohort</span>
-            <span ng-click="">My Mentor Group</span>
-            <span ng-click="">Following</span>
-          </div>
-
-
+         
         </div>
         <div class="card-block" style="height:calc(100vh - 114px);">
           <div class="scroll-body" slimscroll="{
@@ -45,12 +37,7 @@
                 </div>
                   <h1 class='statistics'> Statistics </h1>
 
-                User:  {{userAverage}} <br> <br>
-                Cohort:   {{cohortAverage}}<br>
-                 Mentor:  {{mentorAverage}}     <br>
-                Following:  {{followersAverage}}
-
-                   <div class="lineChart">
+                          <div class="lineChart">
                         <!--<nvd3 options="options" data="data" class="lineChart"></nvd3>-->
 
                         <nvd3 options="options" data="data" api="api"></nvd3>                                            
@@ -93,9 +80,9 @@
                        Graph <br>
                       </div>
                       <br></br>
-                      <h4> Communitcation </h4>
+                      <h4> Communication </h4>
                    <div>
-                      <input class="viewInput" type="Radio" ng-model="communication" value="commentEmail"> Recieve a email every time someone comments on your post <br>
+                      <input class="viewInput" type="Radio" ng-model="communication" value="commentEmail"> Receive an email every time someone comments on your post <br>
                       <input class="viewInput" type="Radio" ng-model="communication" value="WeeklyEmail"> Weekly overview email <br>
                       </div>
                       <br></br>

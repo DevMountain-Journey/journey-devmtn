@@ -3,7 +3,7 @@ angular.module('journey')
 
 
 
-//  console.log($scope.postData, "POSTDATA");
+
 $scope.userInfo = user;
 $scope.userId = auth.data._id;
 
