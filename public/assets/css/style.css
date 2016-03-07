@@ -98,7 +98,13 @@ body {
   color: #909090;
 }
 
+.login .card {
+    margin-top:8%;
+}
 
+.signup .card {
+    margin-top:8%;
+}
 /*Main Content Area Wrapper*/
 .card-header:first-child {
     border-radius: 0;

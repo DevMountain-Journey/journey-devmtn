@@ -10,7 +10,7 @@ module.exports = {
         newPost.save(function(err) {
             if (err)
                 return res.status(500).send(err);
-                postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
+                postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email cohort assignedMentor'}, function(err, post){
                     if (err)
                         return res.status(500).send(err);
                     else

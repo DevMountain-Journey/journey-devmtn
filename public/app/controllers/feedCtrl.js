@@ -15,6 +15,8 @@ angular.module('journey')
     $scope.group = 'everyone'; // default filter
     $scope.filteredFixedPosts = [];
     $scope.userInfo = auth.data;
+    console.log(postPromise.data, 'POSTDATA'); 
+    
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.
