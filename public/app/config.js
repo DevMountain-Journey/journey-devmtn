@@ -108,7 +108,7 @@ angular.module('journey' )
                 });
             },
                followersAverage: function(user, postService)  {
-                return postService.averageQuery('followers', 
+                return postService.averageQuery('following', 
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
