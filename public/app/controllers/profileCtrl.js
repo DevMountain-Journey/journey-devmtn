@@ -211,6 +211,4 @@ $scope.dataObject = [
 
     $scope.data = $scope.dataObject;
 
-
-
 });
