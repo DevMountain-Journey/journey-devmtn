@@ -1,11 +1,16 @@
-<div  class="navbar navbar-static-top navbar-dark">
-  <div class="container-fluid">
+<div  class="navbar navbar-static-top navbar-dark bg-inverse">
     <a href="/" class="navbar-brand"><img src="assets/img/dmlogo.png"></a>
-    <button ui-sref="profile({id:userId})"> <img gravatar-src="userInfo.email" gravatar-size="20" gravatar-default="mm">
-        <span>{{userInfo.firstName}} {{userInfo.lastName}} </span>
-        </button>
-        <span class="logBar"> | </span>
-    <span class="logout" ng-click="logout()">Logout</span>
-    
-  </div>
+    <ul class="nav navbar-nav pull-xs-right">
+       <li class="nav-item">
+           <a ui-sref="profile({id:userId})" class="nav-link">
+               <img gravatar-src="userInfo.email" gravatar-size="20" gravatar-default="mm">
+               <span class="text-capitalize">{{userInfo.firstName}} {{userInfo.lastName}} </span>
+             </a>
+       </li>
+       <li class="nav-item">
+           <a class="nav-link" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+       </li>
+     </ul>
+
+
 </div>
