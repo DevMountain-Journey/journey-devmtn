@@ -1,17 +1,44 @@
-<div class="posts-timeline">
-    <div class="pt-line text-right">
-        <span class="d-block">2015</span>
-        05/08
+<div class="posts-timeline animate" ng-repeat="posts in filteredFixedPosts track by $index | orderBy : '-date'">
+  <div class="pt-line text-right">
+    <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
+    <span class="d-block">
+      <span ng-if="isToday(posts.date)">Today</span>
+      <span ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}} days ago</span>
+    </span>
+  </div>
+
+  <div class="pt-body">
+    <div class="clearfix">
+      <div class="person animate" ng-repeat="post in posts.posts">
+        <div class="emotionOverlay eo-{{post.positiveScale}}">
+          <div class="eo-inner" ui-sref="post({id:post._id})">
+            <div class="eo-bottom-bar eo-{{post.positiveScale}}">
+              <div class="eo-comments"  ui-sref="post({id:post._id})" >
+                {{post.numComments}} <i class="fa fa-comment"></i>
+              </div>
+              <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
+              <div class="eo-post" ui-sref="post({id:post._id})">
+                <i class="fa fa-external-link"></i>
+              </div>
+            </div>
+            <div class="eo-number">{{post.positiveScale}}</div>
+            <div class="eo-tags">
+              <div class="scroll-body" slimscroll="{
+                  height: 'auto',
+                  color: '#777',
+                  railOpacity: '0.7',
+                  size: '3px'
+                }">
+                <span ng-repeat="tag in post.tags">{{tag}}</span>
+              </div>
+            </div>
+            <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="eo-face">
+          </div>
+        </div>
+        <img class="gravatar" gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
+      </div>
     </div>
 
-    <div class="pt-body">
-        <h2 class="pt-title">Stats maybe here?</h2>
-        <div class="clearfix">
-            <div class="person" ng-repeat="post in posts track by $index">
-              <img gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
-            </div>
-        </div>
-
-    </div><!--/.pt-body-->
-
-</div><!--/.posts-timeline-->
+  </div>
+  <!--/.pt-body-->
+</div>

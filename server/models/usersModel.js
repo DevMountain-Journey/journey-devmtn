@@ -1,23 +1,32 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var preferencesSchema = require('./../schema/preferencesSchema');
 
 var usersSchema = new Schema({
-    firstName: {type: 'String', required: true, lowercase: true},
+  firstName: {type: 'String', required: true, lowercase: true},
 	lastName:{type: 'String', required: true, lowercase: true},
 	email: {type: 'String', required: true, lowercase: true},
 	password: {type: 'String', required: true},
 	cohort: {type: 'Number', required: true},
 	startDate: {type: 'Date', required: true},
 	assignedMentor: {type: 'String', required: true, lowercase: true},
-    usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}]
+  usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}],
+  preferences: preferencesSchema
+});
+
+
+usersSchema.pre('save', function(next) {
+	if (!this.isModified('password')) return next();
+  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(9), null);
+  return next(null, this);
 });
 
 // Methods
 // Generate hash
-usersSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(9), null);
-};
+// usersSchema.methods.generateHash = function(password) {
+//     return bcrypt.hashSync(password, bcrypt.genSaltSync(9), null);
+// };
 
 //Check if password is valid
 usersSchema.methods.validPassword = function(password) {

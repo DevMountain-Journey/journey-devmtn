@@ -1,9 +1,10 @@
+require('dotenv').config({path: './.env'});
+
 var express = require('express'),
     expressSession = require('express-session'),
     passport = require('passport'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    config = require('./config/config.js');
+    mongoose = require('mongoose');
 
 var usersCtrl = require('./controllers/usersCtrl.js'),
     postsCtrl = require('./controllers/postsCtrl.js'),
@@ -17,7 +18,11 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/../public'));
-app.use(expressSession(config.express)); // use separate config file for secret
+app.use(expressSession({
+    secret: process.env.DMJ_SECRET,
+    saveUninitialized: false,
+    resave: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -31,9 +36,10 @@ app.get('/api/logout', authCtrl.logout);
 app.get('/api/current_user', authCtrl.current_user);
 
 // Posts
-app.get('/api/posts/filterBy?', authCtrl.requireAuth, postsCtrl.filter); // Get posts. Accepts query parameter that is specially formatted for generic filterin. Posts collection.
+app.get('/api/posts/filterBy?', authCtrl.requireAuth, postsCtrl.filter); // Get posts. Accepts query parameter that is specially formatted for generic filtering. Posts collection.
 app.get('/api/posts/autocomplete?', authCtrl.requireAuth, postsCtrl.autocomplete); // Autocomplete tag entry from posts. Accepts query parameter that is specially formatted for autocomplete. Posts collection.
-app.get('/api/posts/getAvg?', authCtrl.requireAuth, postsCtrl.findAvg); // Autocomplete tag entry from posts. Accepts query parameter that is specially formatted for autocomplete. Posts collection.
+app.get('/api/posts/getAvg?', authCtrl.requireAuth, postsCtrl.findAvg); // Autocomplete tag entry from posts. Accepts query parameter that is specially formatted for getting averages for different groups or durations. Posts collection.
+app.get('/api/posts/getPosts?', authCtrl.requireAuth, postsCtrl.findPosts); // Autocomplete tag entry from posts. Accepts query parameter that is specially formatted for getting posts for different groups or durations. Posts collection.
  app.get('/api/posts', authCtrl.requireAuth, postsCtrl.read); // Get posts. Accepts query parameter. Posts collection.
  app.get('/api/posts/:id', authCtrl.requireAuth, postsCtrl.readOne); // Gets individual post. Posts collection.
  app.get('/api/count/posts', authCtrl.requireAuth, postsCtrl.postCount); // Gets count of all posts. Used for pagination.
@@ -42,7 +48,7 @@ app.get('/api/posts/getAvg?', authCtrl.requireAuth, postsCtrl.findAvg); // Autoc
  app.delete('/api/posts/:id', authCtrl.requireAuth, postsCtrl.delete); // Delete post. Posts collection.
 
 // Users
-app.get('/api/users/filterBy?', authCtrl.requireAuth, usersCtrl.filter); // Get posts. Accepts query parameter that is specially formatted for generic filterin. Posts collection.
+app.get('/api/users/filterBy?', authCtrl.requireAuth, usersCtrl.filter); // Get posts. Accepts query parameter that is specially formatted for generic filtering. Users collection.
 app.get('/api/users/autocomplete?', authCtrl.requireAuth, usersCtrl.autocomplete); // Autocomplete name entry from posts. Accepts query parameter that is specially formatted for autocomplete. Users collection.
 app.get('/api/users', authCtrl.requireAuth, usersCtrl.read); // Get users. Accepts query parameter. Users collection.
 app.put('/api/users/:id', authCtrl.requireAuth, usersCtrl.update); // Update user. Users collection.
@@ -58,8 +64,8 @@ app.delete('/api/comments/:id', authCtrl.requireAuth, commentsCtrl.delete); // D
 
 
 //DB and Server Init
-var mongoUri = config.mongoUri,
-    port = (process.env.port || config.port);
+var mongoUri = process.env.DMJ_MONGO_URI,
+    port = (process.env.port || process.env.DMJ_PORT);
 
 mongoose.set('debug', true);
 mongoose.connect(mongoUri);

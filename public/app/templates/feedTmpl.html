@@ -1,16 +1,27 @@
 <!-- <div class="loadingOverlay animate" ng-if="processingQuery">
   <i class="fa fa-circle-o-notch fa-spin"></i>
 </div> -->
+<div ng-include="'app/templates/navTmpl.html'"></div>
 
 <div class="container-fluid">
   <div class="row">
     <div class="feed">
 
       <div class="card text-cs-center">
-        <div class="card-header">
-          Displaying
-          <strong>{{totalPosts}}</strong>
-          Posts
+        <div class="card-header row">
+          <div class="col-sm-6 query-info">Displaying <strong>{{totalPosts}}</strong> Posts</div>
+          <div class="col-sm-6 text-xs-right view-buttons">
+            Filter:
+            <span ng-click="filterByGroup('user')">My Posts</span>
+            <span ng-click="filterByGroup('cohort')">My Cohort</span>
+            <span ng-click="filterByGroup('mentor')">My Mentor Group</span>
+            <span ng-click="filterByGroup('following')">Following</span>
+            <span ng-click="filterByGroup('everyone')">Everyone</span>
+             &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <span ui-sref-active="toggled" ui-sref="timeline" data-toggle="tooltip" data-placement="bottom" title="Timeline View"><i class="fa fa-clock-o"></i></span>
+            <span ui-sref-active="toggled" ui-sref="standard" data-toggle="tooltip" data-placement="bottom" title="Standard View"><i class="fa fa-bars"></i></span>
+            <span data-toggle="tooltip" data-placement="bottom" title="D3 View"><i class="fa fa-bar-chart"></i></span>
+          </div>
         </div>
         <div class="card-block">
           <div class="scroll-body" slimscroll="{
@@ -20,53 +31,8 @@
             railOpacity: '0.7',
             railColor: '#DDDDDD'
           }">
-            <div class="posts-timeline animate" ng-repeat="posts in fixedPosts track by $index | orderBy : '-date'">
-              <div class="pt-line text-right">
-                <strong>{{posts.date | date:'M/dd/yyyy'}}</strong>
-                <span class="d-block">
-                  <span ng-if="isToday(posts.date)">Today</span>
-                  <span ng-if="!isToday(posts.date)">{{today | amDifference : posts.date : 'days'}} days ago</span>
-                </span>
-              </div>
-
-              <div class="pt-body">
-                <div class="clearfix">
-                  <div class="person animate" ng-repeat="post in posts.posts">
-                    <div class="emotionOverlay eo-{{post.positiveScale}}">
-                      <div class="eo-inner">
-                        <div class="eo-bottom-bar eo-{{post.positiveScale}}">
-                          <div class="eo-comments">
-                            {{post.numComments}} <i class="fa fa-comment"></i>
-                          </div>
-                          <div class="eo-time">{{post.datePosted | date:'shortTime'}}</div>
-                          <div class="eo-post" ui-sref="post({id:post._id})">
-                            <i class="fa fa-external-link"></i>
-                          </div>
-                        </div>
-                        <div class="eo-number">{{post.positiveScale}}</div>
-                        <div class="eo-tags">
-                          <div class="scroll-body" slimscroll="{
-                              height: 'auto',
-                              color: '#777',
-                              railOpacity: '0.7',
-                              size: '3px'
-                            }">
-                            <span ng-repeat="tag in post.tags">{{tag}}</span>
-                          </div>
-                        </div>
-                        <img ng-src="assets/img/faces/face-{{post.positiveScale - 1}}.svg" class="eo-face">
-                      </div>
-                    </div>
-                    <img class="gravatar" gravatar-src="post.user.email" gravatar-size="70" gravatar-default="mm">
-                  </div>
-                </div>
-
-              </div>
-              <!--/.pt-body-->
-            </div>
+            <ui-view></ui-view>
             <!--/.posts-timeline-->
-            <!-- <pre>{{fixedPosts}}</pre>
-          <pre>{{posts}}</pre> -->
           </div>
         </div>
       </div>
@@ -83,8 +49,7 @@
         <form id="create-post" ng-submit="createPost()">
 
           <fieldset class="form-group">
-            <label for="emotionlevel">Hey
-              <span class="capitalize">{{currentUser.firstName}}</span>, how are you feeling?</label>
+            <label for="emotionlevel">Hey <span class="capitalize">{{currentUser.firstName}}</span>, how are you feeling?</label>
 
             <div class="emotions">
               <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
@@ -120,8 +85,8 @@
 
         <hr>
 
-        <h5>Search</h5>
-        <form ng-submit="createQuery()">
+        <strong data-toggle="collapse" href="#search-form">ADVANCED SEARCH <i class="fa fa-caret-down"></i></strong>
+        <form ng-submit="createQuery()" id="search-form" class="collapse">
 
           <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.firstName.length > 0}">
               <tags-input id="searchFirstName" class="input__field" ng-model="query.firstName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
@@ -172,7 +137,7 @@
             </div>
           </fieldset>
 
-          <button type="submit" class="btn btn-primary" ng-disabled="processingQuery">Submit</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="processingQuery">Search</button>
           <a class="btn btn-secondary" ng-click="clearQuery()">Clear</a>
 
         </form>

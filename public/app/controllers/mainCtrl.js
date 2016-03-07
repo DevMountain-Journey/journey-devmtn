@@ -1,5 +1,5 @@
 angular.module('journey')
-  .controller('mainCtrl', function($scope, authService, $state) {
+  .controller('mainCtrl', function($scope, authService, $state, $stateParams, userService) {
 
   $scope.logout = function() {
          authService.logout()
@@ -12,4 +12,23 @@ angular.module('journey')
             }
         });
     };
+    
+    $scope.userInfo =  function() {
+     authService.checkForAuth()
+        .then(function(response) {
+            return response.data;
+        });
+   };
+  
+ $scope.user = $scope.userInfo(); 
+
+    
+    
+    
+    
+    
+    
 });
+
+
+

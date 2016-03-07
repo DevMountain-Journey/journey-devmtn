@@ -1,4 +1,5 @@
-var usersModel = require('./../models/usersModel.js');
+var usersModel = require('./../models/usersModel.js'),
+    _ = require('lodash');
 
 module.exports = {
 
@@ -8,16 +9,17 @@ module.exports = {
         console.log('in create');
         console.log('req.body = ', req.body);
 
-        var newUser = new usersModel(req.body);
-        newUser.password = newUser.generateHash(newUser.password);
+        var newUser = new usersModel();
+        req.body.preferences = {};
+        newUser = _.extend(newUser, req.body);
         newUser.save(function(err, result) {
-            if (err)
-                return res.status(500).send(err);
-            else
-                res.send(result);
-        });
+              if(err) return res.status(500).send(err);
+              result.password = null;
+              res.status(200).json(result);
+            });
+
     },
-    
+
     filter: function(req, res) {
        console.log('in usersCtrl');
        console.log('in filter');
@@ -50,8 +52,8 @@ module.exports = {
        var fieldname = req.query.fieldname;
        var ac_regex = new RegExp(req.query.ac_query);
        req.query = {};
-       req.query[fieldname] = {$regex: ac_regex}; 
-       // req.query[fieldname] = {$regex: /jq/}; 
+       req.query[fieldname] = {$regex: ac_regex};
+       // req.query[fieldname] = {$regex: /jq/};
        /* req.query[fieldname] = 'jquery'; */
        console.log('req.query after processing', req.query);
        usersModel
@@ -69,7 +71,7 @@ module.exports = {
              }
        });
     },
-    
+
     read: function(req, res) {
         console.log('in usersCtrl');
         console.log('in read');
