@@ -10,11 +10,20 @@ angular.module('journey')
       $scope.postData.numComments = 0;
     }
 
-    $scope.privacy = {
-      pref: postData.data.user.preferences.privacyPreferences,
-      posts: true,
-      stats: true
-    };
+    if (postData.data.user.preferences) {
+        $scope.privacy = {
+          pref: postData.data.user.preferences.privacyPreferences,
+          posts: true,
+          stats: true
+        };
+    }
+    else {
+        $scope.privacy = {
+          pref: 'public',
+          posts: true,
+          stats: true
+        };
+    }
 
     if(postData.data.user._id !== $scope.currentUser._id){
       if($scope.privacy.pref === 'private' || $scope.privacy.pref === 'postsprivate') $scope.privacy.posts = false;
