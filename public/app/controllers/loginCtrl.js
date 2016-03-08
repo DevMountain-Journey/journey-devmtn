@@ -1,7 +1,6 @@
 angular.module('journey')
   .controller('loginCtrl', function(authService, $scope, $state, $stateParams, errService, userService) {
 
-
     $scope.login = function() {
 
       authService.login($scope.user)
@@ -32,7 +31,5 @@ angular.module('journey')
           errService.error(error);
         });
     };
-
-
-
+    
   });
