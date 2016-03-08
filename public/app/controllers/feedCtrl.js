@@ -4,7 +4,13 @@ angular.module('journey')
   function($scope, $state, $http, errService, postPromise, postService, userService, postsByGroupFilter) {
 
     if($state.current.name === 'feed'){
-      $state.go($scope.currentUser.preferences.viewPreferences);
+      if ($scope.currentUser.preferences) {
+        $state.go($scope.currentUser.preferences.viewPreferences);
+      }
+      else {
+        $state.go('timeline');  
+      }
+      
     }
 
     $scope.postContent = {};
