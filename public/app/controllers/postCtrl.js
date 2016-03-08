@@ -101,6 +101,7 @@ angular.module('journey')
     var a = moment(new Date());
     var b = moment($scope.postData.user.startDate);
     $scope.daysInProgram = a.diff(b, 'days');
+    console.log($scope.postData.user.startDate, "date");
     // console.log($scope.daysInProgram, "days in program");
 
     // USER AVERAGE

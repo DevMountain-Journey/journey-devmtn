@@ -797,7 +797,8 @@ label[for="emotionlevel"]{
   transition: height 500ms ease-in-out;
 }
 
-#thoughts:focus{
+#thoughts:focus,
+.input--filled #thoughts{
   height:200px;
 }
 
