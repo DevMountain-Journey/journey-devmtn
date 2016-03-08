@@ -27,7 +27,7 @@ commentsSchema.post('save', function(comment){
         .findById(post.user)
         .exec(function(err, user){
           if(err) return err;
-          if(user.preferences && user.preferences.communicationPreferences != ('none' || 'weeklySummary')){
+          if(user.preferences && (user.preferences.communicationPreferences != 'none' || user.preferences.communicationPreferences != 'weeklysummary')){
             console.log('SENDING EMAIL');
             var transporter = nodemailer.createTransport(sparkPostTransport({
               "content": {

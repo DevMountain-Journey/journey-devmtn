@@ -15,18 +15,18 @@
         <span class="tag-wrapper" ng-if="post.tags.length > 0">about <span class="tags text-black"><span ng-repeat="tag in post.tags track by $index">{{tag}}<span ng-if="post.tags.length > 1 && $index < post.tags.length - 1">, </span></span></span></span>
       </div>
       <div class="body">
-        <div class="body-text" ng-if="post.body" marked="post.body"></div>
+        <div class="body-text" ng-if="post.body && ((post.user.preferences.privacyPreferences === 'public' || post.user.preferences.privacyPreferences === 'statsprivate') || post.user._id === currentUser._id)" marked="post.body"></div>
         <div class="footer eo-{{post.positiveScale}} clearfix">
           <div class="col-sm-3">
             <span>{{post.datePosted | date:'shortTime'}}</span>
           </div>
           <div class="col-sm-6 text-xs-center">
             <span ui-sref="post({id:post._id})">{{post.numComments}} <i class="fa fa-comment"></i></span>
-            <span>DM8</span>
-            <span>Mentor: Joe Mentor</span>
+            <span>Cohort: {{post.user.cohort}}</span>
+            <span>Mentor: {{post.user.assignedMentor}}</span>
           </div>
           <div class="col-sm-3 text-xs-right">
-            <span ui-sref="post({id:post._id})">MORE &raquo;</span>
+            <span ui-sref="post({id:post._id})">POST DETAILS &raquo;</span>
           </div>
         </div>
       </div>

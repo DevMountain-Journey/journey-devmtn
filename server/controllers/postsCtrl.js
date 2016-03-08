@@ -35,7 +35,7 @@ module.exports = {
        console.log('req.query after processing', req.query);
        postsModel
        .find(req.query)
-       .populate('user', 'firstName lastName email cohort assignedMentor usersFollowing')
+       .populate('user', 'firstName lastName email cohort assignedMentor usersFollowing preferences')
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {
              console.log('err', err);
@@ -86,10 +86,10 @@ module.exports = {
        if (req.query.group)
             group = req.query.group;
        else
-            group = 'user'; 
+            group = 'user';
        if (req.query.duration)
             duration = req.query.duration;
-       else 
+       else
             duration = 'allTime';
        var user = req.query.user;
        var breakOutTags = (req.query.tags === 'true');
@@ -120,12 +120,12 @@ module.exports = {
                         case 'mentor':
                             assignedMentor = result._doc.assignedMentor;
                             queryObj.assignedMentor = assignedMentor;
-                            break; 
+                            break;
                         case 'cohort':
                         default:
                             cohort = result._doc.cohort;
                             queryObj.cohort = cohort;
-                            break;      
+                            break;
                     }
                     if (queryUsers) {
                         usersModel
@@ -152,7 +152,7 @@ module.exports = {
            users.push(mongoose.Types.ObjectId(user)); // cast to object because aggregate feature will not automatically do the casting for a ref.
            completeProcess();
        }
-          
+
        function completeProcess() {
 
            var matchCriteria = {};
@@ -161,7 +161,7 @@ module.exports = {
                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
                    break;
                case 'week' :
-                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; 
+                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'month' :
                     matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};
@@ -215,7 +215,7 @@ module.exports = {
            }
        }
    },
-    
+
     findPosts: function(req, res) {
        console.log('in postsCtrl');
        console.log('in findPosts');
@@ -250,11 +250,11 @@ module.exports = {
                         case 'mentor':
                             assignedMentor = result._doc.assignedMentor;
                             queryObj.assignedMentor = assignedMentor;
-                            break; 
+                            break;
                         case 'cohort':
                             cohort = result._doc.cohort;
                             queryObj.cohort = cohort;
-                            break;      
+                            break;
                     }
                     if (queryUsers) {
                         usersModel
@@ -281,7 +281,7 @@ module.exports = {
            users.push(mongoose.Types.ObjectId(user)); // cast to object because aggregate feature will not automatically do the casting for a ref.
            completeProcess();
        }
-          
+
        function completeProcess() {
 
            var queryCriteria = {};
@@ -290,7 +290,7 @@ module.exports = {
                    queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
                    break;
                case 'week' :
-                   queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; 
+                   queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'month' :
                     queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};

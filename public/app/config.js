@@ -34,7 +34,6 @@ angular.module('journey' )
       .state('feed', {
         parent: 'journey',
         url: 'feed',
-        abstract: true,
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
@@ -127,6 +126,6 @@ angular.module('journey' )
         });
 
 
-        $urlRouterProvider.otherwise('feed/timeline');
+        $urlRouterProvider.otherwise('feed');
     }
   ]);

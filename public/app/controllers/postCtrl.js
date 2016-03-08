@@ -2,12 +2,23 @@ angular.module('journey')
   .controller('postCtrl', function($stateParams, $scope, postService, $interval, postData, userService, errService) {
 
     $scope.scrollTo = function(id) {
-      $('.feed .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
+      $('.page-content .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
     };
 
     $scope.postData = postData.data;
     if (!$scope.postData.numComments) {
       $scope.postData.numComments = 0;
+    }
+
+    $scope.privacy = {
+      pref: postData.data.user.preferences.privacyPreferences,
+      posts: true,
+      stats: true
+    };
+
+    if(postData.data.user._id !== $scope.currentUser._id){
+      if($scope.privacy.pref === 'private' || $scope.privacy.pref === 'postsprivate') $scope.privacy.posts = false;
+      if($scope.privacy.pref === 'private' || $scope.privacy.pref === 'statsprivate') $scope.privacy.stats = false;
     }
 
     // FOLLOW
@@ -52,9 +63,8 @@ angular.module('journey')
     postService.getComments($scope.postData._id)
       .then(function(response) {
         $scope.comments = response.data;
-        console.log(response, " GET Comment Response");
       }, function(err) {
-        console.error('checking for Comment Error', err);
+        errService.error(err);
       });
 
 

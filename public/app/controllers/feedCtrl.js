@@ -1,7 +1,12 @@
 angular.module('journey')
 
 .controller('feedCtrl',
-  function($scope, $http, errService, postPromise, postService, userService, postsByGroupFilter) {
+  function($scope, $state, $http, errService, postPromise, postService, userService, postsByGroupFilter) {
+
+    if($state.current.name === 'feed'){
+      $state.go($scope.currentUser.preferences.viewPreferences);
+    }
+
     $scope.postContent = {};
     $scope.postContent.tags = [];
     $scope.totalPosts = 0;
@@ -10,9 +15,10 @@ angular.module('journey')
     $scope.today = new Date();
     $scope.processingQuery = false;
     $scope.queryErrorMsg = '';
-
     $scope.group = 'everyone'; // default filter
     $scope.filteredFixedPosts = [];
+
+
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
       $scope.fixedPosts = []; //Init array to accept final posts object manipulation.

@@ -17,8 +17,7 @@
         </div>
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
           <div class="page-detail-wrapper">
-            <div class="post-detail-content" marked="postData.body"></div>
-
+            <div ng-if="privacy.posts" class="post-detail-content" marked="postData.body"></div>
             <div class="comments-section" id="comments">
               <h4 class="section-title">COMMENTS</h4>
                 <form ng-submit="addComment()" class="add-comment">
@@ -73,9 +72,8 @@
         </div>
 
         <div class="author-stats">
-
           <strong>OVERALL</strong>
-          <div class="stats-box clearfix">
+          <div class="stats-box clearfix" ng-if="privacy.stats">
             <img ng-src="assets/img/faces/face-{{userAverage}}.svg" class="eo-face post-face">
             <div class="average et-{{userAverage}}">{{userAverage}}</div>
             <div class="info">
@@ -98,7 +96,7 @@
           </div>
           <hr>
           <strong>LAST WEEK</strong>
-          <div class="stats-box clearfix">
+          <div class="stats-box clearfix" ng-if="privacy.stats">
             <img ng-src="assets/img/faces/face-{{userAverageLastWeek}}.svg" class="eo-face post-face">
           <div class="average et-{{userAverageLastWeek}}">{{userAverageLastWeek}}</div>
             <div class="info">
