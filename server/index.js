@@ -4,8 +4,7 @@ var express = require('express'),
     expressSession = require('express-session'),
     passport = require('passport'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    cors = require('cors');
+    mongoose = require('mongoose');
 
 var usersCtrl = require('./controllers/usersCtrl.js'),
     postsCtrl = require('./controllers/postsCtrl.js'),
@@ -18,7 +17,6 @@ var usersCtrl = require('./controllers/usersCtrl.js'),
 var app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
 
 app.use(express.static(__dirname + '/../public'));
 app.use(expressSession({
