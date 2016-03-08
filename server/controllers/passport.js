@@ -1,5 +1,5 @@
 var localStrategy = require('passport-local').Strategy,
-    user = require('../models/usersModel.js'),
+    User = require('../models/usersModel.js'),
     Devmtn = require('devmtn-auth'),
     DevmtnAuthConfig = require('../config/config').auth,
     DevmtnStrategy = Devmtn.Strategy;
@@ -15,7 +15,7 @@ module.exports = function(passport) {
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
         console.log("id = ", id);
-        user.findById(id, function(err, user) {
+        User.findById(id, function(err, user) {
             done(err, user);
         });
     });
@@ -39,7 +39,7 @@ module.exports = function(passport) {
           
           // convert email to lowercase so that it matches 
           email = email.toLowerCase();
-          user.findOne({ 'email' :  email }, function(err, user) {
+          User.findOne({ 'email' :  email }, function(err, user) {
               // if there are any errors, return the error
               if (err) return done(err);
 
@@ -65,20 +65,13 @@ module.exports = function(passport) {
     
     passport.use('devmtn', new DevmtnStrategy(DevmtnAuthConfig, function (jwtoken, user, done) {
         console.log("DEV USER: ", user);
-        if (!user.cohortId) {
-            // Add cohort 0 for people who do not have a cohort id
-            user.cohortId = 0;
-            console.log('this user does not have a cohort id');
-        }
-        
-        finishLoginFunction(jwtoken, user, done, user.cohortId);
- 
-    }));
+        finishLoginFunction(jwtoken, user, done, user.cohort);
+     }));
     
     
     var finishLoginFunction = function (jwtoken, user, done, newId) {
 
-        User.findOne({ email: user.email }, function (findErr, foundUser) {
+        User.findOne({ devmtnId: user.id }, function (findErr, foundUser) {
             console.log("Here is the user being passed from the User Collection in our db " + foundUser)
             if (findErr) return done(findErr, false);
 
@@ -88,7 +81,8 @@ module.exports = function(passport) {
                     firstName: user.first_name,
                     lastName:  user.last_name, 
                     email: user.email,
-                    cohortId: user.cohortId
+                    cohort: user.cohortId,
+                    devmtnId: user.id
                 };
                 newUser.preferences = {};
                 User.create(newUser, function (createErr, createdUser) {
@@ -98,17 +92,53 @@ module.exports = function(passport) {
                 });
             } else {
                 //Existing user found in my database
-                console.log('Welcome back, ' + foundUser.name.first + ' ' + foundUser.name.last);
+                console.log('Welcome back, ' + foundUser.firstName + ' ' + foundUser.lastName);
                 console.log('USER DATA: ', user);
-                foundUser.devmtnId = user.id;
-                //also update cohortId (* if the system has one)
+                foundUser.devmtnId = user.devmtnId;
+                var needToUpdate = false;
+                // Update fields from DevMountain user records
                 if (user.cohortId) {
-                    foundUser.cohortId = user.cohortId;
+                    if (foundUser.cohort !== user.cohortId) {
+                        foundUser.cohort = user.cohortId;
+                        needToUpdate = true;
+                    }
+                }
+                if (user.first_name) {
+                    if (foundUser.firstName.toLowerCase() !== user.first_name.toLowerCase()) {
+                        foundUser.firstName.toLowerCase() = user.first_name.toLowerCase();
+                        needToUpdate = true;
+                    }
+                }
+                if (user.last_name) {
+                    if (foundUser.lastName.toLowerCase() !== user.last_name.toLowerCase()) {
+                        foundUser.lastName = user.last_name;
+                        needToUpdate = true;
+                    }
+                }
+                if (user.email) {
+                    if (foundUser.email.toLowerCase() !== user.email.toLowerCase()) {
+                        foundUser.email = user.email;
+                        needToUpdate = true;
+                    }
+                }
+                if (needToUpdate) {
+                    foundUser.save(function(er, re) {
+                        if (er) {
+                            console.error('Error updating the user roles: ', er);
+                            return done(null, foundUser);
+                        }
+                        else {
+                            console.log('Successfully updated user roles: ', re);
+                            return done(null, foundUser);
+                        }
+                    });
+                }
+                else {
+                    return done(null, foundUser);
                 }
 
-            }
+             }
         });
-    }
-
+    };
 
 };

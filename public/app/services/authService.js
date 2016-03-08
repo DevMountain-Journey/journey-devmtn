@@ -33,12 +33,5 @@ angular.module('journey')
       });
     };
     
-    this.devMtnLogin = function() {
-      return $http({
-        method: 'GET',
-        url: '/auth/devmtn'
-      });
-        
-    };
-
+  
   });

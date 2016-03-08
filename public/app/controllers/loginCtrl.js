@@ -1,5 +1,5 @@
 angular.module('journey')
-  .controller('loginCtrl', function(authService, $scope, $state, $stateParams, errService, userService) {
+  .controller('loginCtrl', function(authService, $scope, $state, $stateParams, $location, errService, userService) {
       
 
     $scope.login = function() {
@@ -26,25 +26,6 @@ angular.module('journey')
         .then(function(response) {
           if (response.status === 200) {
             $state.go('timeline');
-          }
-        })
-        .catch(function(error) {
-          errService.error(error);
-        });
-    };
-   
-    $scope.devMtnLogin = function() {
-      
-      authService.devMtnLogin()
-        .then(function(response) {
-           
-          if (response.status === 200) {
-            if ($stateParams.successRedirect) {
-              $state.go($stateParams.successRedirect);
-             
-            } else { // default redirect to student
-              $state.go('timeline');
-            }
           }
         })
         .catch(function(error) {

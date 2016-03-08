@@ -4,18 +4,21 @@ var express = require('express'),
     expressSession = require('express-session'),
     passport = require('passport'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    cors = require('cors');
 
 var usersCtrl = require('./controllers/usersCtrl.js'),
     postsCtrl = require('./controllers/postsCtrl.js'),
     authCtrl = require('./controllers/authCtrl.js'),
     commentsCtrl = require('./controllers/commentsCtrl.js');
 
-require('./controllers/passport')(passport);
+    require('./controllers/passport')(passport);
+
 
 var app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use(express.static(__dirname + '/../public'));
 app.use(expressSession({
@@ -39,7 +42,8 @@ app.get('/auth/devmtn', passport.authenticate('devmtn'), authCtrl.successRespond
 app.get('/auth/devmtn/callback', passport.authenticate('devmtn', {
     successRedirect: '/#/',
     failureRedirect: '/#/login'
-}));
+})); 
+
 // Posts
 app.get('/api/posts/filterBy?', authCtrl.requireAuth, postsCtrl.filter); // Get posts. Accepts query parameter that is specially formatted for generic filtering. Posts collection.
 app.get('/api/posts/autocomplete?', authCtrl.requireAuth, postsCtrl.autocomplete); // Autocomplete tag entry from posts. Accepts query parameter that is specially formatted for autocomplete. Posts collection.
