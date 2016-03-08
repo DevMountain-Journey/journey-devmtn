@@ -43,7 +43,7 @@ angular.module('journey' )
                 .then(function( response ) {
                    return response;
                 }, function(err) {
-                    errService.error(err);
+                   // errService.error(err);
                 });
             }
          }
