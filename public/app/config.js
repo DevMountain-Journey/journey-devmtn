@@ -15,10 +15,25 @@ angular.module('journey' )
         templateUrl: './app/templates/loginTmpl.html',
         controller: 'loginCtrl'
       })
-
-      .state('feed', {
-        url: '/',
+      .state('journey', {
         abstract: true,
+        url: '/',
+        controller: 'mainCtrl',
+        template: '<ui-view></ui-view>',
+        resolve:{
+          auth: function(authService, $state) {
+              return authService.checkForAuth()
+              .then(function(response) {
+                  return response;
+              }, function(err) {
+                  $state.go('login');
+              });
+          }
+        }
+      })
+      .state('feed', {
+        parent: 'journey',
+        url: 'feed',
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
@@ -28,32 +43,24 @@ angular.module('journey' )
                 .then(function( response ) {
                    return response;
                 }, function(err) {
-                    // console.error('PostPromise', err);
-                });
-            },
-            auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                    return response;
-                }, function(err) {
-                    // console.error('checkForAuth', err);
-                    $state.go('login');
+                    errService.error(err);
                 });
             }
          }
       })
       .state('timeline', {
         parent: 'feed',
-        url: 'timeline',
+        url: '/timeline',
         templateUrl: './app/templates/timelineTmpl.html'
       })
       .state('standard', {
         parent: 'feed',
-        url: 'standard',
+        url: '/standard',
         templateUrl: './app/templates/standardFeedTmpl.html'
       })
       .state('post', {
-        url: '/post/:id',
+        parent: 'journey',
+        url: 'post/:id',
         controller: 'postCtrl',
         templateUrl: './app/templates/postDetailTmpl.html',
         resolve: {
@@ -64,33 +71,23 @@ angular.module('journey' )
                 },function(err) {
                     console.error('checkForSinglePost', err);
                 });
-            },
-             auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                   return response;
-                }, function(err) {
-                    console.error('checkForAuth', err);
-                    $state.go('login');
-                });
             }
         }
       })
+      .state('preferences', {
+        parent: 'journey',
+        url: 'preferences',
+        templateUrl: './app/templates/preferencesTmpl.html',
+        controller: 'prefrencesCtrl'
+      })
       .state('profile', {
-        url: '/profile/:id',
+        parent: 'journey',
+        url: 'profile/:id',
         templateUrl: './app/templates/profileTmpl.html',
         controller: 'profileCtrl',
         resolve: {
-            user: function(userService, $stateParams) {  // sends back who's logged in
-                return userService.getUser($stateParams.id)
-                .then(function(response) {
-                    return response.data[0];
-                }, function(err) {
-                    console.error('check For User Error', err);
-                });
-            },
             userAverage: function(user, postService)  {
-                return postService.averageQuery('user', 
+                return postService.averageQuery('user',
                 user._id, 'week', 'false')
                 .then(function(response) {
                     return  response.data[0];
@@ -99,7 +96,7 @@ angular.module('journey' )
             });
             },
              cohortAverage: function(user, postService)  {
-                return postService.averageQuery('cohort', 
+                return postService.averageQuery('cohort',
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
@@ -108,7 +105,7 @@ angular.module('journey' )
                 });
             },
                followersAverage: function(user, postService)  {
-                return postService.averageQuery('following', 
+                return postService.averageQuery('following',
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
@@ -117,31 +114,18 @@ angular.module('journey' )
                 });
             },
              mentorAverage: function(user, postService)  {
-                return postService.averageQuery('mentor', 
+                return postService.averageQuery('mentor',
                 user._id, 'week', 'false')
                 .then(function(response) {
                    return  response.data[0];
                 }, function(err) {
                    console.error('check for profile average', err);
                 });
-            },
-                
-            auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                    return response;
-                }, function(err) {
-                    console.error('checkForAuth', err);
-                    $state.go('login');
-                });
-              }
-           } 
+            }
+           }
         });
-        
-        
-        
-      
-                     
-        $urlRouterProvider.otherwise('/timeline');
+
+
+        $urlRouterProvider.otherwise('feed');
     }
   ]);

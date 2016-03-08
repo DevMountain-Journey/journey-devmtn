@@ -1,0 +1,115 @@
+<div ng-include="'app/templates/navTmpl.html'"></div>
+
+<div class="page">
+    <div class="page-content-wrapper">
+      <div class="page-content full-width no-headbar">
+
+        <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
+          <div class="page-detail-wrapper">
+            <div class="card prefs">
+              <h4 class="card-header">PREFERENCES</h4>
+
+              <div class="card-block">
+                <div ng-show="response" class="alert alert-dismissible fade in" ng-class="{'alert-error' : response == 'error', 'alert-success' : response == 'success' }" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <span ng-show="response == 'success'"><strong>Success!</strong> Your preferences have been updated!</span>
+                  <span ng-show="response == 'error'"><strong>Error!</strong> Something went wrong! Try again... maybe?</span>
+                </div>
+
+                <form ng-submit="updatePreferences()" name="updatepreferences">
+                  <div class="form-group row">
+                    <label class="col-sm-3">Default Feed View</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                          <input type="radio" id="feed-pref-1" value="timeline" ng-model="currentUser.preferences.viewPreferences">
+                          Timeline
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" id="feed-pref-2" value="standard" ng-model="currentUser.preferences.viewPreferences">
+                          Standard
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" id="feed-pref-3" value="graph" ng-model="currentUser.preferences.viewPreferences">
+                          Visual
+                        </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-3">Notifications</label>
+                    <div class="col-sm-9">
+                      <div class="radio">
+                          <label>
+                            <input type="radio" id="notifications-pref-1" value="none" ng-model="currentUser.preferences.communicationPreferences">
+                            <strong>NONE</strong>
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" id="notifications-pref-2" value="newcomment" ng-model="currentUser.preferences.communicationPreferences">
+                            <strong>ONLY</strong> New Comments on My Posts
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" id="notifications-pref-3" value="weeklysummary" ng-model="currentUser.preferences.communicationPreferences">
+                            <strong>ONLY</strong> Weekly Summary
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" id="notifications-pref-4" value="all" ng-model="currentUser.preferences.communicationPreferences">
+                            <strong>ALL</strong> Notifications
+                          </label>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-3">Privacy</label>
+                    <div class="col-sm-9">
+                      <div class="radio">
+                          <label>
+                            <input type="radio" id="privacy-pref-1" value="private" ng-model="currentUser.preferences.privacyPreferences">
+                            Hide My Post Thoughts and My Stats
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" id="privacy-pref-2" value="postsprivate" ng-model="currentUser.preferences.privacyPreferences">
+                            Hide My Post Thoughts
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" id="privacy-pref-3" value="statsprivate" ng-model="currentUser.preferences.privacyPreferences">
+                            Hide My Stats
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" id="privacy-pref-4" value="public" ng-model="currentUser.preferences.privacyPreferences">
+                            Show My Post Thoughts and My Stats
+                          </label>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-xs-12">
+                      <button type="submit" class="btn btn-primary pull-xs-right" ng-disabled="!updatepreferences.$dirty">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+        </div><!--/.scroll-body-->
+      </div><!--/.page-content-->
+
+    </div><!--/.page-content-wrapper-->
+</div><!--/.page-->

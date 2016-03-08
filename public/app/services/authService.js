@@ -32,5 +32,6 @@ angular.module('journey')
         url: '/api/current_user'
       });
     };
-
+    
+  
   });

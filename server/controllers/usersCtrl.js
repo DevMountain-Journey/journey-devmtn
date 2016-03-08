@@ -4,32 +4,23 @@ var usersModel = require('./../models/usersModel.js'),
 module.exports = {
 
     create: function(req, res) {
-
-        console.log('in usersCtrl');
-        console.log('in create');
-        console.log('req.body = ', req.body);
-
         var newUser = new usersModel();
         req.body.preferences = {};
         newUser = _.extend(newUser, req.body);
         newUser.save(function(err, result) {
               if(err) return res.status(500).send(err);
               result.password = null;
-              res.status(200).json(result);
+              res.status(200).send(result);
             });
 
     },
 
     filter: function(req, res) {
-       console.log('in usersCtrl');
-       console.log('in filter');
-       console.log('req.query before processing', req.query);
        for (var item in req.query) {
             req.query[item] = req.query[item].slice(1, req.query[item].length -1);
             req.query[item] = req.query[item].split(',');
             req.query[item] = {$in: req.query[item]};
        }
-       console.log('req.query after processing', req.query);
        usersModel
        .find(req.query, '_id')
        .exec(function(err, result) {
@@ -46,9 +37,6 @@ module.exports = {
     },
 
     autocomplete: function(req, res) {
-       console.log('in usersCtrl');
-       console.log('in read');
-       console.log('req.query before processing', req.query);
        var fieldname = req.query.fieldname;
        var ac_regex = new RegExp(req.query.ac_query);
        req.query = {};
@@ -73,9 +61,6 @@ module.exports = {
     },
 
     read: function(req, res) {
-        console.log('in usersCtrl');
-        console.log('in read');
-        console.log('req.query', req.query);
         usersModel
         .find(req.query)
         .exec(function(err, result) {
@@ -92,39 +77,17 @@ module.exports = {
     },
 
     update: function(req, res) {
-        console.log('in usersCtrl');
-        console.log('in update');
-        console.log('req.params = ', req.params);
-        usersModel
-        .findById(req.params.id)
-        .exec(function(err, result) {
-            console.log('err', err);
-            console.log('result', result);
-            if (err) {
-                console.log('in error routine');
-                return res.status(500).send(err);
-            }
-            else {
-                for (var p in req.body) {
-                      if (req.body.hasOwnProperty(p)) {
-                          result[p] = req.body[p];
-                      }
-                }
-                result.save(function(er, re) {
-                    if (er)
-                        return res.status(500).send(er);
-                    else
-                        res.send(re);
-                });
-
-             }
+      usersModel.findById(req.params.id, function(err, user){
+        if(err) res.status(500).send(err);
+        user = _.extend(user, req.body);
+        user.save(function(err, result){
+            if(err) res.status(500).send('DB Operation Error: ', err);
+                else res.status(200).send(result);
         });
+      });
     },
 
     delete: function(req, res) {
-        console.log('in usersCtrl');
-        console.log('in update');
-        console.log('req.params = ', req.params);
         usersModel
         .findByIdAndRemove(req.params.id)
         .exec(function(err, result) {

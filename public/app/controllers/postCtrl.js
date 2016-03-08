@@ -1,10 +1,8 @@
 angular.module('journey')
-  .controller('postCtrl', function($stateParams, $scope, postService, auth, $interval, postData, userService, errService) {
-    
-    $scope.userId = auth.data._id;
+  .controller('postCtrl', function($stateParams, $scope, postService, $interval, postData, userService, errService) {
 
     $scope.scrollTo = function(id) {
-      $('.feed .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
+      $('.page-content .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
     };
 
     $scope.postData = postData.data;
@@ -12,20 +10,31 @@ angular.module('journey')
       $scope.postData.numComments = 0;
     }
 
+    $scope.privacy = {
+      pref: postData.data.user.preferences.privacyPreferences,
+      posts: true,
+      stats: true
+    };
+
+    if(postData.data.user._id !== $scope.currentUser._id){
+      if($scope.privacy.pref === 'private' || $scope.privacy.pref === 'postsprivate') $scope.privacy.posts = false;
+      if($scope.privacy.pref === 'private' || $scope.privacy.pref === 'statsprivate') $scope.privacy.stats = false;
+    }
+
     // FOLLOW
     $scope.following = false;
     if (
-      auth.data.usersFollowing && auth.data.usersFollowing.indexOf($scope.postData.user._id) != -1) {
+      $scope.currentUser.usersFollowing && $scope.currentUser.usersFollowing.indexOf($scope.postData.user._id) != -1) {
       $scope.following = true;
     }
 
     $scope.follow = function() {
-      $scope.usersFollowing = auth.data.usersFollowing;
+      $scope.usersFollowing = $scope.currentUser.usersFollowing;
       $scope.usersFollowing.push($scope.postData.user._id);
       userService.updateUser({
             usersFollowing: $scope.usersFollowing
           },
-          auth.data._id)
+          $scope.currentUser._id)
         .then(function(response) {
         //   console.log(response);
           $scope.following = true;
@@ -35,13 +44,13 @@ angular.module('journey')
     };
 
     $scope.unfollow = function() {
-      $scope.usersFollowing = auth.data.usersFollowing;
+      $scope.usersFollowing = $scope.currentUser.usersFollowing;
       var index = $scope.usersFollowing.indexOf($scope.postData.user._id);
       $scope.usersFollowing.splice(index, 1);
       userService.updateUser({
             usersFollowing: $scope.usersFollowing
           },
-          auth.data._id)
+          $scope.currentUser._id)
         .then(function(response) {
           console.log(response);
           $scope.following = false;
@@ -54,16 +63,15 @@ angular.module('journey')
     postService.getComments($scope.postData._id)
       .then(function(response) {
         $scope.comments = response.data;
-        console.log(response, " GET Comment Response");
       }, function(err) {
-        console.error('checking for Comment Error', err);
+        errService.error(err);
       });
 
 
     $scope.addComment = function() {
       var post = {
         body: $scope.commentBody,
-        user: auth.data._id,
+        user: $scope.currentUser._id,
         postParent: $scope.postData._id
       };
       postService.postComments(post)
@@ -71,9 +79,9 @@ angular.module('journey')
           $scope.postData.numComments++;
           $scope.commentBody = '';
           response.data.user = {
-            firstName: auth.data.firstName,
-            lastName : auth.data.lastName,
-            email : auth.data.email
+            firstName: $scope.currentUser.firstName,
+            lastName : $scope.currentUser.lastName,
+            email : $scope.currentUser.email
           };
           $scope.comments.unshift(response.data);
         }, function(err){ errService.error(err); });
@@ -129,11 +137,6 @@ angular.module('journey')
       }, function(err) {
         console.error('checkForcohortLastWeek', err);
       });
-
-
-
-
-$scope.userInfo = auth.data;
 
 
   });

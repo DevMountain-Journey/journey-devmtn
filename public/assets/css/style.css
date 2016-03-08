@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
+
 @-webkit-keyframes colorPulse{
   0% {fill: #45CEEF;}
   25% {fill: #FFF5A5;}
@@ -6,11 +8,32 @@
   100% {fill: #d57878;}
 }
 
+@-webkit-keyframes emotionPulse{
+  0%  { background: rgba(114, 138, 105, 0.8); }
+  10% { background: rgba(137, 167, 127, 0.8); }
+  20% { background: rgba(172, 209, 159, 0.8); }
+  30% { background: rgba(185, 209, 164, 0.8); }
+  40% { background: rgba(209, 208, 163, 0.8); }
+  50% { background: rgba(209, 191, 165, 0.8); }
+  60% { background: rgba(209, 161, 158, 0.8); }
+  70% { background: rgba(209, 124, 122, 0.8); }
+  80% { background: rgba(181, 79, 79, 0.8); }
+  90% { background: rgba(153, 43, 43, 0.8); }
+}
+
 .text-black{ color: #000; }
 
-body {
-  overflow: hidden;
+body{
+  font-family: 'Roboto', sans-serif;
+  color: #454545;
 }
+html, body, body > ui-view {
+  /*overflow: hidden;*/
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 
 /*div[ui-view]{
   padding-top: 65px;
@@ -44,52 +67,15 @@ body {
   position: relative;
   z-index: 100;
   background: #111111;
-  border-bottom:1px solid #000;
-  height: 65px;
+  border-bottom:2px solid #000;
+  height: 55px;
   width: 100%;
 }
+
 .navbar-brand img {
-  max-width: 200px;
-}
-.navbar .logout {
-  color: #EAEAEA;
-  position: absolute;
-  right: 20px;
-  top:20px;
-}
-.navbar .logout:hover{
-  cursor: pointer;
+  max-width: 150px;
 }
 
-.navbar .logUser {
-  color: #EAEAEA;
-  position: absolute;
-  right: 150px;
-  top:20px;
-}
-.navbar button {
-    position:absolute;
-    right: 110px;
-    top:18px;
-    border:none;
-    background: none;
-    color:#EAEAEA;
-};
-.navbar button:hover span {display:none}
-
-.navbar button:focus {
-    outline:none;
-   background-color:#111111;
-    }
- .navbar button:hover {
-     background-color:#333333;
- }
- .logBar {
-  color: #EAEAEA;
-  position: absolute;
-  right: 90px;
-  top:20px;
- }
 /********************/
 /** LOGIN / SIGNUP **/
 /********************/
@@ -102,41 +88,208 @@ body {
     margin-top:8%;
 }
 
-.signup .card {
-    margin-top:8%;
-}
-/*Main Content Area Wrapper*/
-.card-header:first-child {
-    border-radius: 0;
-    font-size: .8em;
-    color: #666;
-}
-/*FEED VIEW WRAPPER*/
-.feed{
-  width:calc(100vw - 400px);
-  height:calc(100vh - 65px);
-  float: left;
-}
-.feed .card-block{
-  height:calc(100vh - 114px);
-  padding:0;
+/*Default Page Wrappers and Area Styles*/
+
+.page{
+  height: calc(100% - 55px);
+
 }
 
-.feed .card-header .view-buttons span {
+.page-content-wrapper{
+  height: 100%;
+  position: relative;
+}
+
+.page-headbar{
+  font-size: .8em;
+  color: #EAEAEA;
+  background: #444;
+  width: 100%;
+  max-height: 40px;
+  padding: 8px 0;
+}
+
+.page-headbar a,
+.page-headbar a:visited{
+  color: rgba(163, 210, 156, 0.5);
+  text-decoration: none;
+}
+
+.page-headbar a:hover,
+.page-headbar a:active{
+  color: rgba(163, 210, 156, 1);
+}
+
+.page-content{
+    height: calc(100% - 40px);
+    width: calc(100% - 400px);
+}
+
+.page-content.no-headbar{
+    height: 100%;
+}
+
+.page-content.full-width {
+  width: 100%;
+}
+
+.page-headbar .query-info {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.page-headbar .view-buttons span {
   display: inline-block;
-  padding: 0 5px;
-  background: rgba(255,255,255,1);
+  padding: 2px 7px;
+  background: rgba(0,0,0,.2);
   border-radius: 3px;
   margin-right: 3px;
 }
 
-.feed .card-header .view-buttons span.toggled{
-  background: rgba(163, 210, 156, 0.5)
+.page-headbar .view-buttons span.toggled{
+  background: rgba(163, 210, 156, 0.5);
 }
 
-.feed .card-header .view-buttons span:hover{
-  background: rgba(163, 210, 156, 0.3);
+.page-headbar .view-buttons span:hover{
+  background: rgba(163, 210, 156, 0.2);
 }
+
+.page-detail-wrapper{
+  margin: 50px auto;
+  width: 80%;
+  position: relative;
+  z-index:1;
+}
+
+/********************/
+/** SIDEBAR        **/
+/********************/
+
+.sidebar {
+  height: 100%;
+  width:400px;
+  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
+  position: absolute;
+  top: 0;
+  right:0;
+  color: #AFAFAF;
+  box-shadow: 0 0  10px #000;
+}
+
+.sidebar .scroll-body{
+    padding: 10px 20px;
+}
+
+/** Emotion Bar **/
+.emotions {
+   display:flex;
+   flex-flow: row wrap;
+   justify-content: space-between;
+   text-align: center;
+   width:100%;
+   margin-bottom:15px;
+}
+
+.emotions .emotionWrapper {
+ width: 9%;
+ color: #555;
+ font-size: .7em;
+ margin-bottom: 5px;
+}
+
+.emotions .emotionWrapper .emotionSvg {
+ display: block;
+ transition: all 200ms cubic-bezier(.87,-.41,.19,1.44);
+ margin-bottom: 5px;
+}
+
+.emotions .emotionWrapper .emotionSvg svg g path:first-child {
+  /*fill: #EEEEEE!important;
+  fill-opacity: 0.9!important;*/
+}
+.emotions .emotionWrapper .emotionSvg:hover {
+  cursor: pointer;
+}
+.emotions .emotionWrapper .emotionSvg:hover,
+.emotions .emotionWrapper.toggled .emotionSvg {
+  transform: scale(1.5,1.5);
+}
+.emotions .emotionWrapper .emotionSvg:hover svg g path:first-child {
+  /*fill: #ddd468!important;*/
+}
+.emotions .emotionWrapper.toggled .emotionSvg svg g path:first-child {
+   -webkit-animation: colorPulse 8s infinite alternate;
+}
+
+.emotions .emotionWrapper.toggled {
+  color: yellow;
+}
+
+.scalewrap{
+  width:100%;
+  padding: 0;
+  position: relative;
+  border-top: 2px solid #444;
+  font-size: 10px;
+  color: #444;
+  top: -6px;
+}
+
+.scalewrap:before{
+  content: "➤";
+  position: absolute;
+  top: -12px;
+  left: -7px;
+  z-index: 10;
+  font-size: 15px;
+  transform: rotate(180deg);
+}
+
+.scalewrap:after{
+  content: "➤";
+  position: absolute;
+  top: -12px;
+  right: -7px;
+  z-index: 10;
+  font-size: 15px;
+}
+
+.scalewrap .negative, .positive{
+  display: block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+.scalewrap .negative {
+  text-align: left;
+  padding-left: 15px;
+  left: 0;
+}
+.scalewrap .positive{
+  text-align: right;
+  padding-right: 15px;
+  right: 0;
+}
+
+/*Filtering*/
+
+#daterange {
+    margin-bottom: 20px;
+}
+#daterange span {
+    color: #fff;
+}
+
+#processing_query {
+    font-weight: bold;
+}
+
+#query_error_msg{
+    color: red;
+    font-weight: bold;
+}
+
 
 /********************/
 /** POSTS TIMELINE **/
@@ -419,140 +572,6 @@ body {
   padding: 0 10px;
 }
 
-/********************/
-/** SIDEBAR        **/
-/********************/
-
-.sidebar {
-  height: calc(100vh - 65px);
-  width:400px;
-  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
-  /*background: -moz-linear-gradient(top,  #151515 0%, #222222 100%);
-  background: -webkit-linear-gradient(top,  #151515 0%,#222222 100%);
-  background: linear-gradient(to bottom,  #151515 0%,#222222 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#222222',GradientType=0 ); */
-  position: fixed;
-  right: 0;
-  color: #AFAFAF;
-  box-shadow: 0 0  10px #000;
-}
-
-.sidebar .scroll-body{
-  padding:20px;
-}
-
-
-/** Emotion Bar **/
-.emotions {
-   display:flex;
-   flex-flow: row wrap;
-   justify-content: space-between;
-   text-align: center;
-   width:100%;
-   margin-bottom:15px;
-}
-
-.emotions .emotionWrapper {
- width: 9%;
- color: #555;
- font-size: .7em;
- margin-bottom: 5px;
-}
-
-.emotions .emotionWrapper .emotionSvg {
- display: block;
- transition: all 200ms cubic-bezier(.87,-.41,.19,1.44);
- margin-bottom: 5px;
-}
-
-.emotions .emotionWrapper .emotionSvg svg g path:first-child {
-  /*fill: #EEEEEE!important;
-  fill-opacity: 0.9!important;*/
-}
-.emotions .emotionWrapper .emotionSvg:hover {
-  cursor: pointer;
-}
-.emotions .emotionWrapper .emotionSvg:hover,
-.emotions .emotionWrapper.toggled .emotionSvg {
-  transform: scale(1.5,1.5);
-}
-.emotions .emotionWrapper .emotionSvg:hover svg g path:first-child {
-  /*fill: #ddd468!important;*/
-}
-.emotions .emotionWrapper.toggled .emotionSvg svg g path:first-child {
-   -webkit-animation: colorPulse 8s infinite alternate;
-}
-
-.emotions .emotionWrapper.toggled {
-  color: yellow;
-}
-
-.scalewrap{
-  width:100%;
-  padding: 0;
-  position: relative;
-  border-top: 2px solid #444;
-  font-size: 10px;
-  color: #444;
-  top: -6px;
-}
-
-.scalewrap:before{
-  content: "➤";
-  position: absolute;
-  top: -12px;
-  left: -7px;
-  z-index: 10;
-  font-size: 15px;
-  transform: rotate(180deg);
-}
-
-.scalewrap:after{
-  content: "➤";
-  position: absolute;
-  top: -12px;
-  right: -7px;
-  z-index: 10;
-  font-size: 15px;
-}
-
-.scalewrap .negative, .positive{
-  display: block;
-  width: 50%;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-}
-.scalewrap .negative {
-  text-align: left;
-  padding-left: 15px;
-  left: 0;
-}
-.scalewrap .positive{
-  text-align: right;
-  padding-right: 15px;
-  right: 0;
-}
-
-/*Filtering*/
-
-#daterange {
-    margin-bottom: 20px;
-}
-#daterange span {
-    color: #fff;
-}
-
-#processing_query {
-    font-weight: bold;
-}
-
-#query_error_msg{
-    color: red;
-    font-weight: bold;
-}
-
-
 
 /***********************************/
 /** Individual Post / Post Detail **/
@@ -562,13 +581,6 @@ body {
   content: "#";
 }
 
-.post-detail .post-detail-wrapper{
-  margin: 50px auto;
-  width: 80%;
-  position: relative;
-  z-index:1;
-}
-
 .post-detail .post-detail-watermark {
   position: absolute;
   width: 70%;
@@ -576,11 +588,11 @@ body {
   left: -10%;
   opacity: 0.1;
 }
-.post-detail .card-header .emotion-level img {
+.post-detail .page-headbar .emotion-level img {
   margin-top: -5px;
   width: 20px
 }
-.post-detail .card-header .emotion-level span{
+.post-detail .page-headbar .emotion-level span{
   font-weight: bold;
   font-size: 1.3em;
   line-height:0;
@@ -654,6 +666,7 @@ body {
 /***********************/
 .comments-section{
   max-width:810px;
+  margin-bottom: 50px;
 }
 .comments-section .section-title{
   padding-top: 40px;
@@ -669,7 +682,9 @@ body {
   float: left;
   width: 110px;
   text-align: center;
-  padding: 0 5px;
+  left: -20px;
+  position: relative;
+  padding-right: 5px;
 }
 .comment .comment-meta img{
   border-radius: 50%;
@@ -691,6 +706,7 @@ body {
   padding: 1em 1em .25em 1em;
   position: relative;
   border-radius: 20px;
+  left: -20px;
 }
 .comment .comment-body:before{
   content: "";
@@ -718,23 +734,28 @@ body {
     text-align: center;
 }
 
-h4 {
-    margin-bottom:20px;
 
-}
 .daysIn {
     float:left;
     margin-right:5%;
 }
 
-.dropdown {
+/*.dropdown {
     float:right;
     margin-right:5%;
-}
+}*/
 
-.topFilter {
-    float:right;
-    margin-right:1%;
+
+/***********************/
+/**       PREFERENCES **/
+/***********************/
+
+.preferences{
+  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
+}
+.prefs {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 
@@ -746,6 +767,10 @@ h4 {
 .sidebar textarea,
 .sidebar .form-group{
   color: #F7F7F7;
+}
+
+.sidebar #create-post fieldset:first-child {
+  margin-top: 0;
 }
 .form-group{
   position: relative;
@@ -933,3 +958,17 @@ transform:translate3d(0,100%,0);
 .eb-8  { border-color: rgba(172, 209, 159, 0.4); }
 .eb-9  { border-color: rgba(137, 167, 127, 0.4); }
 .eb-10 { border-color: rgba(114, 138, 105, 0.4); }
+
+.devmtnlogin {
+    margin-top: 30px;
+    height: 30px;
+    width: 200px;
+    background-color: #0275D8;
+    line-height: 15px;
+}
+
+.devmtnlogin a {
+    color: white;
+    text-decoration: none;
+}
+
