@@ -31,10 +31,12 @@ commentsSchema.post('save', function(comment){
             console.log('SENDING EMAIL');
             var transporter = nodemailer.createTransport(sparkPostTransport({
               "content": {
-                "template_id": "my-first-email"
+                "template_id": "comment-notification"
               },
               "substitution_data": {
-                "postId": post._id
+                "postId": post._id,
+                "commentBody": comment.body,
+                "commentAuthor": comment.user.firstName + ' ' + comment.user.lastName
               }
             }));
 

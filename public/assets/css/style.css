@@ -84,6 +84,28 @@ html, body, body > ui-view {
   color: #909090;
 }
 
+.loginbg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #222222 url('../img/devmountain-login-bg.jpg') no-repeat 50% 50%;
+  background-size: cover;
+  z-index: -1;
+}
+
+.btn-login {
+  /*width: 300px;*/
+  margin-top: 10%;
+  box-shadow: 0 0 50px rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.3);
+}
+
+.login-card{
+  background: transparent;
+  border: 0;
+}
 
 /*Default Page Wrappers and Area Styles*/
 
@@ -795,7 +817,8 @@ label[for="emotionlevel"]{
   transition: height 500ms ease-in-out;
 }
 
-#thoughts:focus{
+#thoughts:focus,
+.input--filled #thoughts{
   height:200px;
 }
 
@@ -854,38 +877,38 @@ outline:none;
 }
 
 .input__label-content::after {
-bottom:100%;
-color:#a3d39c;
-content:attr(data-content);
-font-size:.85em;
-font-weight:800;
-height:100%;
-left:0;
-letter-spacing:1px;
-padding:.25em 0;
-position:absolute;
-text-transform:uppercase;
-width:100%;
+  bottom:100%;
+  color:#a3d39c;
+  content:attr(data-content);
+  font-size:.85em;
+  font-weight:800;
+  height:100%;
+  left:0;
+  letter-spacing:1px;
+  padding:.25em 0;
+  position:absolute;
+  text-transform:uppercase;
+  width:100%;
 }
 
 .input__field:focus + .input__label,
 .fancy-input.focused .input__field + .input__label,
 .input--filled .input__label {
--webkit-transform:translate3d(0,.5em,0);
-transform:translate3d(0,.5em,0);
+  -webkit-transform:translate3d(0,.5em,0);
+  transform:translate3d(0,.5em,0);
 }
 
 .input__field#thoughts:focus + .input__label,
 .fancy-input.focused .input__field#thoughts + .input__label {
--webkit-transform:translate3d(0,-.3em,0);
-transform:translate3d(0,-.3em,0);
+  -webkit-transform:translate3d(0,-.3em,0);
+  transform:translate3d(0,-.3em,0);
 }
 
 .input__field:focus + .input__label .input__label-content,
 .fancy-input.focused .input__field + .input__label .input__label-content,
 .input--filled .input__label-content {
--webkit-transform:translate3d(0,100%,0);
-transform:translate3d(0,100%,0);
+  -webkit-transform:translate3d(0,100%,0);
+  transform:translate3d(0,100%,0);
 }
 
 .input__field:focus + .input__field,
@@ -903,7 +926,7 @@ transform:translate3d(0,100%,0);
 /***********************/
 /** Animation **/
 /***********************/
-.animate.ng-enter {
+.animate.ng-enter{
   transition:0.5s linear all;
   opacity:0;
 }
@@ -954,17 +977,3 @@ transform:translate3d(0,100%,0);
 .eb-8  { border-color: rgba(172, 209, 159, 0.4); }
 .eb-9  { border-color: rgba(137, 167, 127, 0.4); }
 .eb-10 { border-color: rgba(114, 138, 105, 0.4); }
-
-.devmtnlogin {
-    margin-top: 30px;
-    height: 30px;
-    width: 200px;
-    background-color: #0275D8;
-    line-height: 15px;
-}
-
-.devmtnlogin a {
-    color: white;
-    text-decoration: none;
-}
-

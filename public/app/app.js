@@ -7,7 +7,8 @@ angular.module('journey', [
     'nvd3',
     'angular-loading-bar',
     'ngAnimate',
-    'hc.marked'
+    'hc.marked',
+    'chart.js'
   ])
 
   .run(function($rootScope, $state, $stateParams) {

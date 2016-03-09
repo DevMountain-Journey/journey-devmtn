@@ -1,0 +1,40 @@
+<div ng-include="'app/templates/navTmpl.html'"></div>
+
+<div class="page">
+    <div class="page-content-wrapper">
+      <div class="page-content">
+        <div class="page-headbar container-fluid">
+          <div class="col-sm-6 query-info"></div>
+          <div class="col-sm-6 text-xs-right view-buttons">
+            FILTER:
+            <span ng-click="getAverages('day')">Today</span>
+            <span ng-click="getAverages('week')">Last 7 Days</span>
+            <span ng-click="getAverages('month')">Last 30 Days</span>
+            <span ng-click="">Since Cohort Start</span>
+            <span ng-click="getAverages('allTime')">All Time</span>
+             <!-- &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <span ui-sref-active="toggled" ui-sref="timeline" data-toggle="tooltip" data-placement="bottom" title="Timeline View"><i class="fa fa-clock-o"></i></span>
+            <span ui-sref-active="toggled" ui-sref="standard" data-toggle="tooltip" data-placement="bottom" title="Standard View"><i class="fa fa-bars"></i></span> -->
+            <!-- <span data-toggle="tooltip" data-placement="bottom" title="D3 View"><i class="fa fa-bar-chart"></i></span> -->
+          </div>
+        </div>
+        <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
+          <div class="page-detail-wrapper">
+            <pre>{{averages}}</pre>
+            <h3 class="text-center">Average Emotion Levels</h3>
+            <canvas
+              id="bar"
+              class="chart chart-bar"
+              chart-data="averages.data"
+              chart-labels="averages.labels"
+              >
+            </canvas>
+        </div><!--/.scroll-body-->
+      </div><!--/.page-content-->
+      <div class="sidebar">
+        <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
+            <pre>{{}}</pre>
+        </div><!--/slimscroll-->
+      </div><!--/.sidebar-->
+    </div><!--/.page-content-wrapper-->
+</div><!--/.page-->

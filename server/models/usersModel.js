@@ -4,12 +4,12 @@ var bcrypt = require('bcrypt-nodejs');
 var preferencesSchema = require('./../schema/preferencesSchema');
 
 var usersSchema = new Schema({
-    firstName: {type: 'String', required: true, lowercase: true},
+  firstName: {type: 'String', required: true, lowercase: true},
 	lastName:{type: 'String', required: true, lowercase: true},
 	email: {type: 'String', required: true, lowercase: true},
 	password: {type: 'String'},
 	cohort: {type: 'Number', required: true, default: 0},
-    devmtnId: {type: 'Number'},
+  devmtnId: {type: 'Number'},
 	startDate: {type: 'Date'},
 	assignedMentor: {type: 'String', lowercase: true},
     usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}],
