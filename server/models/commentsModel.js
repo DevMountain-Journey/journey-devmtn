@@ -37,8 +37,8 @@ commentsSchema.post('save', function(comment){
                     },
                     "substitution_data": {
                       "postId": post._id,
-                      "commentBody": comment.body,
-                      "commentAuthor": comment.user.firstName + ' ' + comment.user.lastName
+                      "commentBody": comment.body
+                      /* "commentAuthor": comment.user.firstName + ' ' + comment.user.lastName */
                     }
                   }));
                   transporter.sendMail({
