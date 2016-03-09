@@ -4,8 +4,8 @@
     <div class="page-content-wrapper">
       <div class="page-content">
         <div class="page-headbar container-fluid">
-          <div class="col-sm-6 query-info">Displaying <strong>{{totalPosts}}</strong> Posts</div>
-          <div class="col-sm-6 text-xs-right view-buttons">
+          <div class="col-sm-3 query-info">Displaying <strong>{{totalPosts}}</strong> Posts</div>
+          <div class="col-sm-9 text-xs-right view-buttons">
             FILTER:
             <span ng-click="filterByGroup('user')">My Posts</span>
             <span ng-click="filterByGroup('cohort')">My Cohort</span>
@@ -40,9 +40,9 @@
                 </div>
                 <div class="noEmotionError" ng-show="noEmotion">
                     Need to select a feeling
-                </div>  
+                </div>
               </div>
-                
+
             </fieldset>
 
             <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.tags.length > 0}">

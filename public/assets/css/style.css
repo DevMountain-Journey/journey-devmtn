@@ -792,6 +792,10 @@ html, body, body > ui-view {
   border: none;
 }
 
+.stats .page-detail-wrapper{
+  width: 94%;
+}
+
 /***********************/
 /**            Inputs **/
 /***********************/

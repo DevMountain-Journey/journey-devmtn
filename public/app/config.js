@@ -4,14 +4,30 @@ angular.module('journey')
   DAYS: 7
 })
 
-.config([
-  '$stateProvider',
-  '$urlRouterProvider',
-  'pageSize',
-  function($stateProvider, $urlRouterProvider, pageSize) {
+.config(function($stateProvider, $urlRouterProvider, pageSize, ChartJsProvider) {
+    //Config for Stats Charts via ChartJs directive
+    ChartJsProvider.setOptions({
+      responsive: true,
+      maintainAspectRatio: true,
+      scaleBeginAtZero: true,
+      // scaleOverride: true,
+      // scaleSteps: 10,
+      // scaleStepWidth: 1,
+      // scaleStartValue: 0,
+      scaleFontFamily: "'Roboto', sans-serif",
+      tooltipTitleFontFamily: "'Roboto', sans-serif",
+      tooltipFontFamily: "'Roboto', sans-serif",
+      tooltipTemplate: '<%= value %>',
+      tooltipFillColor: 'rgba(0,0,0,0)',
+      tooltipFontColor: '#888',
+      tooltipFontStyle: 'bold',
+      tooltipFontSize: 15,
+      tooltipEvents: [],
+      tooltipCaretSize: 0,
+    });
 
+    //Route configurations
     $stateProvider
-
       .state('login', {
         url: '/login',
         templateUrl: './app/templates/loginTmpl.html',
@@ -146,4 +162,4 @@ angular.module('journey')
 
     $urlRouterProvider.otherwise('feed');
   }
-]);
+);

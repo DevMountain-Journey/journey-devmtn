@@ -1,37 +1,25 @@
 angular.module('journey')
 .controller('statsCtrl', function($scope, postService) {
+
   $scope.averages = {
     data: [[]],
     labels: [],
     options: {
-        responsive: true,
-        tooltipTemplate: '<%= value %>',
-        tooltipFillColor: 'rgba(0,0,0,0)',
-        tooltipFontColor: '#444',
-        tooltipFontStyle: 'bold',
-        tooltipFontSize: 16,
-        tooltipEvents: [],
-        tooltipCaretSize: 0,
         onAnimationComplete: function(){
             this.showTooltip(this.datasets[0].bars, true);
         }
-    }
+      }
   };
 
-  $scope.postData = {
-    data: [],
+  $scope.postDataUser = {
+    data: [[]],
     labels: [],
-    series: []
+    options: {
+        onAnimationComplete: function(){
+            this.showTooltip(this.datasets[0].points, true);
+        }
+      }
   };
-
-
-  // $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-  // $scope.series = ['Series A', 'Series B'];
-  // $scope.data = [
-  //   [65, 59, 80, 81, 56, 55, 40],
-  //   [28, 48, 40, 19, 86, 27, 90]
-  // ];
-
 
   String.prototype.capitalize = function() {
       return this.charAt(0).toUpperCase() + this.slice(1);
@@ -41,24 +29,26 @@ angular.module('journey')
     postService.getAverages(date, $scope.currentUser)
     .then(
       function(response){
+        $scope.range = date;
+
         $scope.averages.data = [[]];
         $scope.averages.labels = [];
 
         $scope.avgs = response;
         if($scope.avgs.dataUser.length > 0) {
-          $scope.averages.data[0].push(_.round($scope.avgs.dataUser[0].avg, 1));
+          $scope.averages.data[0].push(_.round($scope.avgs.dataUser[0].avg));
           $scope.averages.labels.push($scope.currentUser.firstName.capitalize() + ' ' + $scope.currentUser.lastName.capitalize());
         }
         if($scope.avgs.dataCohort.length > 0) {
-          $scope.averages.data[0].push(_.round($scope.avgs.dataCohort[0].avg, 1));
+          $scope.averages.data[0].push(_.round($scope.avgs.dataCohort[0].avg));
           $scope.averages.labels.push('Cohort');
         }
         if($scope.avgs.dataFollowing.length > 0) {
-          $scope.averages.data[0].push(_.round($scope.avgs.dataFollowing[0].avg, 1));
+          $scope.averages.data[0].push(_.round($scope.avgs.dataFollowing[0].avg));
           $scope.averages.labels.push('Following');
         }
         if($scope.avgs.dataMentor.length > 0) {
-          $scope.averages.data[0].push(_.round($scope.avgs.dataMentor[0].avg, 1));
+          $scope.averages.data[0].push(_.round($scope.avgs.dataMentor[0].avg));
           $scope.averages.labels.push('Mentor Group');
         }
       },
@@ -71,8 +61,8 @@ angular.module('journey')
     postService.getPosts(date, $scope.currentUser)
     .then(
       function(response){
-        // $scope.averages.data = [[]];
-        // $scope.averages.labels = [];
+        $scope.postDataUser.data = [[]];
+        $scope.postDataUser.labels = [];
 
         $scope.posts = response;
 
@@ -83,9 +73,19 @@ angular.module('journey')
         }
 
         if($scope.posts.dataUser.length > 0) {
-          $scope.postData.data.push();
-          $scope.postData.labels.push();
-          $scope.postData.series.push();
+          for (var i = 0; i < $scope.posts.dataUser.length; i++) {
+            //Loop through User Posts and add each date as a chart label
+            $scope.postDataUser.labels.unshift($scope.posts.dataUser[i].date);
+            var scorearr = [];
+            for (var x = 0; x < $scope.posts.dataUser[i].posts.length; x++) {
+              //Loop through the posts array for each date data point and average the scores and push to data array.
+              scorearr.push($scope.posts.dataUser[i].posts[x].positiveScale);
+            }
+            $scope.postDataUser.data[0].unshift(_.round(_.mean(scorearr)));
+          }
+          // $scope.postData.data.push();
+          // $scope.postData.labels.push();
+          // $scope.postData.series.push();
         }
         // if($scope.posts.dataCohort.length > 0) {
         //   $scope.averages.data[0].push(_.round($scope.avgs.dataCohort[0].avg, 1));

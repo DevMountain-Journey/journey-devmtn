@@ -7,7 +7,7 @@
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
           <div class="page-detail-wrapper">
             <div class="card prefs">
-              <h4 class="card-header">PREFERENCES</h4>
+              <h4 class="card-header">SETTINGS</h4>
 
               <div class="card-block">
                 <div ng-show="response" class="alert alert-dismissible fade in" ng-class="{'alert-error' : response == 'error', 'alert-success' : response == 'success' }" role="alert">
@@ -30,10 +30,10 @@
                           <input type="radio" id="feed-pref-2" value="standard" ng-model="currentUser.preferences.viewPreferences">
                           Standard
                         </label>
-                        <label class="radio-inline">
+                        <!-- <label class="radio-inline">
                           <input type="radio" id="feed-pref-3" value="graph" ng-model="currentUser.preferences.viewPreferences">
                           Visual
-                        </label>
+                        </label> -->
                     </div>
                   </div>
 
@@ -99,7 +99,7 @@
 
                   <div class="form-group row">
                     <div class="col-xs-12">
-                      <button type="submit" class="btn btn-primary pull-xs-right" ng-disabled="!updatepreferences.$dirty">Submit</button>
+                      <button type="submit" class="btn btn-primary pull-xs-right" ng-disabled="!updatepreferences.$dirty || response">Submit</button>
                     </div>
                   </div>
                 </form>
