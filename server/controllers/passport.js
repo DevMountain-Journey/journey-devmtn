@@ -65,11 +65,16 @@ module.exports = function(passport) {
     
     passport.use('devmtn', new DevmtnStrategy(DevmtnAuthConfig, function (jwtoken, user, done) {
         console.log("DEV USER: ", user);
-        finishLoginFunction(jwtoken, user, done, user.cohort);
+        if (!user.cohortId) {
+        // Add cohort 0 for people who do not have a cohort id
+            user.cohortId = 0;
+            console.log('this user does not have a cohort id');
+        }
+        finishLoginFunction(jwtoken, user, done);
      }));
     
     
-    var finishLoginFunction = function (jwtoken, user, done, newId) {
+    var finishLoginFunction = function (jwtoken, user, done) {
 
         User.findOne({ devmtnId: user.id }, function (findErr, foundUser) {
             console.log("Here is the user being passed from the User Collection in our db " + foundUser)
@@ -94,7 +99,6 @@ module.exports = function(passport) {
                 //Existing user found in my database
                 console.log('Welcome back, ' + foundUser.firstName + ' ' + foundUser.lastName);
                 console.log('USER DATA: ', user);
-                foundUser.devmtnId = user.devmtnId;
                 var needToUpdate = false;
                 // Update fields from DevMountain user records
                 if (user.cohortId) {
