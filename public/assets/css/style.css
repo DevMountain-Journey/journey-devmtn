@@ -784,7 +784,13 @@ html, body, body > ui-view {
   margin: 0 auto;
 }
 
+/***********************/
+/**       STATS PAGE  **/
+/***********************/
 
+.no-border {
+  border: none;
+}
 
 /***********************/
 /**            Inputs **/

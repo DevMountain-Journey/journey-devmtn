@@ -45,7 +45,7 @@ angular.module('journey')
                 .then(function( response ) {
                    return response;
                 }, function(err) {
-                   // errService.error(err);
+                   console.error(err);
                 });
             }
          }
@@ -131,6 +131,16 @@ angular.module('journey')
         url: 'stats',
         templateUrl: './app/templates/statsTmpl.html',
         controller: 'statsCtrl'
+        // resolve: {
+        //   averages: function(postService, errService) {
+        //     return postService.getAverages('week', $scope.currentUser)
+        //       .then(function(response) {
+        //         return response;
+        //       }, function(err) {
+        //         errService.error(err);
+        //       });
+        //   }
+        // }
       });
 
 

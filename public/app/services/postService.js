@@ -164,6 +164,58 @@ angular.module('journey')
       return defer.promise;
     };
 
+    this.getPosts = function(duration, user) {
+      var defer = $q.defer();
+      var dataUser;
+      var dataCohort;
+      var dataFollowing;
+      var dataMentor;
+      this.postsQuery('user', user._id, duration, 'false')
+        .then(function(response) {
+          dataUser = response.data;
+          console.log(response, 'user average');
+          checkIfAllDataDone();
+        }, function(err) {
+          console.error('check for profile average', err);
+        });
+      this.postsQuery('cohort', user._id, duration, 'false')
+        .then(function(response) {
+          dataCohort = response.data;
+          console.log(response, 'cohort average');
+          checkIfAllDataDone();
+        }, function(err) {
+          console.error('check for profile average', err);
+        });
+      this.postsQuery('following', user._id, duration, 'false')
+        .then(function(response) {
+          dataFollowing = response.data;
+          console.log(response, 'following average');
+          checkIfAllDataDone();
+        }, function(err) {
+          console.error('check for profile average', err);
+        });
+      this.postsQuery('mentor', user._id, duration, 'false')
+        .then(function(response) {
+          dataMentor = response.data;
+          console.log(response, 'mentor average');
+          checkIfAllDataDone();
+        }, function(err) {
+          console.error('check for profile average', err);
+        });
+
+      function checkIfAllDataDone() {
+        if (dataUser && dataCohort && dataFollowing && dataMentor) {
+          defer.resolve({
+            dataUser: dataUser,
+            dataCohort: dataCohort,
+            dataFollowing: dataFollowing,
+            dataMentor: dataMentor
+          });
+        }
+      }
+      return defer.promise;
+    };
+
 
 
 

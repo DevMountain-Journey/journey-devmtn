@@ -10,7 +10,6 @@
             <span ng-click="getAverages('day')">Today</span>
             <span ng-click="getAverages('week')">Last 7 Days</span>
             <span ng-click="getAverages('month')">Last 30 Days</span>
-            <span ng-click="">Since Cohort Start</span>
             <span ng-click="getAverages('allTime')">All Time</span>
              <!-- &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span ui-sref-active="toggled" ui-sref="timeline" data-toggle="tooltip" data-placement="bottom" title="Timeline View"><i class="fa fa-clock-o"></i></span>
@@ -19,21 +18,44 @@
           </div>
         </div>
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
-          <div class="page-detail-wrapper">
-            <pre>{{averages}}</pre>
-            <h3 class="text-center">Average Emotion Levels</h3>
-            <canvas
-              id="bar"
-              class="chart chart-bar"
-              chart-data="averages.data"
-              chart-labels="averages.labels"
-              >
-            </canvas>
+          <div class="page-detail-wrapper container-fluid">
+            <div class="row">
+              <div class="col-xl-6">
+                <div class="card no-border">
+                  <div class="card-header">Average Emotion Levels</div>
+                  <div class="card-block">
+                    <canvas
+                      id="bar"
+                      class="chart chart-bar"
+                      chart-data="averages.data"
+                      chart-labels="averages.labels"
+                      chart-options="averages.options"
+                      >
+                    </canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <div class="card no-border">
+                  <div class="card-header">Average Emotion Levels</div>
+                  <div class="card-block">
+                    <canvas
+                      id="line"
+                      class="chart chart-line"
+                      chart-data="postData.data"
+                      chart-labels="postData.labels"
+                      chart-legend="true"
+                      chart-series="postData.series">
+                    </canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div><!--/.scroll-body-->
       </div><!--/.page-content-->
       <div class="sidebar">
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
-            <pre>{{}}</pre>
+            <pre>{{posts}}</pre>
         </div><!--/slimscroll-->
       </div><!--/.sidebar-->
     </div><!--/.page-content-wrapper-->

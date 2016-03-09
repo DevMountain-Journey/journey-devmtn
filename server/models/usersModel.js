@@ -12,8 +12,8 @@ var usersSchema = new Schema({
   devmtnId: {type: 'Number'},
 	startDate: {type: 'Date'},
 	assignedMentor: {type: 'String', lowercase: true},
-    usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}],
-    preferences: preferencesSchema
+  usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}],
+  preferences: preferencesSchema
 });
 
 
