@@ -971,3 +971,9 @@ transform:translate3d(0,100%,0);
     text-decoration: none;
 }
 
+.noEmotionError {
+    color: red;
+    font-weight: bold;
+    font-size: 1em;
+}
+

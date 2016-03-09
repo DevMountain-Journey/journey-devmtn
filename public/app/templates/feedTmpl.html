@@ -38,7 +38,11 @@
                   <span class="negative">NEGATIVE</span>
                   <span class="positive">POSITIVE</span>
                 </div>
+                <div class="noEmotionError" ng-show="noEmotion">
+                    Need to select a feeling
+                </div>  
               </div>
+                
             </fieldset>
 
             <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.tags.length > 0}">
