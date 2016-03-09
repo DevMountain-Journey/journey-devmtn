@@ -1,5 +1,10 @@
 angular.module('journey')
 .controller('statsCtrl', function($scope, postService) {
+  var lineChartOptions = {
+      onAnimationComplete: function(){
+          this.showTooltip(this.datasets[0].points, true);
+      }
+    };
 
   $scope.averages = {
     data: [[]],
@@ -14,16 +19,18 @@ angular.module('journey')
   $scope.postDataUser = {
     data: [[]],
     labels: [],
-    options: {
-        onAnimationComplete: function(){
-            this.showTooltip(this.datasets[0].points, true);
-        }
-      }
+    options: lineChartOptions
   };
 
   String.prototype.capitalize = function() {
       return this.charAt(0).toUpperCase() + this.slice(1);
   };
+
+
+$scope.getStats = function(date){
+  $scope.getAverages(date);
+  $scope.getPosts(date);
+};
 
   $scope.getAverages = function(date){
     postService.getAverages(date, $scope.currentUser)
@@ -73,9 +80,16 @@ angular.module('journey')
         }
 
         if($scope.posts.dataUser.length > 0) {
+          if(date === 'day'){
+            $scope.posts.dataUser[0].posts.forEach(function(post, index){
+              // console.log(post);
+              $scope.postDataUser.labels.unshift(moment(post.datePosted, 'MM-DD-YYYYThh:mm:ss').format('h:mm a'));
+              $scope.postDataUser.data[0].unshift(post.positiveScale);
+            });
+          } else {
           for (var i = 0; i < $scope.posts.dataUser.length; i++) {
             //Loop through User Posts and add each date as a chart label
-            $scope.postDataUser.labels.unshift($scope.posts.dataUser[i].date);
+            $scope.postDataUser.labels.unshift(moment($scope.posts.dataUser[i].date, 'MM-DD-YYYYThh:mm:ss').format('M-D-YYYY'));
             var scorearr = [];
             for (var x = 0; x < $scope.posts.dataUser[i].posts.length; x++) {
               //Loop through the posts array for each date data point and average the scores and push to data array.
@@ -83,9 +97,7 @@ angular.module('journey')
             }
             $scope.postDataUser.data[0].unshift(_.round(_.mean(scorearr)));
           }
-          // $scope.postData.data.push();
-          // $scope.postData.labels.push();
-          // $scope.postData.series.push();
+        }
         }
         // if($scope.posts.dataCohort.length > 0) {
         //   $scope.averages.data[0].push(_.round($scope.avgs.dataCohort[0].avg, 1));
@@ -105,9 +117,8 @@ angular.module('journey')
       });
   };
 
-  $scope.getAverages('week');
-  $scope.getPosts('week');
 
+$scope.getStats('week');
 
   function formatPostData(data){
     var groupedPosts = _.groupBy(data, function(post){

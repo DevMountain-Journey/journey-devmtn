@@ -4,13 +4,12 @@
     <div class="page-content-wrapper">
       <div class="page-content full-width">
         <div class="page-headbar container-fluid">
-          <div class="col-sm-6 query-info"></div>
-          <div class="col-sm-6 text-xs-right view-buttons">
+          <div class="col-xs-12 text-xs-right view-buttons">
             FILTER:
-            <span ng-click="getAverages('day')" ng-class="{toggled: range == 'day'}">Today</span>
-            <span ng-click="getAverages('week')" ng-class="{toggled: range == 'week'}">Past Week</span>
-            <span ng-click="getAverages('month')" ng-class="{toggled: range == 'month'}">Past Month</span>
-            <span ng-click="getAverages('allTime')" ng-class="{toggled: range == 'allTime'}">All Time</span>
+            <span ng-click="getStats('day')" ng-class="{toggled: range == 'day'}">Today</span>
+            <span ng-click="getStats('week')" ng-class="{toggled: range == 'week'}">Past Week</span>
+            <span ng-click="getStats('month')" ng-class="{toggled: range == 'month'}">Past Month</span>
+            <span ng-click="getStats('allTime')" ng-class="{toggled: range == 'allTime'}">All Time</span>
              <!-- &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span ui-sref-active="toggled" ui-sref="timeline" data-toggle="tooltip" data-placement="bottom" title="Timeline View"><i class="fa fa-clock-o"></i></span>
             <span ui-sref-active="toggled" ui-sref="standard" data-toggle="tooltip" data-placement="bottom" title="Standard View"><i class="fa fa-bars"></i></span> -->
@@ -22,7 +21,7 @@
             <div class="row">
               <div class="col-xl-6">
                 <div class="card">
-                  <div class="card-header text-capitalize">Average Emotion Levels - {{range}}</div>
+                  <div class="card-header text-capitalize">Average Emotion Levels - <strong>{{range}}</strong></div>
                   <div class="card-block">
                     <canvas
                       id="bar"
@@ -37,7 +36,7 @@
               </div>
               <div class="col-xl-6">
                 <div class="card">
-                  <div class="card-header text-capitalize">Average Emotion Levels - {{currentUser.firstName}} {{currentUser.lastName}} - {{range}}</div>
+                  <div class="card-header text-capitalize">Average Emotion Levels - <strong>{{currentUser.firstName}} {{currentUser.lastName}} - {{range}}</strong></div>
                   <div class="card-block">
                     <canvas
                       id="line"
@@ -48,6 +47,8 @@
                     </canvas>
                   </div>
                 </div>
+                <!-- <pre>{{posts}}</pre> -->
+
               </div>
             </div>
         </div><!--/.scroll-body-->
