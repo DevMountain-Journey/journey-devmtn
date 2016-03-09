@@ -32,9 +32,9 @@ angular.module('journey')
 
     // FOLLOW
     $scope.following = false;
-    if (
-      $scope.currentUser.usersFollowing && $scope.currentUser.usersFollowing.indexOf($scope.postData.user._id) != -1) {
-      $scope.following = true;
+    
+    if ($scope.currentUser.usersFollowing && $scope.currentUser.usersFollowing.indexOf($scope.postData.user._id) != -1) {
+        $scope.following = true;
     }
 
     $scope.follow = function() {
