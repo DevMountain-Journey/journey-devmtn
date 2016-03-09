@@ -54,7 +54,7 @@
           <div class="author-avatar">
             <img gravatar-src="postData.user.email" gravatar-size="100" gravatar-default="mm">
 
-            <div ng-if="postData.user._id != userId ">
+            <div ng-if="postData.user._id != currentUser._id ">
               <button class="btn btn-primary btn-sm btn-block" ng-if="!following && !postUserSignedOn" ng-click="follow()">Follow</button>
               <button class="btn btn-success btn-sm btn-block active" ng-if="following && !postUserSignedOn" ng-click="unfollow()">Unfollow</button>
             </div>

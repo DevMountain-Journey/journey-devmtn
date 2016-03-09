@@ -32,12 +32,8 @@ angular.module('journey')
 
     // FOLLOW
     $scope.following = false;
-    $scope.postUserSignedOn = false;
-    if ($scope.currentUser._id === $scope.postData.user._id) { // if current user is post user
-        $scope.postUserSignedOn = true;
-    }
-    else if (
-      $scope.currentUser.usersFollowing && $scope.currentUser.usersFollowing.indexOf($scope.postData.user._id) != -1) {
+    
+    if ($scope.currentUser.usersFollowing && $scope.currentUser.usersFollowing.indexOf($scope.postData.user._id) != -1) {
         $scope.following = true;
     }
 
