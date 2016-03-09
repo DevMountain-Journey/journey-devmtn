@@ -73,7 +73,8 @@ html, body, body > ui-view {
 }
 
 .navbar-brand img {
-  max-width: 150px;
+  max-width: 250px;
+
 }
 
 /********************/
@@ -111,6 +112,7 @@ html, body, body > ui-view {
 
 .page{
   height: calc(100% - 55px);
+
 }
 
 .page-content-wrapper{
@@ -288,6 +290,12 @@ html, body, body > ui-view {
   text-align: right;
   padding-right: 15px;
   right: 0;
+}
+
+.noEmotionError {
+    color: red;
+    font-weight: bold;
+    font-size: 1em;
 }
 
 /*Filtering*/

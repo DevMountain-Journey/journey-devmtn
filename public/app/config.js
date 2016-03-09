@@ -39,16 +39,16 @@ angular.module('journey')
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
-          postPromise: function(postService, errService) { // sends back posts
-            var filter = postService.pageOneDateFilter();
-            return postService.getAllPosts(filter)
-              .then(function(response) {
-                return response;
-              }, function(err) {
-                errService.error(err);
-              });
-          }
-        }
+            postPromise: function(postService, errService) { // sends back posts
+                var filter = postService.pageOneDateFilter();
+                return postService.getAllPosts(filter)
+                .then(function( response ) {
+                   return response;
+                }, function(err) {
+                   // errService.error(err);
+                });
+            }
+         }
       })
       .state('timeline', {
         parent: 'feed',

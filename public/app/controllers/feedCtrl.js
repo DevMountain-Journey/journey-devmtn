@@ -4,7 +4,13 @@ angular.module('journey')
   function($scope, $state, $http, errService, postPromise, postService, userService, postsByGroupFilter) {
 
     if($state.current.name === 'feed'){
-      $state.go($scope.currentUser.preferences.viewPreferences);
+      if ($scope.currentUser.preferences) {
+        $state.go($scope.currentUser.preferences.viewPreferences);
+      }
+      else {
+        $state.go('timeline');  
+      }
+      
     }
 
     $scope.postContent = {};
@@ -17,7 +23,7 @@ angular.module('journey')
     $scope.queryErrorMsg = '';
     $scope.group = 'everyone'; // default filter
     $scope.filteredFixedPosts = [];
-
+    $scope.noEmotion = false;
 
     function formatPosts(data) { //This function formats the provided post data so that we can use it effectively.
       $scope.totalPosts = data.length;
@@ -80,30 +86,36 @@ angular.module('journey')
     };
 
     $scope.createPost = function() {
-      $scope.postContent.user = $scope.currentUser._id;
-      $scope.postContent.tags = _.map($scope.postContent.tags, 'name');
-      postService.createPost($scope.postContent)
-        .then(function(response) {
-          if (response.status === 200) {
-            $scope.postContent = {};
-            $scope.totalPosts++;
-            var post = response.data;
-            var postDate = moment(post.datePosted).local().format('YYYY-MM-DD');
-            if($scope.fixedPosts.length && postDate === $scope.fixedPosts[0].date){ //If the postdate is the same as the first date in the fixedPosts array.
-              $scope.fixedPosts[0].posts.unshift(post); //then just unshift (push to top) the post to the top of the first item in the fixedPost array
-            } else {
-              $scope.fixedPosts.unshift({ //Otherwise unshift a new item into fixedPosts with todays date and an array with the new post in it.
-                date: postDate,
-                posts: [post]
-              });
-            }
-            $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);
-          } else {
-            errService.error(response);
-          }
-        }, function(err) {
-          errService.error(err);
-        });
+      if ($scope.postContent.positiveScale) {
+          $scope.noEmotion = false;
+          $scope.postContent.user = $scope.currentUser._id;
+          $scope.postContent.tags = _.map($scope.postContent.tags, 'name');
+          postService.createPost($scope.postContent)
+            .then(function(response) {
+              if (response.status === 200) {
+                $scope.postContent = {};
+                $scope.totalPosts++;
+                var post = response.data;
+                var postDate = moment(post.datePosted).local().format('YYYY-MM-DD');
+                if($scope.fixedPosts.length && postDate === $scope.fixedPosts[0].date){ //If the postdate is the same as the first date in the fixedPosts array.
+                  $scope.fixedPosts[0].posts.unshift(post); //then just unshift (push to top) the post to the top of the first item in the fixedPost array
+                } else {
+                  $scope.fixedPosts.unshift({ //Otherwise unshift a new item into fixedPosts with todays date and an array with the new post in it.
+                    date: postDate,
+                    posts: [post]
+                  });
+                }
+                $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);
+              } else {
+                errService.error(response);
+              }
+            }, function(err) {
+              errService.error(err);
+            });
+      }
+      else { // No positive Scale
+          $scope.noEmotion = true; 
+      }    
     };
 
     $scope.getOnePost = function() {
