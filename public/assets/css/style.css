@@ -668,6 +668,7 @@ html, body, body > ui-view {
   top: -10%;
   left: -10%;
   opacity: 0.1;
+  z-index: -1;
 }
 .post-detail .page-headbar .emotion-level img {
   margin-top: -5px;
