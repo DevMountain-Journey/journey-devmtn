@@ -3,32 +3,48 @@
 <div class="page">
     <div class="page-content-wrapper">
       <div class="page-content">
-        <div class="page-headbar container-fluid">
-          <div class="col-sm-3 query-info">Displaying <strong>{{totalPosts}}</strong> Posts</div>
-          <div class="col-sm-9 text-xs-right view-buttons">
-            FILTER:
-            <span ng-click="filterByGroup('user')" ng-class="{toggled: group == 'user'}">My Posts</span>
-            <span ng-click="filterByGroup('cohort')" ng-class="{toggled: group == 'cohort'}">My Cohort</span>
-            <span ng-click="filterByGroup('mentor')" ng-class="{toggled: group == 'mentor'}">My Mentor Group</span>
-            <span ng-click="filterByGroup('following')" ng-class="{toggled: group == 'following'}">Following</span>
-            <span ng-click="filterByGroup('everyone')" ng-class="{toggled: group == 'everyone'}">Everyone</span>
+        <div class="page-headbar clearfix">
+          <div class="query-info pull-xs-left"><span class="hidden-lg-down">Displaying </span><strong>{{totalPosts}}</strong> Posts</div>
+          <div class="text-xs-right pull-xs-right view-buttons">
+            <div class="hidden-md-down" style="display:inline;">
+              <strong class="hidden-lg-down">FILTER:</strong>
+              <span ng-click="filterByGroup('user')" ng-class="{toggled: group == 'user'}">My Posts</span>
+              <span ng-click="filterByGroup('cohort')" ng-class="{toggled: group == 'cohort'}">My Cohort</span>
+              <span ng-click="filterByGroup('mentor')" ng-class="{toggled: group == 'mentor'}">My Mentor Group</span>
+              <span ng-click="filterByGroup('following')" ng-class="{toggled: group == 'following'}">Following</span>
+              <span ng-click="filterByGroup('everyone')" ng-class="{toggled: group == 'everyone'}">Everyone</span>
+            </div>
+            <div class="hidden-lg-up dropdown filter-dropdown" style="display:inline;">
+              <span class="dropdown-toggle text-uppercase" data-toggle="dropdown">{{group}}</span></span>
+              <div class="dropdown-menu">
+                <a ng-click="filterByGroup('user')" class="dropdown-item">My Posts</a>
+                <a ng-click="filterByGroup('cohort')" class="dropdown-item">My Cohort</a>
+                <a ng-click="filterByGroup('mentor')" class="dropdown-item">My Mentor Group</a>
+                <a ng-click="filterByGroup('following')" class="dropdown-item">Following</a>
+                <a ng-click="filterByGroup('everyone')" class="dropdown-item">Everyone</a>
+              </div>
+            </div>
              &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span ui-sref-active="toggled" ui-sref="timeline" data-toggle="tooltip" data-placement="bottom" title="Timeline View"><i class="fa fa-clock-o"></i></span>
             <span ui-sref-active="toggled" ui-sref="standard" data-toggle="tooltip" data-placement="bottom" title="Standard View"><i class="fa fa-bars"></i></span>
-            <!-- <span data-toggle="tooltip" data-placement="bottom" title="D3 View"><i class="fa fa-bar-chart"></i></span> -->
+            <div class="hidden-lg-up" style="display:inline;">
+            &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <span ng-click="sidebarToggle = true">
+              <i class="fa fa-plus-circle"></i> ADD POST
+            </span>
+          </div>
           </div>
         </div>
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
           <ui-view></ui-view>
         </div><!--/.scroll-body-->
       </div><!--/.page-content-->
-      <div class="sidebar">
+      <div class="sidebar" ng-class="{toggled: sidebarToggle}">
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
+          <span class="close hidden-lg-up" ng-click="sidebarToggle = false">&times;</span>
           <form id="create-post" ng-submit="createPost()">
-
             <fieldset class="form-group">
               <label for="emotionlevel">Hey <span class="capitalize">{{currentUser.firstName}}</span>, how are you feeling?</label>
-
               <div class="emotions">
                 <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
                   <ng-include ng-click="setScale($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
@@ -39,7 +55,7 @@
                   <span class="positive">POSITIVE</span>
                 </div>
                 <div class="noEmotionError" ng-show="noEmotion">
-                    Need to select a feeling
+                    Please select a feeling level.
                 </div>
               </div>
 

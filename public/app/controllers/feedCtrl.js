@@ -2,6 +2,7 @@ angular.module('journey')
 
 .controller('feedCtrl',
   function($scope, $state, $http, errService, postPromise, postService, userService, postsByGroupFilter) {
+    $scope.sidebarToggle = false;
 
     if($state.current.name === 'feed'){
       if ($scope.currentUser.preferences) {
@@ -106,6 +107,7 @@ angular.module('journey')
                   });
                 }
                 $scope.filteredFixedPosts = postsByGroupFilter($scope.fixedPosts, 'everyone', $scope.currentUser);
+                if($scope.sidebarToggle === true) $scope.sidebarToggle = false;
               } else {
                 errService.error(response);
               }
@@ -151,7 +153,6 @@ angular.module('journey')
         $scope.postContent.positiveScale = null;
       } else {
         $scope.postContent.positiveScale = num + 1;
-
       }
     };
 
@@ -191,6 +192,7 @@ angular.module('journey')
             .then(function(response) {
                 if (response.data.length)
                     filters.user = response.data;
+                    if($scope.sidebarToggle === true) $scope.sidebarToggle = false;
                 else // No users fit criteria
                     filters.user = ['999999999999999999999999']; // Create empty search
                 completeQuery();
