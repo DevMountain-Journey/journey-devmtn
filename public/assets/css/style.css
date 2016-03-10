@@ -839,6 +839,12 @@ html, body, body > ui-view {
   max-width: 800px;
   margin: 0 auto;
 }
+.preferences .form-control {
+  background-color: #fff;
+}
+.preferences .form-control:focus {
+    border-color: #66afe9;
+  }
 
 /***********************/
 /**       STATS PAGE  **/
