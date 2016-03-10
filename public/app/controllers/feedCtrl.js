@@ -192,7 +192,6 @@ angular.module('journey')
             .then(function(response) {
                 if (response.data.length)
                     filters.user = response.data;
-                    if($scope.sidebarToggle === true) $scope.sidebarToggle = false;
                 else // No users fit criteria
                     filters.user = ['999999999999999999999999']; // Create empty search
                 completeQuery();
@@ -252,6 +251,7 @@ angular.module('journey')
             postService.getAllPosts(filters)
             .then(function(response) {
                 formatPosts(response.data);
+                if($scope.sidebarToggle === true) $scope.sidebarToggle = false;
                 $scope.processingQuery = false;
             }, function(err) {
                 errService.error(err);
