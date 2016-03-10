@@ -7,16 +7,17 @@ angular.module('journey')
     };
 
   $scope.averageLabel = 'Average';
-
+    
   $scope.averages = {
     data: [[]],
     labels: [],
     options: {
-      // // tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-      // tooltipTemplate: function(valuesObject){
-      //   console.log(valuesObject);
-      //   return valuesObject.value;
-      // },
+      // tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>"
+//       tooltipTemplate: function(valuesObject){
+//         console.log('valuesObject', valuesObject);
+//         console.log('$scope.count', $scope.count);
+//         return $scope.count;
+ //      },
         onAnimationComplete: function(){
             this.showTooltip(this.datasets[0].bars, true);
         }
@@ -69,20 +70,27 @@ $scope.getStats = function(date){
 
         $scope.avgs = response;
         if($scope.avgs.dataUser.length > 0) {
+          var count = $scope.avgs.dataUser[0].count;
           $scope.averages.data[0].push(_.round($scope.avgs.dataUser[0].avg));
-          $scope.averages.labels.push($scope.currentUser.firstName.capitalize() + ' ' + $scope.currentUser.lastName.capitalize());
+         // $scope.averages.labels.push($scope.currentUser.firstName.capitalize() + ' ' + $scope.currentUser.lastName.capitalize());
+          $scope.averages.labels.push($scope.currentUser.firstName.capitalize() + ' (' + count + ' posts)'); 
         }
         if($scope.avgs.dataCohort.length > 0) {
+          var count = $scope.avgs.dataCohort[0].count;
           $scope.averages.data[0].push(_.round($scope.avgs.dataCohort[0].avg));
-          $scope.averages.labels.push('Cohort');
+       //   $scope.averages.labels.push('Cohort');
+          $scope.averages.labels.push('Cohort (' + count + ' posts)');
         }
         if($scope.avgs.dataFollowing.length > 0) {
+          var count = $scope.avgs.dataFollowing[0].count;
           $scope.averages.data[0].push(_.round($scope.avgs.dataFollowing[0].avg));
-          $scope.averages.labels.push('Following');
+        //  $scope.averages.labels.push('Following');
+          $scope.averages.labels.push('Following (' + count + ' posts)');
         }
         if($scope.avgs.dataMentor.length > 0) {
+          var count = $scope.avgs.dataMentor[0].count;
           $scope.averages.data[0].push(_.round($scope.avgs.dataMentor[0].avg));
-          $scope.averages.labels.push('Mentor Group');
+          $scope.averages.labels.push('Mentor Grp (' + count + ' posts)');
         }
       },
       function(error){
