@@ -3,7 +3,10 @@ angular.module('journey')
   $scope.response = '';
 
   if (!$scope.currentUser.startDate)  
-    $scope.currentUser.startDate = moment().format('L');
+    $scope.currentUser.startDate = new Date();
+  else // startDate exists
+    $scope.currentUser.startDate = new Date($scope.currentUser.startDate);
+ 
 
   $scope.updatePreferences = function(){
     userService.updateUser($scope.currentUser, $scope.currentUser._id).then(
@@ -19,10 +22,16 @@ angular.module('journey')
   };
     
   $(document).ready(function() {
+      
+   function cb(dt) {
+        //$('#startdate-input').html(dt.format('MMMM D, YYYY'));
+        $scope.currentUser.startDate = dt; 
+    }
+      
     $('#startdate-input').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
         startDate: $scope.currentUser.startDate,
-    });
+    }, cb);
   });    
 });
