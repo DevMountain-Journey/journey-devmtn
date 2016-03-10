@@ -3,20 +3,23 @@
 <div class="page post-detail">
     <div class="page-content-wrapper">
       <div class="page-content">
-        <div class="page-headbar container-fluid text-xs-center">
-          <div class="col-md-3">{{postData.datePosted | date:"M/d/yyyy 'at' h:mma"}}</div>
-          <div class="col-md-3 emotion-level">
-            EMOTION LEVEL <img ng-src="assets/img/faces/face-{{postData.positiveScale-1}}.svg"> <span>{{postData.positiveScale}}</span>
+        <div class="page-headbar container-fluid text-md-center">
+          <div class="col-lg-3 col-xs-5">{{postData.datePosted | date:"M/d/yyyy 'at' h:mma"}}</div>
+          <div class="col-lg-3 col-xs-2 emotion-level">
+            <span class="hidden-lg-down">EMOTION LEVEL </span><img ng-src="assets/img/faces/face-{{postData.positiveScale-1}}.svg"> <span>{{postData.positiveScale}}</span>
           </div>
-          <div class="col-md-3">
-            <a ng-click="scrollTo('#comments')"><i class="fa fa-comment"></i> {{postData.numComments || '0'}} COMMENTS</a>
+          <div class="col-lg-3 col-xs-2">
+            <a ng-click="scrollTo('#comments')"><i class="fa fa-comment"></i> {{postData.numComments || '0'}}<span class="hidden-lg-down"> COMMENTS</span></a>
           </div>
-          <div class="col-md-3">
+          <div class="col-xs-3">
             <span class="tag" ng-repeat="tag in postData.tags">{{tag}} </span>
           </div>
         </div>
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
           <div class="page-detail-wrapper">
+
+            <div class="author-toggle hidden-lg-up"><span ng-click="sidebarToggle = !sidebarToggle"> <i class="fa fa-caret-left"></i> View Author Information</span></div>
+
             <div ng-if="privacy.posts" class="post-detail-content" marked="postData.body"></div>
             <div class="comments-section" id="comments">
               <h4 class="section-title">COMMENTS</h4>
@@ -47,8 +50,9 @@
 
         </div><!--/.scroll-body-->
       </div><!--/.page-content-->
-      <div class="sidebar">
+      <div class="sidebar" ng-class="{toggled: sidebarToggle}">
         <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
+        <span class="close hidden-lg-up" ng-click="sidebarToggle = false">&times;</span>
 
         <div class="author clearfix">
           <div class="author-avatar">

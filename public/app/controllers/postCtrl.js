@@ -1,6 +1,6 @@
 angular.module('journey')
   .controller('postCtrl', function($stateParams, $scope, postService, $interval, postData, userService, errService) {
-
+    $sidebarToggle = false;
     $scope.scrollTo = function(id) {
       $('.page-content .scroll-body').slimScroll({ scrollTo: $(id).offset().top - 150 + 'px' });
     };
@@ -32,7 +32,7 @@ angular.module('journey')
 
     // FOLLOW
     $scope.following = false;
-    
+
     if ($scope.currentUser.usersFollowing && $scope.currentUser.usersFollowing.indexOf($scope.postData.user._id) != -1) {
         $scope.following = true;
     }

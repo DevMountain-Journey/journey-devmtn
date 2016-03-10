@@ -47,6 +47,11 @@ html, body, body > ui-view {
   cursor: pointer;
 }
 
+.dropdown-menu{
+  right: 0;
+  left: initial;
+}
+
 /* Loading Overlay */
 .loadingOverlay{
   position: absolute;
@@ -65,7 +70,7 @@ html, body, body > ui-view {
   border-radius: 0;
   margin-bottom: 0;
   position: relative;
-  z-index: 100;
+  z-index: 200;
   background: #111111;
   border-bottom:2px solid #000;
   height: 55px;
@@ -118,6 +123,7 @@ html, body, body > ui-view {
 .page-content-wrapper{
   height: 100%;
   position: relative;
+  overflow:hidden;
 }
 
 .page-headbar{
@@ -126,7 +132,7 @@ html, body, body > ui-view {
   background: #444;
   width: 100%;
   max-height: 40px;
-  padding: 8px 0;
+  padding: 8px 10px;
 }
 
 .page-headbar a,
@@ -177,7 +183,7 @@ html, body, body > ui-view {
 .page-detail-wrapper{
   margin: 50px auto;
   width: 80%;
-  position: relative;
+  /*position: relative;*/
   z-index:1;
 }
 
@@ -194,6 +200,21 @@ html, body, body > ui-view {
   right:0;
   color: #AFAFAF;
   box-shadow: 0 0  10px #000;
+  z-index:100;
+  transition: right 500ms ease-in-out;
+}
+
+.sidebar.toggled{
+  right: 0;
+}
+
+.sidebar .close {
+  color: rgba(163, 210, 156, 0.6);
+  opacity: 1;
+  text-shadow: none;
+}
+.sidebar .close:hover{
+  color: rgba(163, 210, 156, 1);
 }
 
 .sidebar .scroll-body{
@@ -299,6 +320,15 @@ html, body, body > ui-view {
 }
 
 /*Filtering*/
+
+.filter-dropdown .dropdown-menu{
+  background: #222;
+}
+
+.filter-dropdown .dropdown-item:focus,
+.filter-dropdown .dropdown-item:hover{
+  background: #353535;
+}
 
 #daterange {
     margin-bottom: 20px;
@@ -619,6 +649,19 @@ html, body, body > ui-view {
   content: "#";
 }
 
+.post-detail .author-toggle{
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 0;
+  color: #FFFFFF;
+  /* margin: 0 auto; */
+  text-align: center;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+  z-index:90;
+}
+
 .post-detail .post-detail-watermark {
   position: absolute;
   width: 70%;
@@ -630,7 +673,7 @@ html, body, body > ui-view {
   margin-top: -5px;
   width: 20px
 }
-.post-detail .page-headbar .emotion-level span{
+.post-detail .page-headbar .emotion-level span:last-child{
   font-weight: bold;
   font-size: 1.3em;
   line-height:0;
@@ -816,6 +859,7 @@ html, body, body > ui-view {
 .sidebar .form-group{
   color: #F7F7F7;
 }
+
 
 .sidebar #create-post fieldset:first-child {
   margin-top: 0;
@@ -1007,3 +1051,12 @@ outline:none;
 .eb-8  { border-color: rgba(172, 209, 159, 0.4); }
 .eb-9  { border-color: rgba(137, 167, 127, 0.4); }
 .eb-10 { border-color: rgba(114, 138, 105, 0.4); }
+
+@media (max-width: 62em) {
+  .sidebar{
+    right: -400px;
+  }
+  .page-content{
+    width: 100%;
+  }
+}
