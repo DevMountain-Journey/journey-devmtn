@@ -6,21 +6,47 @@ angular.module('journey')
       }
     };
 
+  $scope.averageLabel = 'Average';
+
   $scope.averages = {
     data: [[]],
     labels: [],
     options: {
+      // // tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+      // tooltipTemplate: function(valuesObject){
+      //   console.log(valuesObject);
+      //   return valuesObject.value;
+      // },
         onAnimationComplete: function(){
             this.showTooltip(this.datasets[0].bars, true);
         }
       }
   };
 
-  $scope.postDataUser = {
-    data: [[]],
-    labels: [],
-    options: lineChartOptions
+
+  $scope.postData = {
+    user: {
+      data: [[]],
+      labels: [],
+      options: lineChartOptions
+    },
+    cohort: {
+      data: [[]],
+      labels: [],
+      options: lineChartOptions
+    },
+    following:{
+      data: [[]],
+      labels: [],
+      options: lineChartOptions
+    },
+    mentor:{
+      data: [[]],
+      labels: [],
+      options: lineChartOptions
+    }
   };
+
 
   String.prototype.capitalize = function() {
       return this.charAt(0).toUpperCase() + this.slice(1);
@@ -68,8 +94,14 @@ $scope.getStats = function(date){
     postService.getPosts(date, $scope.currentUser)
     .then(
       function(response){
-        $scope.postDataUser.data = [[]];
-        $scope.postDataUser.labels = [];
+        $scope.postData.user.data = [[]];
+        $scope.postData.user.labels = [];
+        $scope.postData.cohort.data = [[]];
+        $scope.postData.cohort.labels = [];
+        $scope.postData.following.data = [[]];
+        $scope.postData.following.labels = [];
+        $scope.postData.mentor.data = [[]];
+        $scope.postData.mentor.labels = [];
 
         $scope.posts = response;
 
@@ -81,36 +113,80 @@ $scope.getStats = function(date){
 
         if($scope.posts.dataUser.length > 0) {
           if(date === 'day'){
+            $scope.averageLabel = null;
             $scope.posts.dataUser[0].posts.forEach(function(post, index){
-              // console.log(post);
-              $scope.postDataUser.labels.unshift(moment(post.datePosted, 'MM-DD-YYYYThh:mm:ss').format('h:mm a'));
-              $scope.postDataUser.data[0].unshift(post.positiveScale);
+              $scope.postData.user.labels.unshift(moment(post.datePosted, 'MM-DD-YYYYThh:mm:ss').format('h:mm a'));
+              $scope.postData.user.data[0].unshift(post.positiveScale);
             });
           } else {
-          for (var i = 0; i < $scope.posts.dataUser.length; i++) {
-            //Loop through User Posts and add each date as a chart label
-            $scope.postDataUser.labels.unshift(moment($scope.posts.dataUser[i].date, 'MM-DD-YYYYThh:mm:ss').format('M-D-YYYY'));
-            var scorearr = [];
-            for (var x = 0; x < $scope.posts.dataUser[i].posts.length; x++) {
-              //Loop through the posts array for each date data point and average the scores and push to data array.
-              scorearr.push($scope.posts.dataUser[i].posts[x].positiveScale);
-            }
-            $scope.postDataUser.data[0].unshift(_.round(_.mean(scorearr)));
+            $scope.posts.dataUser.forEach(function(postSet){
+              $scope.postData.user.labels.unshift(moment(postSet.date, 'MM-DD-YYYYThh:mm:ss').format('M-D-YYYY')); //Loop through User Posts and add each date as a chart label
+              var scorearr = [];
+              postSet.posts.forEach(function(post){
+                scorearr.push(post.positiveScale); //Loop through the posts array for each date data point and average the scores and push to data array.
+              });
+              $scope.postData.user.data[0].unshift(_.round(_.mean(scorearr)));
+            });
           }
         }
+
+        if($scope.posts.dataCohort.length > 0) {
+          if(date === 'day'){
+            $scope.averageLabel = null;
+            $scope.posts.dataCohort[0].posts.forEach(function(post, index){
+              $scope.postData.cohort.labels.unshift(moment(post.datePosted, 'MM-DD-YYYYThh:mm:ss').format('h:mm a'));
+              $scope.postData.cohort.data[0].unshift(post.positiveScale);
+            });
+          } else {
+            $scope.posts.dataCohort.forEach(function(postSet){
+              $scope.postData.cohort.labels.unshift(moment(postSet.date, 'MM-DD-YYYYThh:mm:ss').format('M-D-YYYY')); //Loop through User Posts and add each date as a chart label
+              var scorearr = [];
+              postSet.posts.forEach(function(post){
+                scorearr.push(post.positiveScale); //Loop through the posts array for each date data point and average the scores and push to data array.
+              });
+              $scope.postData.cohort.data[0].unshift(_.round(_.mean(scorearr)));
+            });
+          }
         }
-        // if($scope.posts.dataCohort.length > 0) {
-        //   $scope.averages.data[0].push(_.round($scope.avgs.dataCohort[0].avg, 1));
-        //   $scope.averages.labels.push('Cohort');
-        // }
-        // if($scope.avgs.dataFollowing.length > 0) {
-        //   $scope.averages.data[0].push(_.round($scope.avgs.dataFollowing[0].avg, 1));
-        //   $scope.averages.labels.push('Following');
-        // }
-        // if($scope.avgs.dataMentor.length > 0) {
-        //   $scope.averages.data[0].push(_.round($scope.avgs.dataMentor[0].avg, 1));
-        //   $scope.averages.labels.push('Mentor Group');
-        // }
+
+        if($scope.posts.dataFollowing.length > 0) {
+          if(date === 'day'){
+            $scope.averageLabel = null;
+            $scope.posts.dataFollowing[0].posts.forEach(function(post, index){
+              $scope.postData.following.labels.unshift(moment(post.datePosted, 'MM-DD-YYYYThh:mm:ss').format('h:mm a'));
+              $scope.postData.following.data[0].unshift(post.positiveScale);
+            });
+          } else {
+            $scope.posts.dataFollowing.forEach(function(postSet){
+              $scope.postData.following.labels.unshift(moment(postSet.date, 'MM-DD-YYYYThh:mm:ss').format('M-D-YYYY')); //Loop through User Posts and add each date as a chart label
+              var scorearr = [];
+              postSet.posts.forEach(function(post){
+                scorearr.push(post.positiveScale); //Loop through the posts array for each date data point and average the scores and push to data array.
+              });
+              $scope.postData.following.data[0].unshift(_.round(_.mean(scorearr)));
+            });
+          }
+        }
+
+        if($scope.posts.dataMentor.length > 0) {
+          if(date === 'day'){
+            $scope.averageLabel = null;
+            $scope.posts.dataMentor[0].posts.forEach(function(post, index){
+              $scope.postData.mentor.labels.unshift(moment(post.datePosted, 'MM-DD-YYYYThh:mm:ss').format('h:mm a'));
+              $scope.postData.mentor.data[0].unshift(post.positiveScale);
+            });
+          } else {
+            $scope.posts.dataMentor.forEach(function(postSet){
+              $scope.postData.mentor.labels.unshift(moment(postSet.date, 'MM-DD-YYYYThh:mm:ss').format('M-D-YYYY')); //Loop through User Posts and add each date as a chart label
+              var scorearr = [];
+              postSet.posts.forEach(function(post){
+                scorearr.push(post.positiveScale); //Loop through the posts array for each date data point and average the scores and push to data array.
+              });
+              $scope.postData.mentor.data[0].unshift(_.round(_.mean(scorearr)));
+            });
+          }
+        }
+
       },
       function(error){
         errService.error(error);

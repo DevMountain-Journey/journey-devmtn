@@ -11,6 +11,9 @@
       <div class="person animate" ng-repeat="post in posts.posts">
         <div class="emotionOverlay eo-{{post.positiveScale}}">
           <div class="eo-inner" ui-sref="post({id:post._id})">
+            <div class="eo-top-bar">
+              {{post.user.firstName}} {{post.user.lastName}}
+            </div>
             <div class="eo-bottom-bar eo-{{post.positiveScale}}">
               <div class="eo-comments">
                 {{post.numComments}} <i class="fa fa-comment"></i>

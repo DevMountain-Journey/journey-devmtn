@@ -8,9 +8,9 @@ angular.module('journey')
         $state.go($scope.currentUser.preferences.viewPreferences);
       }
       else {
-        $state.go('timeline');  
+        $state.go('timeline');
       }
-      
+
     }
 
     $scope.postContent = {};
@@ -114,8 +114,8 @@ angular.module('journey')
             });
       }
       else { // No positive Scale
-          $scope.noEmotion = true; 
-      }    
+          $scope.noEmotion = true;
+      }
     };
 
     $scope.getOnePost = function() {

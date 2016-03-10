@@ -188,7 +188,7 @@ html, body, body > ui-view {
 .sidebar {
   height: 100%;
   width:400px;
-  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
+  background: #222222 url('../img/bg-texture.png') repeat;
   position: absolute;
   top: 0;
   right:0;
@@ -415,6 +415,18 @@ html, body, body > ui-view {
       border-radius: 5px;
 }
 
+.posts-timeline .person .emotionOverlay .eo-inner .eo-top-bar{
+  position: absolute;
+  width: 100%;
+  height: 12px;
+  top: 0;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-size: .5em;
+  text-align: center;
+  background: rgba(0,0,0,.4);
+}
+
 .posts-timeline .person .emotionOverlay .eo-inner .eo-bottom-bar{
   position: absolute;
   width: 100%;
@@ -446,17 +458,17 @@ html, body, body > ui-view {
 .posts-timeline .person .emotionOverlay .eo-inner .eo-face{
   height: 52%;
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 5px;
 }
 
 .posts-timeline .person .emotionOverlay .eo-inner .eo-tags{
   position: absolute;
-  top: 5px;
+  top: 12px;
   left: 0;
   padding-left: 44px;
   font-size: .6em;
-  height: 65%;
+  height: 60%;
   width: 100%;
   color: #888;
 }
@@ -479,7 +491,7 @@ html, body, body > ui-view {
   font-weight: bold;
   line-height: 1em;
   position: absolute;
-  top: 1px;
+  top: 12px;
   right: 5px;
 }
 
@@ -777,7 +789,7 @@ html, body, body > ui-view {
 /***********************/
 
 .preferences{
-  background: #222222 url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/black_lozenge.png') repeat;
+  background: #222222 url('../img/bg-texture.png') repeat;
 }
 .prefs {
   max-width: 800px;
