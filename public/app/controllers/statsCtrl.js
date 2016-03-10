@@ -8,8 +8,6 @@ angular.module('journey')
 
   $scope.averageLabel = 'Average';
     
-  $scope.count = [1, 2, 3, 4]    
-
   $scope.averages = {
     data: [[]],
     labels: [],
