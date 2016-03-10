@@ -98,20 +98,20 @@
                   </div>
 
                   <div class="form-group row">
-                    <label class="col-sm-3">Mentor</label>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" id="mentor-input" ng-model="currentUser.assignedMentor">
-                    </div>
+                      <label class="col-sm-3">Mentor Full Name</label>
+                      <div class="col-sm-9">    
+                        <input type="text" class="form-control" id="mentor-input" ng-model="currentUser.assignedMentor" placeholder="First Name Last Name">
+                      </div>
                   </div>
 
-                  <!-- <div class="form-group row">
-                    <label class="col-sm-3">Start Date</label>
-                    <div class="col-sm-9">
-                      <input type="datetime" class="form-control" id="startdate-input" ng-model="currentUser.startDate">
-                    </div>
-                  </div> -->
-
                   <div class="form-group row">
+                       <label class="col-sm-3">Start Date</label>
+                            <div class="col-sm-9">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <input type="text" class="form-control" id="startdate-input" ng-model="currentUser.startDate">
+                            </div>    
+                 </div>
+                 <div class="form-group row">
                     <label class="col-sm-3">Avatar</label>
                     <div class="col-sm-9">
                       <p class="form-control-static">This site uses Gravatars. If you would like to update your avatar please visit: <a href="https://en.gravatar.com/">https://en.gravatar.com/</a>.
@@ -120,7 +120,7 @@
 
                   <div class="form-group row">
                     <div class="col-xs-12">
-                      <button type="submit" class="btn btn-primary pull-xs-right" ng-disabled="!updatepreferences.$dirty || response">Submit</button>
+                      <button type="submit" class="btn btn-primary pull-xs-right" ng-disabled="response">Submit</button>
                     </div>
                   </div>
                 </form>

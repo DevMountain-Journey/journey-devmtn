@@ -2,6 +2,9 @@ angular.module('journey')
 .controller('prefrencesCtrl', function($rootScope, $scope, $state, errService, userService) {
   $scope.response = '';
 
+  if (!$scope.currentUser.startDate)  
+    $scope.currentUser.startDate = moment().format('L');
+
   $scope.updatePreferences = function(){
     userService.updateUser($scope.currentUser, $scope.currentUser._id).then(
       function(response){
@@ -14,4 +17,12 @@ angular.module('journey')
       }
     );
   };
+    
+  $(document).ready(function() {
+    $('#startdate-input').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        startDate: $scope.currentUser.startDate,
+    });
+  });    
 });
