@@ -1,24 +1,53 @@
-angular.module('journey' )
+angular.module('journey')
 
-  .constant("pageSize", {DAYS: 7})
+.constant("pageSize", {
+  DAYS: 7
+})
 
-  .config([
-    '$stateProvider',
-    '$urlRouterProvider',
-    'pageSize',
-    function($stateProvider, $urlRouterProvider, pageSize) {
+.config(function($stateProvider, $urlRouterProvider, pageSize, ChartJsProvider) {
+    //Config for Stats Charts via ChartJs directive
+    ChartJsProvider.setOptions({
+      responsive: true,
+      maintainAspectRatio: true,
+      scaleBeginAtZero: true,
+      scaleFontFamily: "'Roboto', sans-serif",
+      tooltipTitleFontFamily: "'Roboto', sans-serif",
+      tooltipFontFamily: "'Roboto', sans-serif",
+      tooltipTemplate: '<%= value %>',
+      tooltipFillColor: 'rgba(0,0,0,0)',
+      tooltipFontColor: '#888',
+      tooltipFontStyle: 'bold',
+      tooltipFontSize: 15,
+      tooltipEvents: [],
+      tooltipCaretSize: 0,
+    });
 
-      $stateProvider
-
+    //Route configurations
+    $stateProvider
       .state('login', {
         url: '/login',
         templateUrl: './app/templates/loginTmpl.html',
         controller: 'loginCtrl'
       })
-
-      .state('feed', {
-        url: '/',
+      .state('journey', {
         abstract: true,
+        url: '/',
+        controller: 'mainCtrl',
+        template: '<ui-view></ui-view>',
+        resolve: {
+          auth: function(authService, $state) {
+            return authService.checkForAuth()
+              .then(function(response) {
+                return response;
+              }, function(err) {
+                $state.go('login');
+              });
+          }
+        }
+      })
+      .state('feed', {
+        parent: 'journey',
+        url: 'feed',
         templateUrl: './app/templates/feedTmpl.html',
         controller: 'feedCtrl',
         resolve: {
@@ -28,120 +57,105 @@ angular.module('journey' )
                 .then(function( response ) {
                    return response;
                 }, function(err) {
-                    // console.error('PostPromise', err);
-                });
-            },
-            auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                    return response;
-                }, function(err) {
-                    // console.error('checkForAuth', err);
-                    $state.go('login');
+                   console.error(err);
                 });
             }
          }
       })
       .state('timeline', {
         parent: 'feed',
-        url: 'timeline',
+        url: '/timeline',
         templateUrl: './app/templates/timelineTmpl.html'
       })
       .state('standard', {
         parent: 'feed',
-        url: 'standard',
+        url: '/standard',
         templateUrl: './app/templates/standardFeedTmpl.html'
       })
       .state('post', {
-        url: '/post/:id',
+        parent: 'journey',
+        url: 'post/:id',
         controller: 'postCtrl',
         templateUrl: './app/templates/postDetailTmpl.html',
         resolve: {
-            postData:function(postService, errService, $stateParams) {
-                return postService.getOnePost($stateParams.id)
-                .then(function(response) {
-                    return response;
-                },function(err) {
-                    console.error('checkForSinglePost', err);
-                });
-            },
-             auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                   return response;
-                }, function(err) {
-                    console.error('checkForAuth', err);
-                    $state.go('login');
-                });
-            }
+          postData: function(postService, errService, $stateParams) {
+            return postService.getOnePost($stateParams.id)
+              .then(function(response) {
+                return response;
+              }, function(err) {
+                console.error('checkForSinglePost', err);
+              });
+          }
         }
       })
+      .state('preferences', {
+        parent: 'journey',
+        url: 'preferences',
+        templateUrl: './app/templates/preferencesTmpl.html',
+        controller: 'prefrencesCtrl'
+      })
       .state('profile', {
-        url: '/profile/:id',
+        parent: 'journey',
+        url: 'profile/:id',
         templateUrl: './app/templates/profileTmpl.html',
         controller: 'profileCtrl',
         resolve: {
-            user: function(userService, $stateParams) {  // sends back who's logged in
-                return userService.getUser($stateParams.id)
-                .then(function(response) {
-                    return response.data[0];
-                }, function(err) {
-                    console.error('check For User Error', err);
-                });
-            },
-            userAverage: function(user, postService)  {
-                return postService.averageQuery('user', 
+          userAverage: function(user, postService) {
+            return postService.averageQuery('user',
                 user._id, 'week', 'false')
-                .then(function(response) {
-                    return  response.data[0];
-                }, function(err) {
-                   console.error('check for profile average', err);
-            });
-            },
-             cohortAverage: function(user, postService)  {
-                return postService.averageQuery('cohort', 
+              .then(function(response) {
+                return response.data[0];
+              }, function(err) {
+                console.error('check for profile average', err);
+              });
+          },
+          cohortAverage: function(user, postService) {
+            return postService.averageQuery('cohort',
                 user._id, 'week', 'false')
-                .then(function(response) {
-                   return  response.data[0];
-                }, function(err) {
-                   console.error('check for profile average', err);
-                });
-            },
-               followersAverage: function(user, postService)  {
-                return postService.averageQuery('following', 
+              .then(function(response) {
+                return response.data[0];
+              }, function(err) {
+                console.error('check for profile average', err);
+              });
+          },
+          followersAverage: function(user, postService) {
+            return postService.averageQuery('following',
                 user._id, 'week', 'false')
-                .then(function(response) {
-                   return  response.data[0];
-                }, function(err) {
-                   console.error('check for profile average', err);
-                });
-            },
-             mentorAverage: function(user, postService)  {
-                return postService.averageQuery('mentor', 
+              .then(function(response) {
+                return response.data[0];
+              }, function(err) {
+                console.error('check for profile average', err);
+              });
+          },
+          mentorAverage: function(user, postService) {
+            return postService.averageQuery('mentor',
                 user._id, 'week', 'false')
-                .then(function(response) {
-                   return  response.data[0];
-                }, function(err) {
-                   console.error('check for profile average', err);
-                });
-            },
-                
-            auth: function(authService, $state) {  // sends back who's logged in
-                return authService.checkForAuth()
-                .then(function(response) {
-                    return response;
-                }, function(err) {
-                    console.error('checkForAuth', err);
-                    $state.go('login');
-                });
-              }
-           } 
-        });
-        
-        
-        
-      
-                     
-        $urlRouterProvider.otherwise('/timeline');
-    }
-  ]);
+              .then(function(response) {
+                return response.data[0];
+              }, function(err) {
+                console.error('check for profile average', err);
+              });
+          }
+        }
+      })
+      .state('stats', {
+        parent: 'journey',
+        url: 'stats',
+        templateUrl: './app/templates/statsTmpl.html',
+        controller: 'statsCtrl'
+        // resolve: {
+        //   averages: function(postService, errService) {
+        //     return postService.getAverages('week', $scope.currentUser)
+        //       .then(function(response) {
+        //         return response;
+        //       }, function(err) {
+        //         errService.error(err);
+        //       });
+        //   }
+        // }
+      });
+
+
+    $urlRouterProvider.otherwise('feed');
+  }
+);

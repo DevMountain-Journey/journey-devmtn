@@ -6,9 +6,15 @@
       <div class="card text-cs-center">
         <div class="card-header row">
           <div class="col-sm-6 query-info text-uppercase">{{first}} {{last}}</div>
-         
+          <div class="col-sm-6 text-xs-right view-buttons">
+            Filter:
+            <span ng-click="">My Posts</span>
+            <span ng-click="">My Cohort</span>
+            <span ng-click="">My Mentor Group</span>
+            <span ng-click="">Following</span>
+          </div>
         </div>
-        <div class="card-block" style="height:calc(100vh - 114px);">
+        <div class="card-block">
           <div class="scroll-body" slimscroll="{
             height: 'auto',
             color: '#333',
@@ -16,6 +22,7 @@
             railOpacity: '0.7',
             railColor: '#DDDDDD'
           }">
+
         <div class="card-block">
           <div class="posts-timeline" >
               <div marked="postData.body">
@@ -40,23 +47,62 @@
                           <div class="lineChart">
                         <!--<nvd3 options="options" data="data" class="lineChart"></nvd3>-->
 
-                        <nvd3 options="options" data="data" api="api"></nvd3>                                            
+                        <nvd3 options="options" data="data" api="api"></nvd3>
                           </div>
                   <div class="clearfix">
 
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="submit()">
+
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a ng-click="findEmotionLevel(0)">Today</a>
+                      </li>
+                      <li>
+                        <a ng-click="findEmotionLevel(1)">Past Week</a>
+                      </li>
+                      <li>
+                        <a ng-click="findEmotionLevel(2)">Past Month</a>
+                      </li>
+                      <li>
+                        <a ng-click="findEmotionLevel(3)">All Time</a>
+                      </li>
+                    </ul>
                   </div>
-              </div><!--/.pt-body-->
-          </div><!--/.posts-timeline-->
+                  <h1 class='statistics'>
+                    Statistics
+                  </h1>
+
+                  User:
+                  {{userAverage}}
+                  <br>
+                  <br>
+                  Cohort:
+                  {{cohortAverage}}<br>
+                  Mentor:
+                  {{mentorAverage}}
+                  <br>
+                  Following:
+                  {{followersAverage}}
+
+                  <div class="lineChart">
+                    <!--<nvd3 options="options" data="data" class="lineChart"></nvd3>-->
+
+                    <nvd3 options="options" data="data" api="api"></nvd3>
+                  </div>
+
+                  <div class="clearfix"></div>
 
 
 
+          </div>
 
-    </div>
-  </div>
-
-        </div><!---SLIM SCROLL-->
         </div>
-</div>
+        <!---SLIM SCROLL-->
+      </div>
+    </div>
 
     <div class="sidebar">
       <div class="scroll-body" slimscroll="{
@@ -66,6 +112,7 @@
         railVisible: true,
         railOpacity: '0.7'
       }">
+
               <div class="author">
                      Preferences
                      <br></br>
@@ -109,7 +156,13 @@
 
 
 
-      </div><!--/slimscroll-->
-    </div><!--/.sidebar-->
-  </div><!--/.row-->
-</div><!--/.container-fluid-->
+        <!--/.input form-->
+
+      </div>
+      <!--/slimscroll-->
+    </div>
+    <!--/.sidebar-->
+  </div>
+  <!--/.row-->
+</div>
+<!--/.container-fluid-->

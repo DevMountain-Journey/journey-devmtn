@@ -1,152 +1,143 @@
-<!-- <div class="loadingOverlay animate" ng-if="processingQuery">
-  <i class="fa fa-circle-o-notch fa-spin"></i>
-</div> -->
 <div ng-include="'app/templates/navTmpl.html'"></div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="feed">
-
-      <div class="card text-cs-center">
-        <div class="card-header row">
-          <div class="col-sm-6 query-info">Displaying <strong>{{totalPosts}}</strong> Posts</div>
-          <div class="col-sm-6 text-xs-right view-buttons">
-            Filter:
-            <span ng-click="filterByGroup('user')">My Posts</span>
-            <span ng-click="filterByGroup('cohort')">My Cohort</span>
-            <span ng-click="filterByGroup('mentor')">My Mentor Group</span>
-            <span ng-click="filterByGroup('following')">Following</span>
-            <span ng-click="filterByGroup('everyone')">Everyone</span>
+<div class="page">
+    <div class="page-content-wrapper">
+      <div class="page-content">
+        <div class="page-headbar clearfix">
+          <div class="query-info pull-xs-left"><span class="hidden-lg-down">Displaying </span><strong>{{totalPosts}}</strong> Posts</div>
+          <div class="text-xs-right pull-xs-right view-buttons">
+            <div class="hidden-md-down" style="display:inline;">
+              <strong class="hidden-lg-down">FILTER:</strong>
+              <span ng-click="filterByGroup('user')" ng-class="{toggled: group == 'user'}">My Posts</span>
+              <span ng-click="filterByGroup('cohort')" ng-class="{toggled: group == 'cohort'}">My Cohort</span>
+              <span ng-click="filterByGroup('mentor')" ng-class="{toggled: group == 'mentor'}">My Mentor Group</span>
+              <span ng-click="filterByGroup('following')" ng-class="{toggled: group == 'following'}">Following</span>
+              <span ng-click="filterByGroup('everyone')" ng-class="{toggled: group == 'everyone'}">Everyone</span>
+            </div>
+            <div class="hidden-lg-up dropdown filter-dropdown" style="display:inline;">
+              <span class="dropdown-toggle text-uppercase" data-toggle="dropdown">{{group}}</span></span>
+              <div class="dropdown-menu">
+                <a ng-click="filterByGroup('user')" class="dropdown-item">My Posts</a>
+                <a ng-click="filterByGroup('cohort')" class="dropdown-item">My Cohort</a>
+                <a ng-click="filterByGroup('mentor')" class="dropdown-item">My Mentor Group</a>
+                <a ng-click="filterByGroup('following')" class="dropdown-item">Following</a>
+                <a ng-click="filterByGroup('everyone')" class="dropdown-item">Everyone</a>
+              </div>
+            </div>
              &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span ui-sref-active="toggled" ui-sref="timeline" data-toggle="tooltip" data-placement="bottom" title="Timeline View"><i class="fa fa-clock-o"></i></span>
             <span ui-sref-active="toggled" ui-sref="standard" data-toggle="tooltip" data-placement="bottom" title="Standard View"><i class="fa fa-bars"></i></span>
-            <span data-toggle="tooltip" data-placement="bottom" title="D3 View"><i class="fa fa-bar-chart"></i></span>
+            <div class="hidden-lg-up" style="display:inline;">
+            &nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <span ng-click="sidebarToggle = true">
+              <i class="fa fa-plus-circle"></i> ADD POST / SEARCH
+            </span>
+          </div>
           </div>
         </div>
-        <div class="card-block">
-          <div class="scroll-body" slimscroll="{
-            height: 'auto',
-            color: '#333',
-            railVisible: true,
-            railOpacity: '0.7',
-            railColor: '#DDDDDD'
-          }">
-            <ui-view></ui-view>
-            <!--/.posts-timeline-->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar">
-      <div class="scroll-body" slimscroll="{
-        height: 'auto',
-        color: '#CCC',
-        railVisible: true,
-        railOpacity: '0.7'
-      }">
-
-        <form id="create-post" ng-submit="createPost()">
-
-          <fieldset class="form-group">
-            <label for="emotionlevel">Hey <span class="capitalize">{{currentUser.firstName}}</span>, how are you feeling?</label>
-
-            <div class="emotions">
-              <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
-                <ng-include ng-click="setScale($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
-                {{$index + 1}}
+        <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
+          <ui-view></ui-view>
+        </div><!--/.scroll-body-->
+      </div><!--/.page-content-->
+      <div class="sidebar" ng-class="{toggled: sidebarToggle}">
+        <div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#CCC', railVisible: true, railOpacity: '0.7'}">
+          <span class="close hidden-lg-up" ng-click="sidebarToggle = false">&times;</span>
+          <form id="create-post" ng-submit="createPost()">
+            <fieldset class="form-group">
+              <label for="emotionlevel">Hey <span class="capitalize">{{currentUser.firstName}}</span>, how are you feeling?</label>
+              <div class="emotions">
+                <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
+                  <ng-include ng-click="setScale($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
+                  {{$index + 1}}
+                </div>
+                <div class="scalewrap">
+                  <span class="negative">NEGATIVE</span>
+                  <span class="positive">POSITIVE</span>
+                </div>
+                <div class="noEmotionError" ng-show="noEmotion">
+                    Please select a feeling level.
+                </div>
               </div>
-              <div class="scalewrap">
-                <span class="negative">NEGATIVE</span>
-                <span class="positive">POSITIVE</span>
-              </div>
-            </div>
-          </fieldset>
 
-          <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.tags.length > 0}">
-              <tags-input class="input__field" ng-model="postContent.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+            </fieldset>
+
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.tags.length > 0}">
+                <tags-input class="input__field" ng-model="postContent.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                  <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
+                </tags-input>
+                <label class="input__label" for="tags">
+                  <span class="input__label-content" data-content="What are you working on?">What are you working on?</span>
+                </label>
+            </fieldset>
+
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.body}">
+              <textarea class="form-control input__field" id="thoughts" rows="1" ng-model="postContent.body"></textarea>
+              <label class="input__label" for="thoughts">
+                <span class="input__label-content" data-content="Thoughts?">Thoughts?</span>
+              </label>
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          <hr>
+          <strong data-toggle="collapse" href="#search-form">ADVANCED SEARCH <i class="fa fa-caret-down"></i></strong>
+          <form ng-submit="createQuery()" id="search-form" class="collapse">
+
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.firstName.length > 0}">
+                <tags-input id="searchFirstName" class="input__field" ng-model="query.firstName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                  <auto-complete source="loadAutoCompleteTags('firstName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
+                </tags-input>
+                <label class="input__label" for="searchFirstName">
+                  <span class="input__label-content" data-content="First Name">First Name</span>
+                </label>
+            </fieldset>
+
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.lastName.length > 0}">
+              <tags-input id="searchLastName" class="input__field" ng-model="query.lastName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+                <auto-complete source="loadAutoCompleteTags('lastName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
+              </tags-input>
+              <label class="input__label" for="searchLastName">
+                <span class="input__label-content" data-content="Last Name">Last Name</span>
+              </label>
+            </fieldset>
+
+            <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.tags.length > 0}">
+              <tags-input id="searchTags" class="input__field" ng-model="query.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
                 <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
               </tags-input>
-              <label class="input__label" for="tags">
-                <span class="input__label-content" data-content="What are you working on?">What are you working on?</span>
+              <label class="input__label" for="searchLastName">
+                <span class="input__label-content" data-content="Working On">Working On</span>
               </label>
-          </fieldset>
+            </fieldset>
 
-          <fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.body}">
-            <textarea class="form-control input__field" id="thoughts" rows="1" ng-model="postContent.body"></textarea>
-            <label class="input__label" for="thoughts">
-              <span class="input__label-content" data-content="Thoughts?">Thoughts?</span>
-            </label>
-          </fieldset>
-
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <!--/.input form-->
-
-        <hr>
-
-        <strong data-toggle="collapse" href="#search-form">ADVANCED SEARCH <i class="fa fa-caret-down"></i></strong>
-        <form ng-submit="createQuery()" id="search-form" class="collapse">
-
-          <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.firstName.length > 0}">
-              <tags-input id="searchFirstName" class="input__field" ng-model="query.firstName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
-                <auto-complete source="loadAutoCompleteTags('firstName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
-              </tags-input>
-              <label class="input__label" for="searchFirstName">
-                <span class="input__label-content" data-content="First Name">First Name</span>
-              </label>
-          </fieldset>
-
-          <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.lastName.length > 0}">
-            <tags-input id="searchLastName" class="input__field" ng-model="query.lastName" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
-              <auto-complete source="loadAutoCompleteTags('lastName', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
-            </tags-input>
-            <label class="input__label" for="searchLastName">
-              <span class="input__label-content" data-content="Last Name">Last Name</span>
-            </label>
-          </fieldset>
-
-          <fieldset class="form-group fancy-input" ng-class="{'input--filled': query.tags.length > 0}">
-            <tags-input id="searchTags" class="input__field" ng-model="query.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
-              <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
-            </tags-input>
-            <label class="input__label" for="searchLastName">
-              <span class="input__label-content" data-content="Working On">Working On</span>
-            </label>
-          </fieldset>
-
-          <fieldset class="form-group fancy-input">
-            <div id="daterange" class="pull-right form-control input__field" style="cursor: pointer; padding: 5px 10px;">
-              <i class="fa fa-calendar"></i>&nbsp;
-              <label class="input__label" for="daterange">
-                <span class="input__label-content" data-content="Date">Date</span>
-              </label>
-            </div>
-          </fieldset>
-
-          <fieldset class="form-group fancy-input">
-            <div class="emotions">
-              <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}">
-                <ng-include ng-click="setScaleQuery($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
-                {{$index + 1}}
+            <fieldset class="form-group fancy-input">
+              <div id="daterange" class="pull-right form-control input__field" style="cursor: pointer; padding: 5px 10px;">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <label class="input__label" for="daterange">
+                  <span class="input__label-content" data-content="Date">Date</span>
+                </label>
               </div>
-              <div class="scalewrap">
-                <span class="negative">NEGATIVE</span>
-                <span class="positive">POSITIVE</span>
+            </fieldset>
+
+            <fieldset class="form-group fancy-input">
+              <div class="emotions">
+                <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled' : query.positiveScale.indexOf($index + 1) !== -1}">
+                  <ng-include ng-click="setScaleQuery($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
+                  {{$index + 1}}
+                </div>
+                <div class="scalewrap">
+                  <span class="negative">NEGATIVE</span>
+                  <span class="positive">POSITIVE</span>
+                </div>
               </div>
-            </div>
-          </fieldset>
+            </fieldset>
 
-          <button type="submit" class="btn btn-primary" ng-disabled="processingQuery">Search</button>
-          <a class="btn btn-secondary" ng-click="clearQuery()">Clear</a>
+            <button type="submit" class="btn btn-primary" ng-disabled="processingQuery">Search</button>
+            <a class="btn btn-secondary" ng-click="clearQuery()">Clear</a>
 
-        </form>
-        <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
-      </div>
-      <!--/slimscroll-->
-    </div>
-    <!--/.sidebar-->
-  </div>
-  <!--/.row-->
-</div>
-<!--/.container-fluid-->
+          </form>
+          <div id="query_error_msg" ng-show="queryErrorMsg">{{queryErrorMsg}}</div>
+        </div><!--/slimscroll-->
+      </div><!--/.sidebar-->
+    </div><!--/.page-content-wrapper-->
+</div><!--/.page-->

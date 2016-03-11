@@ -1,16 +1,22 @@
 <div  class="navbar navbar-static-top navbar-dark bg-inverse">
-    <a href="/" class="navbar-brand"><img src="assets/img/dmlogo.png"></a>
+    <a href="#/feed/{{currentUser.preferences.viewPreferences}}" class="navbar-brand"><img src="assets/img/journeyLogo.png"></a>
     <ul class="nav navbar-nav pull-xs-right">
-       <li class="nav-item">
-           <a ui-sref="profile({id:userId})" class="nav-link">
-               <img gravatar-src="userInfo.email" gravatar-size="20" gravatar-default="mm">
-               <span class="text-capitalize">{{userInfo.firstName}} {{userInfo.lastName}} </span>
-             </a>
-       </li>
-       <li class="nav-item">
-           <a class="nav-link" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a>
-       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#/feed/{{currentUser.preferences.viewPreferences}}"><i class="fa fa-home"></i> <span class="hidden-sm-down">Feed</span></a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" ui-sref="stats"><i class="fa fa-area-chart"></i> <span class="hidden-sm-down">Stats</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <img gravatar-src="currentUser.email" gravatar-size="20" gravatar-default="mm">
+          <span class="text-capitalize hidden-sm-down">{{currentUser.firstName}} {{currentUser.lastName}} </span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="Preview">
+          <!-- <a class="dropdown-item" ui-sref="profile({id:currentUser._id})"><i class="fa fa-user"></i> Profile</a> -->
+          <a class="dropdown-item" ui-sref="preferences"><i class="fa fa-cog"></i> Settings</a>
+          <a class="dropdown-item" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+        </div>
+        </li>
      </ul>
-
-
 </div>

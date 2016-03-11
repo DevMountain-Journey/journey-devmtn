@@ -10,7 +10,7 @@ module.exports = {
         newPost.save(function(err) {
             if (err)
                 return res.status(500).send(err);
-                postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email'}, function(err, post){
+                postsModel.populate(newPost, {path: 'user', select: 'firstName lastName email cohort assignedMentor'}, function(err, post){
                     if (err)
                         return res.status(500).send(err);
                     else
@@ -35,11 +35,11 @@ module.exports = {
        console.log('req.query after processing', req.query);
        postsModel
        .find(req.query)
-       .populate('user', 'firstName lastName email cohort assignedMentor usersFollowing')
+       .populate('user', 'firstName lastName email cohort assignedMentor usersFollowing preferences')
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {
              console.log('err', err);
-             console.log('result', result);
+            //  console.log('result', result);
              if (err) {
                  console.log('in error routine');
                  return res.status(500).send(err);
@@ -66,7 +66,7 @@ module.exports = {
        .sort({datePosted: 'desc'})
        .exec(function(err, result) {
              console.log('err', err);
-             console.log('result', result);
+            //  console.log('result', result);
              if (err) {
                  console.log('in error routine');
                  return res.status(500).send(err);
@@ -86,10 +86,10 @@ module.exports = {
        if (req.query.group)
             group = req.query.group;
        else
-            group = 'user'; 
+            group = 'user';
        if (req.query.duration)
             duration = req.query.duration;
-       else 
+       else
             duration = 'allTime';
        var user = req.query.user;
        var breakOutTags = (req.query.tags === 'true');
@@ -102,7 +102,7 @@ module.exports = {
            .findById(user, 'cohort assignedMentor usersFollowing')
            .exec(function(err, result) {
                 console.log('err', err);
-                console.log('result', result);
+                // console.log('result', result);
                 if (err) {
                     console.log('in error routine');
                     return res.status(500).send(err);
@@ -112,7 +112,7 @@ module.exports = {
                     switch (group) {
                         case 'following':
                            for (var i = 0; i < result._doc.usersFollowing.length; i++) {
-                                users.push(result._doc.usersFollowing[i])
+                                users.push(result._doc.usersFollowing[i]);
                             }
                             completeProcess();
                             queryUsers = false;
@@ -120,19 +120,22 @@ module.exports = {
                         case 'mentor':
                             assignedMentor = result._doc.assignedMentor;
                             queryObj.assignedMentor = assignedMentor;
-                            break; 
+                            break;
                         case 'cohort':
+                            cohort = result._doc.cohort;
+                            queryObj.cohort = cohort;
+                            break;
                         default:
                             cohort = result._doc.cohort;
                             queryObj.cohort = cohort;
-                            break;      
+                            break;
                     }
                     if (queryUsers) {
                         usersModel
                         .find(queryObj, '_id')
                         .exec(function(er, re) {
                             console.log('er', er);
-                            console.log('re', re);
+                            // console.log('re', re);
                             if (er) {
                                 console.log('in error routine');
                                 return res.status(500).send(er);
@@ -152,7 +155,7 @@ module.exports = {
            users.push(mongoose.Types.ObjectId(user)); // cast to object because aggregate feature will not automatically do the casting for a ref.
            completeProcess();
        }
-          
+
        function completeProcess() {
 
            var matchCriteria = {};
@@ -161,12 +164,14 @@ module.exports = {
                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
                    break;
                case 'week' :
-                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; 
+                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'month' :
                     matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'allTime' :
+                     matchCriteria = {user: {$in: users} };
+                     break;
                default :
                     matchCriteria = {user: {$in: users} };
                     break;
@@ -182,7 +187,7 @@ module.exports = {
                     }}
                ], function(e, r) {
                    console.log('err', e);
-                   console.log('result', r);
+                  //  console.log('result', r);
                    if (e) {
                        console.log('in error routine');
                        return res.status(500).send(e);
@@ -203,7 +208,7 @@ module.exports = {
                     }}
                ], function(e, r) {
                    console.log('err', e);
-                   console.log('result', r);
+                  //  console.log('result', r);
                    if (e) {
                        console.log('in error routine');
                        return res.status(500).send(e);
@@ -215,7 +220,7 @@ module.exports = {
            }
        }
    },
-    
+
     findPosts: function(req, res) {
        console.log('in postsCtrl');
        console.log('in findPosts');
@@ -232,7 +237,7 @@ module.exports = {
            .findById(user, 'cohort assignedMentor usersFollowing')
            .exec(function(err, result) {
                 console.log('err', err);
-                console.log('result', result);
+                // console.log('result', result);
                 if (err) {
                     console.log('in error routine');
                     return res.status(500).send(err);
@@ -242,7 +247,7 @@ module.exports = {
                     switch (group) {
                         case 'following':
                            for (var i = 0; i < result._doc.usersFollowing.length; i++) {
-                                users.push(result._doc.usersFollowing[i])
+                                users.push(result._doc.usersFollowing[i]);
                             }
                             completeProcess();
                             queryUsers = false;
@@ -250,18 +255,18 @@ module.exports = {
                         case 'mentor':
                             assignedMentor = result._doc.assignedMentor;
                             queryObj.assignedMentor = assignedMentor;
-                            break; 
+                            break;
                         case 'cohort':
                             cohort = result._doc.cohort;
                             queryObj.cohort = cohort;
-                            break;      
+                            break;
                     }
                     if (queryUsers) {
                         usersModel
                         .find(queryObj, '_id')
                         .exec(function(er, re) {
                             console.log('er', er);
-                            console.log('re', re);
+                            // console.log('re', re);
                             if (er) {
                                 console.log('in error routine');
                                 return res.status(500).send(er);
@@ -281,7 +286,7 @@ module.exports = {
            users.push(mongoose.Types.ObjectId(user)); // cast to object because aggregate feature will not automatically do the casting for a ref.
            completeProcess();
        }
-          
+
        function completeProcess() {
 
            var queryCriteria = {};
@@ -290,7 +295,7 @@ module.exports = {
                    queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
                    break;
                case 'week' :
-                   queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}}; 
+                   queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
                     break;
                case 'month' :
                     queryCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};
@@ -302,15 +307,15 @@ module.exports = {
            postsModel
            .find(queryCriteria, 'positiveScale datePosted')
            .sort({datePosted: 'desc'})
-           .exec(function(err, result) {
-                console.log('err', err);
-                console.log('result', result);
-                if (err) {
+           .exec(function(e, r) {
+                console.log('e', e);
+                // console.log('r', r);
+                if (e) {
                     console.log('in error routine');
-                    return res.status(500).send(err);
+                    return res.status(500).send(e);
                 }
                 else {
-                    res.send(result);
+                    res.send(r);
                 }
            });
        }
@@ -326,7 +331,7 @@ module.exports = {
         .sort({datePosted: 'desc'})
         .exec(function(err, result) {
              console.log('err', err);
-             console.log('result', result);
+            //  console.log('result', result);
              if (err) {
                  console.log('in error routine');
                  return res.status(500).send(err);
@@ -346,7 +351,7 @@ module.exports = {
         .populate('user')
         .exec(function(err, result) {
              console.log('err', err);
-             console.log('result', result);
+            //  console.log('result', result);
              if (err) {
                  console.log('in error routine');
                  return res.status(500).send(err);
@@ -363,7 +368,7 @@ module.exports = {
         postsModel
         .count({}, function(err, result) {
              console.log('errCount', err);
-             console.log('resultCount', result);
+            //  console.log('resultCount', result);
              if (err) {
                  console.log('in error routine');
                  return res.status(500).send(err);
@@ -382,7 +387,7 @@ module.exports = {
         .findById(req.params.id)
         .exec(function(err, result) {
             console.log('err', err);
-            console.log('result', result);
+            // console.log('result', result);
             if (err) {
                 console.log('in error routine');
                 return res.status(500).send(err);
@@ -412,7 +417,7 @@ module.exports = {
         .findByIdAndRemove(req.params.id)
         .exec(function(err, result) {
             console.log('err', err);
-            console.log('result', result);
+            // console.log('result', result);
             if (err) {
                 console.log('in error routine');
                 return res.status(500).send(err);

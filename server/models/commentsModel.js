@@ -23,37 +23,42 @@ commentsSchema.post('save', function(comment){
       post.save(function(err, result){
         if(err) return err;
       });
-      usersModel
-        .findById(post.user)
-        .exec(function(err, user){
-          if(err) return err;
-          if(user.preferences && user.preferences.communicationPreferences != ('none' || 'weeklySummary')){
-            console.log('SENDING EMAIL');
-            var transporter = nodemailer.createTransport(sparkPostTransport({
-              "content": {
-                "template_id": "my-first-email"
-              },
-              "substitution_data": {
-                "postId": post._id
-              }
-            }));
 
-            transporter.sendMail({
-              "recipients": [
-                {
-                  "address": {
-                    "email": user.email,
-                    "name": user.firstName + " " + user.lastName
-                  }
-                }
-              ]
-            }, function(err, info) {
-              if (err) { console.log('EMAIL ERROR: ', err); }
-              else { console.log('EMAIL SENT: ', info); }
-            });
-          }
-          return comment;
+      if (JSON.stringify(comment.user) !== JSON.stringify(post.user)) { // if user doing comment is different than user who originally posted
+          usersModel
+            .findById(post.user)
+            .exec(function(er, user){
+              if(er) return er;
+              if(user.preferences && (user.preferences.communicationPreferences === 'newcomment' || user.preferences.communicationPreferences === 'all')) {
+                  console.log('SENDING EMAIL');
+                  var transporter = nodemailer.createTransport(sparkPostTransport({
+                    "content": {
+                      "template_id": "comment-notification"
+                    },
+                    "substitution_data": {
+                      "postId": post._id,
+                      "commentBody": comment.body
+                      /* "commentAuthor": comment.user.firstName + ' ' + comment.user.lastName */
+                    }
+                  }));
+                  transporter.sendMail({
+                      "recipients": [
+                       {
+                           "address":
+                           {
+                              "email": user.email,
+                              "name": user.firstName + " " + user.lastName
+                           }
+                       }
+                      ]
+                  }, function(e, info) {
+                        if (e) { console.log('EMAIL ERROR: ', e); }
+                        else { console.log('EMAIL SENT: ', info); }
+                  });
+              }
+             // return user;
         });
+      }
     });
 });
 
