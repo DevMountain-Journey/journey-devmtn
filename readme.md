@@ -13,16 +13,64 @@ Features include a feed view that is either a timeline view, with images of blog
  -  Server with Node.js installed
 
 ###Installation
-1. git clone https://github.com/dougalderman/surveys
+1. git clone https://github.com/DevMountain-Journey/journey-devmtn.git
 2. npm install
 3. bower install
-4. Create a server/config/config.js file with the following format:
-5. Create a .env configuration file in the root director with the following format:
-6. node server/index.js
-7. Signup a new user.
-6. Begin posting and commenting on posts.  
+4. Create a .env configuration file in the root director with the following format:
+ ```
+DMJ_SECRET= [put secret here]
+DMJ_PORT= [put port number here]
+DMJ_MONGO_URI= [put Mongolab path here]
+SPARKPOST_API_KEY= [put Sparkpost API key here]
+```
+5. node server/index.js
+6. Signup a new user.
+7. Begin posting and commenting on posts.  
 
 ##Design Goals
 This site was intended to be eventually integrated into the DevMountain system. A separate Passport local auth system was created to allow for testing and demonstration independent of DevMountain. Due to DevMountain already having a user admin system, a separate user admin system was not created for this project.
 
 The site was intended to be used by DevMountain students who are technically saavy and who will usually be using a laptop computer. Responsiveness was not a primary consideration but was built into the system. 
+
+##Detailed Usage
+
+###Models
+Here are the Mongoose collections:
+
+```javascript
+/* Comments */
+    body: {type: 'String', required: true},
+    user: {type: Schema.Types.ObjectId, ref: 'Users'},
+    postParent: {type: Schema.Types.ObjectId, ref: 'Posts'},
+    commentParent: {type: Schema.Types.ObjectId, ref: 'Comments'},
+    datePosted: {type: 'Date', default: Date.now}
+
+/* Posts */
+    body: {type: 'String'},
+	   private: {type: 'Boolean', default: false},
+	   positiveScale: {type: 'Number', min: 1, max: 10, required: true},
+	   user: {type: Schema.Types.ObjectId, ref: 'Users'},
+	   tags: [{type: 'String', lowercase: true}],
+	   datePosted: {type: 'Date', default: Date.now},
+    numComments: {type: 'Number', default: 0}
+   
+/* Users */
+    firstName: {type: 'String', required: true, lowercase: true},
+	   lastName:{type: 'String', required: true, lowercase: true},
+	   email: {type: 'String', required: true, lowercase: true},
+	   password: {type: 'String'},
+	   cohort: {type: 'Number', required: true, default: 0},
+    devmtnId: {type: 'Number'},
+	   startDate: {type: 'Date'},
+	   assignedMentor: {type: 'String', lowercase: true},
+    usersFollowing: [{type: Schema.Types.ObjectId, ref: 'Users'}],
+    preferences: preferencesSchemabody: {type: 'String'}, 
+```
+Here is the preferences schema:
+
+```javascript
+/* Preferences Schema */
+   viewPreferences: {type: 'String', lowercase: true, required: true, default: 'timeline', enum: ['timeline', 'standard', 'graph']},
+	  communicationPreferences: {type: 'String', lowercase: true, required: true, default: 'none', enum: ['none', 'newcomment', 'weeklysummary', 'all']},
+	  privacyPreferences: {type: 'String', lowercase: true, required: true, default: 'public', enum: ['private', 'postsprivate', 'statsprivate', 'public']},
+```
