@@ -163,7 +163,7 @@ In both timeline and feed templates, posts are displayed via an ng-repeat over f
 ```html
 <div class="posts-timeline animate" ng-repeat="posts in filteredFixedPosts track by $index | orderBy : '-date'">
 ```
-Gravatars are used to display faces. Upon hovering over a gravatar, a modal pops up with basic information such as name of poster, tag, emotion image, date, and number of comments:
+Gravatars are used to display faces in the timeline view. Upon hovering over a gravatar, a modal pops up with basic information such as name of poster, tag, emotion image, date, and number of comments:
 
 ![Timeline Feed View Hover](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Timeline_Hover.jpg)
 
