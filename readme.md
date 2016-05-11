@@ -167,4 +167,175 @@ Gravatars are used to display faces in the timeline view. Upon hovering over a g
 
 ![Timeline Feed View Hover](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Timeline_Hover.jpg)
 
+Standard view shows the name of the poster, tag, emotion image, date, time, number of comments, mentor and cohort of poster, and the beginning part of the post body. There is no action upon hovering over a post.
 
+An Angular Slimscroll directive on top of JQuery Slimscroll is used on the main body and the right sidebar to create a nice looking scrollbar that is invisible until the user mouses over the div.
+
+```html
+<div class="scroll-body" slimscroll="{ height: '100%', width: '100%', color: '#333', railVisible: true, railOpacity: '0.7', railColor: '#DDDDDD'}">
+    <ui-view></ui-view>
+</div><!--/.scroll-body-->
+```
+
+Creating a post is done from right sidebar of the feed page. The user clicks an emoticon corresponding to how they feel, enters a tag, then writes the body of the post, followed by hitting the "Submit" button. 
+
+![New Post](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_New_Post.jpg)
+
+Hovering over an emoticon causes its size to increase, and clicking into it does the same thing, but the effect persists after the cursor moves. Clicking an emoticon also causes the number below the emoticon to light up yellow, and sets the $scope.postContent.positiveScale variable to be the array index + 1. Clicking on an already selected emoticon deslects its. This is done via a parent div ng-repeating over an array of 10 elements, and an ng-include child with ng-click set to setScale($index), and src set to the appropriate small or large emoticon:
+
+```html
+<div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
+    <ng-include ng-click="setScale($index)" class="emotionSvg" src="'assets/img/faces/face-'+$index+'.svg'"></ng-include>
+    {{$index + 1}}
+</div>
+```
+
+```css
+.emotions .emotionWrapper {
+ width: 9%;
+ color: #555;
+ font-size: .7em;
+ margin-bottom: 5px;
+}
+
+.emotions .emotionWrapper .emotionSvg {
+ display: block;
+ transition: all 200ms cubic-bezier(.87,-.41,.19,1.44);
+ margin-bottom: 5px;
+}
+
+.emotions .emotionWrapper .emotionSvg svg g path:first-child {
+  /*fill: #EEEEEE!important;
+  fill-opacity: 0.9!important;*/
+}
+.emotions .emotionWrapper .emotionSvg:hover {
+  cursor: pointer;
+}
+.emotions .emotionWrapper .emotionSvg:hover,
+.emotions .emotionWrapper.toggled .emotionSvg {
+  transform: scale(1.5,1.5);
+}
+.emotions .emotionWrapper .emotionSvg:hover svg g path:first-child {
+  /*fill: #ddd468!important;*/
+}
+.emotions .emotionWrapper.toggled .emotionSvg svg g path:first-child {
+   -webkit-animation: colorPulse 8s infinite alternate;
+}
+
+.emotions .emotionWrapper.toggled {
+  color: yellow;
+}
+```
+
+```javascript
+$scope.setScale = function(num) {
+  if ($scope.postContent.positiveScale === num + 1) {
+    $scope.postContent.positiveScale = null;
+  } else {
+    $scope.postContent.positiveScale = num + 1;
+  }
+};
+
+$scope.repeatEmotions = function() {
+  return new Array(10);
+};
+```
+
+The "What are you working on?" input field uses the Angular ngTagsInput directive to allow the user to tag what they're currently working on, and also provide autocomplete capability for the tags. 
+
+```html
+<tags-input class="input__field" ng-model="postContent.tags" display-property="name" placeholder="..." replace-spaces-with-dashes="false" maxLength="20" minTags="1" maxTags="5" allowLeftoverText="false" addOnEnter="false" spellcheck="false">
+     <auto-complete source="loadAutoCompleteTags('tags', $query)" min-length="2" maxResultsToShow="5"></auto-complete>
+</tags-input>
+```
+
+The loadAutoCompleteTags() function calls postService.autoCompleteQuery() to query the database for tags matching the characters typed in by the user:
+
+```javascript
+ $scope.loadAutoCompleteTags = function(fieldname, $query) {
+        if (fieldname === 'tags') {
+            return postService.autoCompleteQuery(fieldname, $query.toLowerCase())
+            .then(function(response) {
+                var autoCompleteTags = [];
+                for (var i = 0; i < response.data.length; i++) {
+                    for (var j = 0; j < response.data[i].tags.length; j++) {
+                      autoCompleteTags.push(response.data[i].tags[j]);
+                    }
+                }
+
+                autoCompleteTags = removeDuplicates(autoCompleteTags);
+                return autoCompleteTags.filter(function(item) {
+                     return item.indexOf($query.toLowerCase()) !== -1;
+                });
+            });
+        }
+ ```
+ 
+ The endpoint calls an autocomplete middleware function that does the regex query:
+ 
+ ```javascript
+   autocomplete: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in autocomplete');
+       console.log('req.query before processing', req.query);
+       var fieldname = req.query.fieldname;
+       var ac_regex = new RegExp(req.query.ac_query);
+       req.query = {};
+       req.query[fieldname] = {$regex: ac_regex};
+       // req.query[fieldname] = {$regex: /jq/};
+       /* req.query[fieldname] = 'jquery'; */
+       console.log('req.query after processing', req.query);
+       postsModel
+       .find(req.query, fieldname)
+       .sort({datePosted: 'desc'})
+       .exec(function(err, result) {
+ ```
+ 
+The "Thoughts?" input field expands upon the user clicking into it. This is accomplished by a transition from 45px to 200px height when focus is applied to the field:
+ 
+```html
+<fieldset class="form-group fancy-input" ng-class="{'input--filled': postContent.body}">
+    <textarea class="form-control input__field" id="thoughts" rows="1" ng-model="postContent.body"></textarea>
+    <label class="input__label" for="thoughts">
+      <span class="input__label-content" data-content="Thoughts?">Thoughts?</span>
+    </label>
+</fieldset>
+```
+
+```css
+#thoughts{
+  resize: none;
+  min-height:45px;
+  height: 45px;
+  transition: height 500ms ease-in-out;
+}
+
+#thoughts:focus,
+.input--filled #thoughts{
+  height:200px;
+}
+```
+Markdown input is allowed in the "Thoughts?" input field via the Angular Marked directive. 
+
+After submitting the new post, it displays on the top of the post feed. This is done via an unshift method on the $scope.fixedPosts array:
+
+```javascript
+postService.createPost($scope.postContent)
+   .then(function(response) {
+       if (response.status === 200) {
+           $scope.postContent = {};
+           $scope.totalPosts++;
+           var post = response.data;
+           var postDate = moment(post.datePosted).local().format('YYYY-MM-DD');
+           if($scope.fixedPosts.length && postDate === $scope.fixedPosts[0].date){ //If the postdate is the same as the first date in the fixedPosts array.
+               $scope.fixedPosts[0].posts.unshift(post); //then just unshift (push to top) the post to the top of the first item in the fixedPost array
+           } else {
+               $scope.fixedPosts.unshift({ //Otherwise unshift a new item into fixedPosts with todays date and an array with the new post in it.
+                  date: postDate,
+                  posts: [post]
+               });
+           }
+```        
+ 
+####Post Detail View
+Clicking into the modal on the feed view, or the post div on the standard view, brings up the post detail screen.
