@@ -177,11 +177,11 @@ An Angular Slimscroll directive on top of JQuery Slimscroll is used on the main 
 </div><!--/.scroll-body-->
 ```
 
-Creating a post is done from right sidebar of the feed page. The user clicks an emoticon corresponding to how they feel, enters a tag, then writes the body of the post, followed by hitting the "Submit" button. 
+Creating a post is done from right sidebar of the feed page. The user clicks an emotion face corresponding to how they feel, enters a tag, then writes the body of the post, followed by hitting the "Submit" button. 
 
 ![New Post](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_New_Post.jpg)
 
-Hovering over an emoticon causes its size to increase, and clicking into it does the same thing, but the effect persists after the cursor moves. Clicking an emoticon also causes the number below the emoticon to light up yellow, and sets the $scope.postContent.positiveScale variable to be the array index + 1. Clicking on an already selected emoticon deslects its. This is done via a parent div ng-repeating over an array of 10 elements, and an ng-include child with ng-click set to setScale($index), and src set to the appropriate small or large emoticon:
+Hovering over a face causes its size to increase, and clicking into it does the same thing, but the effect persists after the cursor moves. Clicking a face also causes the number below the face to light up yellow, and sets the $scope.postContent.positiveScale variable to be the array index + 1. Clicking on an already selected face deslects its. This is done via a parent div ng-repeating over an array of 10 elements, and an ng-include child with ng-click set to setScale($index), and src set to the appropriate small or large emoticon:
 
 ```html
 <div class="emotionWrapper" ng-repeat="i in repeatEmotions() track by $index" ng-class="{'toggled':postContent.positiveScale == $index + 1}">
@@ -269,6 +269,31 @@ The loadAutoCompleteTags() function calls postService.autoCompleteQuery() to que
                 });
             });
         }
+        else { // first or last name
+            return userService.autoCompleteQuery(fieldname, $query.toLowerCase())
+            .then(function(response) {
+                var autoCompleteTags = [];
+                for (var i = 0; i < response.data.length; i++) {
+                    autoCompleteTags.push(response.data[i][fieldname]);
+                }
+
+                autoCompleteTags = removeDuplicates(autoCompleteTags);
+                return autoCompleteTags.filter(function(item) {
+                     return item.indexOf($query.toLowerCase()) !== -1;
+                });
+            });
+        }
+        
+        function removeDuplicates(arr) {
+            var uniqueArr = [];
+            $.each(arr, function(i, el){
+                if($.inArray(el, uniqueArr) === -1)
+                  uniqueArr.push(el);
+            });
+            return uniqueArr;
+        }
+    };
+
  ```
  
  The endpoint calls an autocomplete middleware function that does the regex query:
@@ -335,7 +360,117 @@ postService.createPost($scope.postContent)
                   posts: [post]
                });
            }
-```        
+```      
+
+The Advanced Search feature allows the user to search for posts by first name, last name, what was the person working on, date posted, and emotion level. The input fields for first and last name, and working on, all have the autocomplete capability described above, and text input (2 or more characters) in these fields calls the loadAutoCompleteTags() function. The date selection field utilizes the Bootstrap Date Range Picker:
+
+![Date Range Picker](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Date_Range_Picker.jpg)
+
+This relies on the following JQuery code:
+
+```javascript
+function cb(start, end) {
+            $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $scope.query.dateRange = [];
+            $scope.query.dateRange[0] = start;
+            $scope.query.dateRange[1] = end;
+        }
+        // cb(moment().subtract(6, 'days'), moment());
+
+        $('#daterange').on('cancel.daterangepicker', function(ev, picker) {
+            $('#daterange span').html('');
+            delete $scope.query.dateRange;
+        });
+
+        $('#daterange').daterangepicker({
+            startDate: moment().subtract(2, 'days'),
+            endDate: moment().subtract(2, 'days'),
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            },
+            drops: 'up',
+            ranges: {
+               'Today': [moment(), moment()],
+               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+               'This Month': [moment().startOf('month'), moment().endOf('month')],
+               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+```
+
+Selecting an emotion face is similar to that when creating a new post, except that in the Advanced Search you can select multiple emotions to query. After filling in all the search fields, the user hits the "Search" button, which calls the createQuery function:
+
+```javascript
+$scope.createQuery = function() {
+
+    $scope.queryErrorMsg = '';
+    var filters = {};
+    $scope.processingQuery = true;
+    if (($scope.query.firstName && $scope.query.firstName.length) || ($scope.query.lastName && $scope.query.lastName.length)) {
+        userService.getSearchUsers($scope.query.firstName, $scope.query.lastName)
+        .then(function(response) {
+            if (response.data.length)
+                filters.user = response.data;
+            else // No users fit criteria
+                filters.user = ['999999999999999999999999']; // Create empty search
+            completeQuery();
+        }, function(err) {
+            console.error(err);
+        });
+    }
+    else {
+        completeQuery();
+    }
+
+    function completeQuery() {
+
+        if ($scope.query.tags && $scope.query.tags.length) {
+            filters.tags = [];
+            for (var i = 0; i < $scope.query.tags.length; i++) {
+                filters.tags[i] = $scope.query.tags[i].name.toLowerCase();
+            }
+        }
+
+        if ($scope.query.positiveScale && $scope.query.positiveScale.length) {
+             filters.positiveScale = [];
+             for (var x = 0; x < $scope.query.positiveScale.length; x++) {
+                 filters.positiveScale.push($scope.query.positiveScale[x]);
+             }
+        }
+
+        if ($scope.query.dateRange) {
+           filters.datePosted = [];
+           for (var y = 0; y < $scope.query.dateRange.length; y++) {
+                filters.datePosted.push($scope.query.dateRange[y]);
+           }
+        }
+
+        console.log('in createQuery before calling getAllPosts');
+        console.log('filters = ', filters);
+        if (jQuery.isEmptyObject(filters)) {
+          $scope.processingQuery = true;
+          filters = postService.pageOneDateFilter();
+        }
+
+        postService.getAllPosts(filters)
+        .then(function(response) {
+            formatPosts(response.data);
+            if($scope.sidebarToggle === true) $scope.sidebarToggle = false;
+            $scope.processingQuery = false;
+        }, function(err) {
+            errService.error(err);
+        });
+
+    }
+
+};
+```
+
+This calls postService.getAllPosts function described above, passing in the filters variable containing the search criteria entered by the user. This hits an endpoint calling the filter middleware function described above.
+
  
 ####Post Detail View
 Clicking into the modal on the feed view, or the post div on the standard view, brings up the post detail screen.
