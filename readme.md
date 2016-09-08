@@ -471,6 +471,380 @@ $scope.createQuery = function() {
 
 This calls postService.getAllPosts function described above, passing in the filters variable containing the search criteria entered by the user. This hits an endpoint calling the filter middleware function described above.
 
- 
+The filter feature near the top of the page provides a way to filter the data that has already been retrieved from the database. A menu allows the user to filter by "My Posts", "My Cohort", "My Mentor Group", "Following", or "Everyone" (i.e. cancel the filter).
+
+```html
+<div class="hidden-md-down" style="display:inline;">
+    <strong class="hidden-lg-down">FILTER:</strong>
+    <span ng-click="filterByGroup('user')" ng-class="{toggled: group == 'user'}">My Posts</span>
+    <span ng-click="filterByGroup('cohort')" ng-class="{toggled: group == 'cohort'}">My Cohort</span>
+    <span ng-click="filterByGroup('mentor')" ng-class="{toggled: group == 'mentor'}">My Mentor Group</span>
+    <span ng-click="filterByGroup('following')" ng-class="{toggled: group == 'following'}">Following</span>
+    <span ng-click="filterByGroup('everyone')" ng-class="{toggled: group == 'everyone'}">Everyone</span>
+</div>
+```
+
+The filterByGroup() function in feedCtrl.js calls postsByGroupFilter(), an Angular filter, which filters the data based on the selection:
+
+```javascript
+angular.module('journey')
+  .filter('postsByGroup', function() {
+
+    return function(input, group, current_user) {
+        
+        var output = [];
+        
+        switch(group) {
+            case 'user' :
+                for (var i = 0; i < input.length; i++) {
+                    output[i] = {};
+                    output[i].date = input[i].date;
+                    output[i].posts = [];
+                    for (var j = 0; j < input[i].posts.length; j++) {
+                        if (input[i].posts[j].user._id === current_user._id)
+                            output[i].posts.push(input[i].posts[j]);
+                    }
+                }
+                break;
+            case 'cohort' :
+                for (var i = 0; i < input.length; i++) {
+                    output[i] = {};
+                    output[i].date = input[i].date;
+                    output[i].posts = [];
+                    for (var j = 0; j < input[i].posts.length; j++) {
+                        if (input[i].posts[j].user.cohort === current_user.cohort)
+                            output[i].posts.push(input[i].posts[j]);
+                    }
+                }
+                break;
+            case 'mentor' :
+                for (var i = 0; i < input.length; i++) {
+                    output[i] = {};
+                    output[i].date = input[i].date;
+                    output[i].posts = [];
+                    for (var j = 0; j < input[i].posts.length; j++) {
+                        if (input[i].posts[j].user.assignedMentor === current_user.assignedMentor)
+                            output[i].posts.push(input[i].posts[j]);
+                    }
+                }
+                break;
+            case 'following' :
+                for (var i = 0; i < input.length; i++) {
+                    output[i] = {};
+                    output[i].date = input[i].date;
+                    output[i].posts = [];
+                    for (var j = 0; j < input[i].posts.length; j++) {
+                        if (current_user.usersFollowing.indexOf(input[i].posts[j].user._id) !== -1) 
+                                output[i].posts.push(input[i].posts[j]);
+                        
+                    }
+                }
+                break;
+            case 'everyone' :
+            default: 
+                 for (var i = 0; i < input.length; i++) {
+                     output.push(input[i]);
+                 }
+                 break;
+        }
+        return output;
+    }
+});
+```      
+
 ####Post Detail View
-Clicking into the modal on the feed view, or the post div on the standard view, brings up the post detail screen.
+Clicking into the modal on the feed view, or the post div on the standard view, brings up the post detail screen. From the post detail screen, the user can see the full post, comment on the post, see previous comments, follow the poster, and also view some basic stats about the poster's average emotion level compared to his cohort's level:
+
+![Post Detail Page](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Post_Detail_Page.jpg)
+
+Comments are retrieved from the Comments collection via a postService.getComments() call, and new posts are added via a postService.postComments() call. After adding a new post, the new post shows at the top of the list of posts via an array unshift() call:
+
+```javascript
+$scope.addComment = function() {
+      var post = {
+        body: $scope.commentBody,
+        user: $scope.currentUser._id,
+        postParent: $scope.postData._id
+      };
+      postService.postComments(post)
+        .then(function(response) {
+          $scope.postData.numComments++;
+          $scope.commentBody = '';
+          response.data.user = {
+            firstName: $scope.currentUser.firstName,
+            lastName : $scope.currentUser.lastName,
+            email : $scope.currentUser.email
+          };
+          $scope.comments.unshift(response.data);
+        }, function(err){ errService.error(err); });
+    };
+```
+
+The appearance of the comment list, with the gravatar image of the commentor to the left, and speech balloon to the right, is achieved by the following html and css. Note the use of the am-time-ago directive to format the comment date. Note also the 45 degree rotation in the comment-body:before class to achieve the speech balloon effect:
+
+```html
+<div class="comment clearfix" ng-repeat="comment in comments">
+     <div class="comment-meta">
+       <img gravatar-src="comment.user.email" gravatar-size="50" gravatar-default="mm">
+       <div class="comment-author">{{comment.user.firstName}} {{comment.user.lastName}}</div>
+       <div class="comment-time" am-time-ago="comment.datePosted"></div>
+     </div>
+     <div class="comment-body" marked="comment.body"></div>
+ </div>
+```
+
+```css
+.comment{
+  margin-bottom: 30px;
+  position: relative;
+}
+.comment .comment-meta{
+  font-size: .8em;
+  color: #555;
+  float: left;
+  width: 110px;
+  text-align: center;
+  left: -20px;
+  position: relative;
+  padding-right: 5px;
+}
+.comment .comment-meta img{
+  border-radius: 50%;
+  border: 3px solid #a3d39c;
+}
+.comment .comment-meta .comment-author{
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.comment .comment-meta .comment-time{
+  font-size: .9em;
+  color: #666;
+  font-style: italic;
+}
+.comment .comment-body{
+  max-width: 700px;
+  float: left;
+  background: #a3d39c;
+  padding: 1em 1em .25em 1em;
+  position: relative;
+  border-radius: 20px;
+  left: -20px;
+}
+.comment .comment-body:before{
+  content: "";
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  background: #a3d39c;
+  transform: rotate(45deg);
+  left: -7px;
+  top: 18px;
+  z-index: -1;
+}
+```
+
+The follow / unfollow bottom in the right sidebar calls a function $scope.follow() or $scope.unfollow(), depending on whether or not the signed-in user is currently following the user. 
+
+```html
+<div ng-if="postData.user._id != currentUser._id ">
+      <button class="btn btn-primary btn-sm btn-block" ng-if="!following" ng-click="follow()">Follow</button>
+      <button class="btn btn-success btn-sm btn-block active" ng-if="following" ng-click="unfollow()">Unfollow</button>
+</div>
+```
+$scope.follow() and $scope.unfollow() update the usersFollowing array in the Users collection. Here's the $scope.follow() function. $scope.unfollow() is the same except that instead of pushing the poster's user ID into the array, it splices this user ID out:
+
+```javascript
+$scope.follow = function() {
+    $scope.usersFollowing = $scope.currentUser.usersFollowing;
+    $scope.usersFollowing.push($scope.postData.user._id);
+    userService.updateUser({
+          usersFollowing: $scope.usersFollowing
+        },
+        $scope.currentUser._id)
+      .then(function(response) {
+      //   console.log(response);
+        $scope.following = true;
+      }, function(err) {
+        console.error('Following Error', err);
+      });
+ };
+ ```
+The statistics shown in the right sidebar (overall user and cohort average emotion level, and last week user and cohort average emotion level) are derived from queries to the database. Here are the controller and service functions on the front end that query for overall average user emotion level:
+
+```javascript
+ // USER AVERAGE
+    postService.averageQuery('user', $scope.postData.user._id, 'allTime')
+      .then(function(response) {
+        // console.log('checkuserAverage', response);
+        $scope.userAverage = Math.round(response.data[0].avg);
+        // console.log($scope.userAverage, "userAverage");
+        $scope.userCount = response.data[0].count;
+      }, function(err) {
+        console.error('checkForUserAverage', err);
+      });
+ 
+
+this.averageQuery = function(group, num, duration, tags) {
+      var query = 'group=' + group + '&duration=' + duration + '&user=' + num + '&tags=' + tags;
+      // console.log(query, "query");
+      return $http({
+        method: 'GET',
+        url: '/api/posts/getAvg?' + query
+
+      });
+    };
+```
+
+Here is the corresponding Node server middleware function that does an average query. As can be seen, this is a 2 part process:
+
+1. Query for the user ID's in the group you want to search for
+2. In the completeProcess() function, utilize the Mongoose aggregate feature to find the average $positiveScale (i.e. emotion level) for the users in the group you're searching for.
+
+This middleware function supports averages for cohort, assigned mentor, and users following. Cohort is the only group used in the post detail page.
+
+```javascript
+findAvg: function(req, res) {
+       console.log('in postsCtrl');
+       console.log('in findAvg');
+       console.log('req.query ', req.query);
+       var group = '',
+           duration = '';
+       if (req.query.group)
+            group = req.query.group;
+       else
+            group = 'user';
+       if (req.query.duration)
+            duration = req.query.duration;
+       else
+            duration = 'allTime';
+       var user = req.query.user;
+       var breakOutTags = (req.query.tags === 'true');
+       var cohort = 0;
+       var assignedMentor = '';
+       var users = [];
+       var queryUsers = true;
+       if (group && group !== 'user') {
+           usersModel
+           .findById(user, 'cohort assignedMentor usersFollowing')
+           .exec(function(err, result) {
+                console.log('err', err);
+                // console.log('result', result);
+                if (err) {
+                    console.log('in error routine');
+                    return res.status(500).send(err);
+                }
+                else {
+                    var queryObj = {};
+                    switch (group) {
+                        case 'following':
+                           for (var i = 0; i < result._doc.usersFollowing.length; i++) {
+                                users.push(result._doc.usersFollowing[i]);
+                            }
+                            completeProcess();
+                            queryUsers = false;
+                            break;
+                        case 'mentor':
+                            assignedMentor = result._doc.assignedMentor;
+                            queryObj.assignedMentor = assignedMentor;
+                            break;
+                        case 'cohort':
+                            cohort = result._doc.cohort;
+                            queryObj.cohort = cohort;
+                            break;
+                        default:
+                            cohort = result._doc.cohort;
+                            queryObj.cohort = cohort;
+                            break;
+                    }
+                    if (queryUsers) {
+                        usersModel
+                        .find(queryObj, '_id')
+                        .exec(function(er, re) {
+                            console.log('er', er);
+                            // console.log('re', re);
+                            if (er) {
+                                console.log('in error routine');
+                                return res.status(500).send(er);
+                            }
+                            else {
+                                for (var i = 0; i < re.length; i++) {
+                                    users.push(re[i]._doc._id);
+                                }
+                                completeProcess();
+                            }
+                        });
+                    }
+                }
+           });
+       }
+       else {
+           users.push(mongoose.Types.ObjectId(user)); // cast to object because aggregate feature will not automatically do the casting for a ref.
+           completeProcess();
+       }
+
+       function completeProcess() {
+
+           var matchCriteria = {};
+           switch(duration) {
+               case 'day' :
+                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'day')), "$lt": new Date(moment(new Date()))}}; // cast back to Date object because aggregate feature cannot handle moment objects.
+                   break;
+               case 'week' :
+                   matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(7, 'day')), "$lt": new Date(moment(new Date()))}};
+                    break;
+               case 'month' :
+                    matchCriteria = {user: {$in: users}, datePosted: {"$gte": new Date(moment(new Date()).subtract(1, 'month')), "$lt": new Date(moment(new Date()))}};
+                    break;
+               case 'allTime' :
+                     matchCriteria = {user: {$in: users} };
+                     break;
+               default :
+                    matchCriteria = {user: {$in: users} };
+                    break;
+           }
+
+           if (!breakOutTags) {
+               postsModel.aggregate([
+                   {$match: matchCriteria},
+                   {$group: {
+                       _id: null,
+                       avg: {$avg: '$positiveScale'},
+                       count: {$sum: 1}
+                    }}
+               ], function(e, r) {
+                   console.log('err', e);
+                  //  console.log('result', r);
+                   if (e) {
+                       console.log('in error routine');
+                       return res.status(500).send(e);
+                   }
+                   else {
+                       res.send(r);
+                   }
+               });
+           }
+           else { // break out tags
+               postsModel.aggregate([
+                   {$match: matchCriteria},
+                   {$unwind: '$tags'},
+                   {$group: {
+                       _id: '$tags',
+                       avg: {$avg: '$positiveScale'},
+                       count: {$sum: 1}
+                    }}
+               ], function(e, r) {
+                   console.log('err', e);
+                  //  console.log('result', r);
+                   if (e) {
+                       console.log('in error routine');
+                       return res.status(500).send(e);
+                   }
+                   else {
+                       res.send(r);
+                   }
+               });
+           }
+       }
+   },
+```
