@@ -557,7 +557,7 @@ Clicking into the modal on the feed view, or the post div on the standard view, 
 
 ![Post Detail Page](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Post_Detail_Page.jpg)
 
-Comments are retrieved from the Comments collection via a postService.getComments() call, and new posts are added via a postService.postComments() call. After adding a new post, the new post shows at the top of the list of posts via an array unshift() call:
+Comments are retrieved from the Comments collection via a postService.getComments() call, and new comments are added via a postService.postComments() call. After adding a new comment, the new comment shows at the top of the list of comments via an array unshift() call:
 
 ```javascript
 $scope.addComment = function() {
