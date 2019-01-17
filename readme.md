@@ -7,12 +7,12 @@ The purpose of this project was to create a system to allow students to blog and
 
 Features include a feed view that is either a timeline view, with images of blog posters separated by date, or a standard view, which lists basic information about the posts in reverse date order. Filters can be applied to the data. A new blog post can easily be made from the feed view. A click into a post brings up a detail view that allows the user to see the full text of the post, some basic information and statistics about the poster, and provides the ability to comment on the post. There's also a stats view that has a number of graphs of post data. A settings page allows for the ability to specify notification and privacy options, along with the ability to provide mentor name and start date.
 
-##Getting Started
+## Getting Started
 ### Prerequisites
  - Mongo database.
  -  Server with Node.js installed
 
-###Installation
+### Installation
 1. git clone https://github.com/DevMountain-Journey/journey-devmtn.git
 2. npm install
 3. bower install
@@ -27,14 +27,14 @@ SPARKPOST_API_KEY= [put Sparkpost API key here]
 6. Signup a new user.
 7. Begin posting and commenting on posts.  
 
-##Design Goals
+## Design Goals
 This site was intended to be eventually integrated into the DevMountain system. A separate Passport local auth system was created to allow for testing and demonstration independent of DevMountain. Due to DevMountain already having a user admin system, a separate user admin system was not created for this project.
 
 The site was intended to be used by DevMountain students who are technically saavy and who will usually be using a laptop computer. Responsiveness was not a primary consideration but was built into the system. 
 
-##Detailed Usage
+## Detailed Usage
 
-###Models
+### Models
 Here are the Mongoose collections:
 
 ```javascript
@@ -74,9 +74,9 @@ Here is the preferences schema:
    communicationPreferences: {type: 'String', lowercase: true, required: true, default: 'none', enum: ['none', 'newcomment', 'weeklysummary', 'all']},
    privacyPreferences: {type: 'String', lowercase: true, required: true, default: 'public', enum: ['private', 'postsprivate', 'statsprivate', 'public']},
 ```
-###Detailed Description of System
+### Detailed Description of System
 
-####Feed View
+#### Feed View
 Upon login, the user encounters the feed view. This will display most recent posts on top. Based on preferences, this view is either timeline:
 
 ![Timeline Feed View](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Timeline_Feed.jpg)
@@ -552,7 +552,7 @@ angular.module('journey')
 });
 ```      
 
-####Post Detail View
+#### Post Detail View
 Clicking into the modal on the feed view, or the post div on the standard view, brings up the post detail screen. From the post detail screen, the user can see the full post, comment on the post, see previous comments, follow the poster, and also view some basic stats about the poster's average emotion level compared to his cohort's level:
 
 ![Post Detail Page](https://github.com/DevMountain-Journey/journey-devmtn/blob/master/readme_images/Journey_Post_Detail_Page.jpg)
