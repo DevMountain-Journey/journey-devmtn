@@ -19,22 +19,18 @@
   "homepage": "https://github.com/DevMountain-Journey/journey-devmtn#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.15.0",
-    "chart.js": "^1.0.2",
-    "devmtn-auth": "^0.2.1",
-    "dotenv": "^2.0.0",
-    "express": "^4.13.4",
-    "express-session": "^1.13.0",
-    "lodash": "^4.6.1",
-    "moment": "^2.11.2",
-    "mongoose": "^4.4.4",
-    "nodemailer": "^2.3.0",
-    "nodemailer-sparkpost-transport": "^0.1.0",
-    "passport": "^0.3.2",
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.7.3",
+    "devmtn-auth": "^1.0.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "lodash": "^4.17.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.10",
+    "nodemailer": "^5.1.1",
+    "nodemailer-sparkpost-transport": "^2.2.0",
+    "passport": "^0.4.0",
     "passport-local": "^1.0.0"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-sass": "^2.2.0"
   }
 }
