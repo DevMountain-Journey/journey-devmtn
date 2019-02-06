@@ -1,8 +1,8 @@
 var localStrategy = require('passport-local').Strategy,
-    User = require('../models/usersModel.js'),
-    Devmtn = require('devmtn-auth'),
+    User = require('../models/usersModel.js');
+    /* Devmtn = require('devmtn-auth'),
     DevmtnAuthConfig = require('../config/config').auth,
-    DevmtnStrategy = Devmtn.Strategy;
+    DevmtnStrategy = Devmtn.Strategy; */
 
 
 module.exports = function(passport) {
@@ -63,7 +63,7 @@ module.exports = function(passport) {
 
     // DEVMOUNTAIN AUTH
     
-    passport.use('devmtn', new DevmtnStrategy(DevmtnAuthConfig, function (jwtoken, user, done) {
+   /* passport.use('devmtn', new DevmtnStrategy(DevmtnAuthConfig, function (jwtoken, user, done) {
         console.log("DEV USER: ", user);
         if (!user.cohortId) {
         // Add cohort 0 for people who do not have a cohort id
@@ -143,6 +143,6 @@ module.exports = function(passport) {
 
              }
         });
-    };
+    }; */
 
 };
