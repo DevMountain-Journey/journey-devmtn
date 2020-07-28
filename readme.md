@@ -1,7 +1,7 @@
 # DEVMOUNTAIN JOURNEY
 ## Your Path at DevMountain
 
-[Link to hosted site](http://159.203.187.71:8004)
+[Link to hosted site](http://157.245.254.173:8004)
 
 The purpose of this project was to create a system to allow students to blog and communicate their feelings to other students. A difference from a typical blog is that students choose an emotion level from 1 through 10, with 10 being highest, and their emotion is tracked along with what they were working on at the time. This project utilized the full MEAN stack. 
 
